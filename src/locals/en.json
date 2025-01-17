@@ -22,24 +22,106 @@
 
   "benefits": [
     {
-      "icon": "/icons/free-shipping.svg",
+      "icon": "MdLocalShipping",
       "title": "FREE SHIPPING",
       "description": "Orders Over $500"
     },
     {
-      "icon": "/icons/quick-payment.svg",
+      "icon": "MdPayment",
       "title": "QUICK PAYMENT",
       "description": "100% Secure"
     },
     {
-      "icon": "/icons/big-cashback.svg",
+      "icon": "MdAttachMoney",
       "title": "BIG CASHBACK",
       "description": "Over 40% Cashback"
     },
     {
-      "icon": "/icons/24-7-support.svg",
+      "icon": "MdSupport",
       "title": "24/7 SUPPORT",
       "description": "Ready For You"
+    }
+  ],
+
+  "offers": [
+    {
+      "title": "NEW YEAR SALE",
+      "description": "GET AN EXTRA 50% OFF",
+      "cta": "SHOP NOW",
+      "image": "/assets/home/offer1.png"
+    },
+    {
+      "title": "BIRTHDAY SALE",
+      "description": "30% DISCOUNT ON SPEAKER",
+      "cta": "VIEW COLLECTION",
+      "image": "/assets/home/offer2.png"
+    }
+  ],
+
+  "shop": {
+    "title": "ACTIVE NOISE CANCELING",
+    "price": "START FROM $20.99",
+    "description": "New Release Wireless Headphone from SoundPro Sound Technology. Using Bluetooth 5.0, Noise Canceling and APTX Technology to make a good experience when listening to music.",
+    "cta": "SHOP HERE",
+    "backgroundImage": "/assets/home/shop1.jpg",
+    "productImage": "/assets/home/shop2.png"
+  },
+
+  "testimonials": {
+    "title": "What Our Customers Say",
+    "reviews": [
+      {
+        "name": "John Doe",
+        "role": "Software Engineer",
+        "image": "/assets/home/testimonial1.jpg",
+        "quote": "This product has exceeded my expectations. The quality is amazing, and the service is outstanding!"
+      },
+      {
+        "name": "Jane Smith",
+        "role": "Designer",
+        "image": "/assets/home/testimonial1.jpg",
+        "quote": "Absolutely love this product! It’s been a game-changer for my workflow."
+      },
+      {
+        "name": "Michael Johnson",
+        "role": "Entrepreneur",
+        "image": "/assets/home/testimonial1.jpg",
+        "quote": "Great value for the price. Highly recommend to everyone!"
+      },
+      {
+        "name": "Michael Johnson",
+        "role": "Entrepreneur",
+        "image": "/assets/home/testimonial1.jpg",
+        "quote": "Great value for the price. Highly recommend to everyone!"
+      },
+      {
+        "name": "Michael Johnson",
+        "role": "Entrepreneur",
+        "image": "/assets/home/testimonial1.jpg",
+        "quote": "Great value for the price. Highly recommend to everyone!"
+      }
+    ]
+  },
+  "categories": [
+    {
+      "title": "Gaming Headset",
+      "image": "/assets/home/offer1.png",
+      "link": "/gaming-headset"
+    },
+    {
+      "title": "TWS Earphone",
+      "image": "/images/tws-earphone.png",
+      "link": "/tws-earphone"
+    },
+    {
+      "title": "TWS Headphone",
+      "image": "/images/tws-headphone.png",
+      "link": "/tws-headphone"
+    },
+    {
+      "title": "Bluetooth Speaker",
+      "image": "/images/bluetooth-speaker.png",
+      "link": "/bluetooth-speaker"
     }
   ]
 }

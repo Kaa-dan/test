@@ -17,13 +17,13 @@ const Banner = () => {
 
   return (
     <motion.div
-      className="bg-primary-black w-full h-full relative overflow-hidden"
+      className="bg-primary-black w-full min-h-screen relative overflow-hidden"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="mx-auto px-6">
-        <div className="flex flex-col md:flex-row items-center justify-between relative">
+      <div className="mx-auto px-4 py-4">
+        <div className="p-7 flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentSlide}
@@ -31,10 +31,10 @@ const Banner = () => {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 100 }}
               transition={{ duration: 0.8, ease: "easeOut" }}
-              className="md:w-1/2 text-white"
+              className="w-full lg:w-1/2 text-white"
             >
               <motion.h1
-                className="text-[80px] font-bold leading-tight mb-6 tracking-wider"
+                className="text-4xl sm:text-5xl md:text-6xl lg:text-[80px] font-bold leading-tight mb-4 lg:mb-6 tracking-wider"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2, duration: 0.8 }}
@@ -43,7 +43,7 @@ const Banner = () => {
               </motion.h1>
 
               <motion.p
-                className="mb-8 text-lg max-w-xl"
+                className="mb-6 lg:mb-8 text-base sm:text-lg max-w-xl"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4, duration: 0.8 }}
@@ -54,7 +54,7 @@ const Banner = () => {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="bg-primary-orange text-white font-semibold py-3 px-12 rounded-full shadow-lg uppercase relative overflow-hidden group"
+                className="w-full sm:w-auto bg-primary-orange text-primary-white font-semibold py-2 sm:py-3 px-8 sm:px-12 rounded-full shadow-lg uppercase relative overflow-hidden group"
               >
                 <span className="relative z-10">
                   {banners[currentSlide].buttonText}
@@ -70,19 +70,20 @@ const Banner = () => {
           <AnimatePresence mode="wait">
             <motion.div
               key={currentSlide}
-              className="md:w-1/2 mt-10 md:mt-0 flex justify-end relative"
+              className="w-full lg:w-1/2 flex justify-center lg:justify-end"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.8 }}
               transition={{ duration: 0.8 }}
             >
-              <div className="relative w-[600px] h-[500px]">
+              <div className="relative w-[280px] h-[280px] sm:w-[400px] sm:h-[400px] md:w-[500px] md:h-[500px] lg:w-[600px] lg:h-[500px]">
                 <Image
                   src={banners[currentSlide].imageSrc}
                   alt={banners[currentSlide].title}
                   fill
                   className="object-contain"
                   priority
+                  sizes="(max-width: 640px) 280px, (max-width: 768px) 400px, (max-width: 1024px) 500px, 600px"
                 />
               </div>
             </motion.div>
@@ -90,7 +91,7 @@ const Banner = () => {
         </div>
 
         <motion.div
-          className="absolute bottom-10 left-0 right-0 flex justify-center gap-4"
+          className="absolute bottom-4 sm:bottom-6 lg:bottom-10 left-0 right-0 flex justify-center gap-3 sm:gap-4"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
@@ -104,8 +105,8 @@ const Banner = () => {
               className="relative"
             >
               <motion.div
-                className={`w-3 h-3 rounded-full ${
-                  index === currentSlide ? "bg-white" : "bg-gray-500"
+                className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full ${
+                  index === currentSlide ? "bg-primary-white" : "bg-gray-500"
                 }`}
                 initial={false}
                 animate={{
