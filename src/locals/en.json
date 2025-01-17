@@ -1,0 +1,45 @@
+{
+  "banners": [
+    {
+      "title": "SOUND-PRO\nTWS AIR1",
+      "description": "New Release Wireless Headphone from SoundPro Sound Technology. Using Bluetooth 5.0, Noise Canceling and APTX Technology to make a good experience when listening to music.",
+      "buttonText": "Shop Here",
+      "imageSrc": "/assets/home/banner1.png"
+    },
+    {
+      "title": "NEXT-GEN\nAUDIO X",
+      "description": "Experience the future of sound with Audio X. Featuring superior sound quality and cutting-edge design.",
+      "buttonText": "Explore More",
+      "imageSrc": "/assets/home/banner2.png"
+    },
+    {
+      "title": "NEXT-GEN\nAUDIO X",
+      "description": "Experience the future of sound with Audio X. Featuring superior sound quality and cutting-edge design.",
+      "buttonText": "Explore More",
+      "imageSrc": "/assets/home/banner1.png"
+    }
+  ],
+
+  "benefits": [
+    {
+      "icon": "/icons/free-shipping.svg",
+      "title": "FREE SHIPPING",
+      "description": "Orders Over $500"
+    },
+    {
+      "icon": "/icons/quick-payment.svg",
+      "title": "QUICK PAYMENT",
+      "description": "100% Secure"
+    },
+    {
+      "icon": "/icons/big-cashback.svg",
+      "title": "BIG CASHBACK",
+      "description": "Over 40% Cashback"
+    },
+    {
+      "icon": "/icons/24-7-support.svg",
+      "title": "24/7 SUPPORT",
+      "description": "Ready For You"
+    }
+  ]
+}
