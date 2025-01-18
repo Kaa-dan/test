@@ -1,70 +1,157 @@
 "use client";
 import React from "react";
 import Image from "next/image";
+import { motion } from "framer-motion";
 import en from "../../locals/en.json";
+import { FaArrowRight } from "react-icons/fa";
 
 const Category = () => {
   const { categories } = en;
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: {
+      opacity: 0,
+      y: 20,
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+        ease: "easeOut",
+      },
+    },
+  };
+
   return (
-    <section className="bg-gradient-to-b from-white to-gray-50 py-20">
-      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Grid Container */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {categories.map((category, index) => (
-            <div
-              key={index}
-              className={`group relative overflow-hidden rounded-2xl bg-white ${
-                index === 0
-                  ? "sm:col-span-2 sm:row-span-2 lg:col-span-2 lg:row-span-2"
-                  : ""
-              }`}
+    <section className="py-16 bg-[#fafafa]">
+      <div className="max-w-[1440px] mx-auto px-4">
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
+        >
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            Explore Our Collections
+          </h2>
+          <p className="text-gray-600 max-w-2xl mx-auto">
+            Discover our carefully curated categories, each offering unique
+            pieces that blend style with functionality
+          </p>
+        </motion.div>
+
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6"
+        >
+          {/* Large Featured Item */}
+          <motion.div
+            variants={itemVariants}
+            className="lg:col-span-6 lg:row-span-2"
+          >
+            <motion.div
+              whileHover={{
+                scale: 1.02,
+                transition: { duration: 0.3 },
+              }}
+              className="group h-full bg-white rounded-2xl p-8 transition-all hover:shadow-lg"
             >
-              {/* Card Content */}
-              <div className="h-full transition-transform duration-500 ease-out hover:scale-105">
-                {/* Image Container */}
-                <div className="relative aspect-square w-full overflow-hidden">
+              <div className="flex flex-col h-full">
+                <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                  {categories[0].title}
+                </h2>
+                <motion.div
+                  className="relative flex-1 mt-4 overflow-hidden rounded-xl"
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.4, ease: "easeOut" }}
+                >
                   <Image
-                    src={category.image}
-                    alt={category.title}
+                    src={categories[0].image}
+                    alt={categories[0].title}
                     fill
-                    className="object-contain transition-transform duration-700 ease-out group-hover:scale-110"
-                    sizes={index === 0 ? "50vw" : "25vw"}
+                    className="object-contain transition-all duration-500 group-hover:brightness-110"
                   />
-                  {/* Gradient Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                </div>
-
-                {/* Content Overlay */}
-                <div className="absolute bottom-0 left-0 right-0 p-6 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                  <h3 className="text-2xl font-bold text-white mb-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    {category.title}
-                  </h3>
-
-                  <a
-                    href={category.link}
-                    className="inline-flex items-center text-white text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                  >
-                    Explore Collection
-                    <svg
-                      className="ml-2 w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M17 8l4 4m0 0l-4 4m4-4H3"
-                      />
-                    </svg>
-                  </a>
-                </div>
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    whileHover={{ opacity: 0.1 }}
+                    transition={{ duration: 0.3 }}
+                    className="absolute inset-0 bg-white"
+                  />
+                </motion.div>
+                <motion.a
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  href={categories[0].link}
+                  className="flex gap-3 mt-6 text-sm font-medium text-gray-900 pb-1 hover:text-gray-700 hover:border-gray-700 transition-colors"
+                >
+                  DISCOVER NOW <FaArrowRight className="mt-1" />
+                </motion.a>
               </div>
-            </div>
+            </motion.div>
+          </motion.div>
+
+          {/* Smaller Items */}
+          {categories.slice(1).map((category, index) => (
+            <motion.div
+              key={index}
+              variants={itemVariants}
+              className="lg:col-span-3 lg:row-span-1"
+            >
+              <motion.div
+                whileHover={{
+                  scale: 1.02,
+                  transition: { duration: 0.3 },
+                }}
+                className="group bg-white rounded-2xl p-8 h-full transition-all hover:shadow-lg"
+              >
+                <div className="flex flex-col h-full">
+                  <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                    {category.title}
+                  </h2>
+                  <motion.div
+                    className="relative h-[200px] mt-4 overflow-hidden rounded-xl"
+                    whileHover={{ scale: 1.05 }}
+                    transition={{ duration: 0.4, ease: "easeOut" }}
+                  >
+                    <Image
+                      src={category.image}
+                      alt={category.title}
+                      fill
+                      className="object-contain transition-all duration-500 group-hover:brightness-110"
+                    />
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      whileHover={{ opacity: 0.1 }}
+                      transition={{ duration: 0.3 }}
+                      className="absolute inset-0 bg-white"
+                    />
+                  </motion.div>
+                  <motion.a
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    href={category.link}
+                    className="flex gap-3 mt-6 text-sm font-medium text-gray-900  pb-1 hover:text-gray-700 hover:border-gray-700 transition-colors"
+                  >
+                    DISCOVER NOW <FaArrowRight className="mt-1" />
+                  </motion.a>
+                </div>
+              </motion.div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

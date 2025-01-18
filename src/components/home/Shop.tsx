@@ -13,15 +13,15 @@ const Shop = () => {
   // Animation variants
   const imageVariants = {
     hidden: { opacity: 0, scale: 0.8 },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       scale: 1,
-      transition: { duration: 0.8, ease: "easeOut" }
+      transition: { duration: 0.8, ease: "easeOut" },
     },
     hover: {
       scale: 1.05,
-      transition: { duration: 0.3 }
-    }
+      transition: { duration: 0.3 },
+    },
   };
 
   const contentVariants = {
@@ -29,8 +29,8 @@ const Shop = () => {
     visible: {
       opacity: 1,
       x: 0,
-      transition: { duration: 0.8, delay: 0.3 }
-    }
+      transition: { duration: 0.8, delay: 0.3 },
+    },
   };
 
   return (
@@ -78,6 +78,7 @@ const Shop = () => {
             {shop.description}
           </p>
           <motion.button
+            suppressHydrationWarning={true}
             className="px-8 py-4 bg-primary-white text-primary-black font-semibold rounded-lg shadow-xl 
                      hover:bg-primary-orange transform transition-all duration-300"
             whileHover={{ scale: 1.05 }}

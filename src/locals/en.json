@@ -102,26 +102,109 @@
       }
     ]
   },
+
   "categories": [
     {
       "title": "Gaming Headset",
-      "image": "/assets/home/offer1.png",
+      "image": "/assets/home/category1.png",
       "link": "/gaming-headset"
     },
     {
       "title": "TWS Earphone",
-      "image": "/images/tws-earphone.png",
+      "image": "/assets/home/category2.png",
       "link": "/tws-earphone"
     },
     {
       "title": "TWS Headphone",
-      "image": "/images/tws-headphone.png",
+      "image": "/assets/home/category3.png",
       "link": "/tws-headphone"
     },
     {
       "title": "Bluetooth Speaker",
-      "image": "/images/bluetooth-speaker.png",
+      "image": "/assets/home/category4.png",
       "link": "/bluetooth-speaker"
+    },
+    {
+      "title": "TWS Earphone",
+      "image": "/assets/home/category2.png",
+      "link": "/tws-earphone"
     }
-  ]
+  ],
+
+  "aboutBanner": {
+    "title": "About Our Journey",
+    "description": "We are dedicated to bringing you unique products crafted with care and precision. From our humble beginnings to becoming a trusted name, our mission has always been to prioritize quality and customer satisfaction.",
+    "buttonText": "Learn More",
+    "imageSrc": "/assets/home/banner1.png"
+  },
+
+  "hero": {
+    "title": "WE BELIEVE MUSIC CAN BRINGS YOU HAPPINESS",
+    "subtitle": "Experience the power of music with our premium headphone collection",
+    "image": "/assets/home/category1.png"
+  },
+  "features": [
+    {
+      "id": 1,
+      "icon": "ThumbUpIcon",
+      "title": "GOOD QUALITY",
+      "description": "Premium sound quality with high-fidelity audio reproduction and noise cancellation technology"
+    },
+    {
+      "id": 2,
+      "icon": "TruckIcon",
+      "title": "FAST AND SAVE",
+      "description": "Quick, secure delivery with real-time tracking and insurance coverage"
+    },
+    {
+      "id": 3,
+      "icon": "UserGroupIcon",
+      "title": "BEST SERVICE",
+      "description": "24/7 dedicated customer support with expert assistance for all your needs"
+    },
+    {
+      "id": 4,
+      "icon": "ShoppingCartIcon",
+      "title": "DEAL AND PROMO",
+      "description": "Exclusive deals and seasonal promotions to give you the best value for money"
+    }
+  ],
+
+  "faq": {
+    "title": "FAQ's",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.",
+    "image": "/assets/about/about1.jpg",
+    "backgroundImage": "/assets/home/shop1.jpg",
+    "items": [
+      {
+        "question": "Which credit cards do you accept?",
+        "answer": "We accept Visa, MasterCard, American Express, and Discover cards for all purchases."
+      },
+      {
+        "question": "What courier do you use for deliveries?",
+        "answer": "We partner with multiple courier services including FedEx, UPS, and DHL to ensure reliable delivery."
+      },
+      {
+        "question": "How long my packet come?",
+        "answer": "Delivery times typically range from 3-5 business days for domestic shipping and 7-14 days for international shipping."
+      },
+      {
+        "question": "How long will it be before I get a refund?",
+        "answer": "Refunds are typically processed within 3-5 business days after we receive your return."
+      }
+    ]
+  },
+
+  "store": {
+    "title": "Our Store",
+    "locationTitle": "Visit Our Store",
+    "name": "TECHYFI STORE NUSA DUA",
+    "address": "Jln. Nusa Dua, Bali 80361",
+    "phone": "(+62) 2020-2020",
+    "email": "contact@techyfi.com",
+    "socialTitle": "Our Social Media",
+    "bookingLabel": "Booking",
+    "emailLabel": "Email",
+    "viewMapLabel": "View larger map"
+  }
 }

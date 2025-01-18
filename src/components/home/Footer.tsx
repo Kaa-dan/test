@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { FC } from "react";
 import { TbClockBitcoin, TbLocationDiscount } from "react-icons/tb";
 import { BiPhoneIncoming } from "react-icons/bi";
@@ -11,7 +10,7 @@ const Footer: FC = () => {
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
         {/* Company Info */}
         <div className="space-y-4">
-          <h2 className="text-3xl font-bold">NOIZ</h2>
+          <h2 className="text-3xl font-bold">TECHYFI</h2>
           <p className="text-primary-white">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit
             tellus, luctus nec.
@@ -78,6 +77,7 @@ const Footer: FC = () => {
               className="flex-1 px-4 py-2 rounded-l-md focus:outline-none text-primary-black"
             />
             <button
+              suppressHydrationWarning={true}
               type="submit"
               className="bg-primary-orange px-4 py-2 rounded-r-md transition-colors"
             >

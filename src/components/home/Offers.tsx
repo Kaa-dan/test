@@ -21,7 +21,9 @@ const Offers = () => {
               <h2 className="text-2xl font-bold text-black my-3">
                 {offer.description}
               </h2>
-              <button className="text-sm font-medium text-gray-600 underline mb-4 hover:text-primary-orange">
+              <button 
+            suppressHydrationWarning={true}
+            className="text-sm font-medium text-gray-600 underline mb-4 hover:text-primary-orange">
                 {offer.cta}
               </button>
             </div>

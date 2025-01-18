@@ -22,8 +22,8 @@ const Banner = () => {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="mx-auto px-4 py-4">
-        <div className="p-7 flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12">
+      <div className="mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentSlide}

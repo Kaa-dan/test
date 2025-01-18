@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Footer from "@/components/home/Footer";
+import Navbar from "@/components/home/Navbar";
 
 export const metadata: Metadata = {
   title: "TECHYFI",
@@ -23,6 +23,7 @@ export default function RootLayout({
       </head>
       <body>
         <div>
+          <Navbar />
           <main>{children}</main>
           <Footer />
         </div>

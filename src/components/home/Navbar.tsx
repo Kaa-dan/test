@@ -21,7 +21,7 @@ const Navbar = () => {
         <div className="mx-auto px-6">
           <div className="flex justify-between items-center">
             <Link href="/" className="text-primary-white text-3xl font-bold">
-              NOIZ
+              TECHYFI
             </Link>
             <div className="hidden lg:flex space-x-6">
               <Link href="#" className="text-primary-white hover:text-gray-200">
@@ -45,6 +45,8 @@ const Navbar = () => {
             <div className="flex justify-between items-center">
               {/* Hamburger menu for mobile */}
               <button
+            suppressHydrationWarning={true}
+
                 className="text-gray-600 hover:text-primary-orange lg:hidden"
                 onClick={toggleSidebar}
               >
@@ -70,7 +72,7 @@ const Navbar = () => {
                     key={index}
                     href={link.href}
                     className={`text-gray-700 hover:text-primary-orange transition-colors ${
-                      link.href === "/" ? "text-primary-orange" : ""
+                      link.href === "/" ? "" : ""
                     }`}
                   >
                     {link.label}
@@ -80,7 +82,10 @@ const Navbar = () => {
 
               {/* Search and Cart icons */}
               <div className="flex items-center space-x-6">
-                <button className="text-gray-600 hover:text-primary-orange">
+                <button 
+            suppressHydrationWarning={true}
+
+                className="text-gray-600 hover:text-primary-orange">
                   <svg
                     className="w-6 h-6"
                     fill="none"
@@ -95,7 +100,10 @@ const Navbar = () => {
                     />
                   </svg>
                 </button>
-                <button className="text-gray-600 hover:text-primary-orange">
+                <button 
+            suppressHydrationWarning={true}
+
+                className="text-gray-600 hover:text-primary-orange">
                   <svg
                     className="w-6 h-6"
                     fill="none"
@@ -127,8 +135,10 @@ const Navbar = () => {
             <div className="p-6">
               {/* Sidebar header */}
               <div className="flex justify-between items-center mb-8">
-                <h2 className="text-2xl font-bold">NOIZ</h2>
-                <button onClick={toggleSidebar} className="text-primary-black">
+                <h2 className="text-2xl font-bold">TECHYFI</h2>
+                <button 
+            suppressHydrationWarning={true}
+            onClick={toggleSidebar} className="text-primary-black">
                   <svg
                     className="w-6 h-6"
                     fill="none"

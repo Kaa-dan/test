@@ -60,10 +60,14 @@ const Testimonial = () => {
                 </div>
 
                 {/* Quote */}
-                <p className="text-primary-black italic mb-4">"{review.quote}"</p>
+                <p className="text-primary-black italic mb-4">
+                  &quot;{review.quote}&quot;
+                </p>
 
                 {/* Name and Role */}
-                <h3 className="text-lg font-bold text-primary-black">{review.name}</h3>
+                <h3 className="text-lg font-bold text-primary-black">
+                  {review.name}
+                </h3>
                 <p className="text-sm text-primary-black">{review.role}</p>
               </div>
             ))}
@@ -72,12 +76,14 @@ const Testimonial = () => {
 
         {/* Navigation Arrows */}
         <button
+          suppressHydrationWarning={true}
           onClick={handlePrev}
           className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white rounded-full w-10 h-10 flex items-center justify-center hover:bg-gray-700"
         >
           &#8249;
         </button>
         <button
+          suppressHydrationWarning={true}
           onClick={handleNext}
           className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white rounded-full w-10 h-10 flex items-center justify-center hover:bg-gray-700"
         >
