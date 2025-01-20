@@ -15,6 +15,7 @@ export default {
       },
       fontFamily: {
         oswald: "Oswald",
+        mulish: "Mulish"
       }
     },
   },
