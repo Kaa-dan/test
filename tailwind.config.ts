@@ -9,9 +9,14 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        "primary-black": "#100C08",
+        "primary-white": "#FFFFFF",
+        "primary-orange": "#ff7542",
       },
+      fontFamily: {
+        oswald: "Oswald",
+        mulish: "Mulish"
+      }
     },
   },
   plugins: [],
