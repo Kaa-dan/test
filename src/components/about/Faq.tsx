@@ -16,15 +16,14 @@ const Faq = () => {
     <div
       className="w-full bg-cover bg-center bg-no-repeat py-12"
       style={{
-        backgroundImage: `url(${faq.backgroundImage})`, // Use background image from JSON
+        backgroundImage: `url(${faq.backgroundImage})`, 
       }}
     >
       <div className="w-full max-w-6xl mx-auto px-4">
         <div className="grid md:grid-cols-2 gap-11 items-start bg-opacity-90 p-6 rounded-lg shadow-lg">
-          {/* Banner Image Section */}
           <div className="relative">
             <Image
-              src={faq.image} // Replace with your banner image path
+              src={faq.image}
               alt="Customer Support"
               className="rounded-lg shadow-lg w-full object-contain"
               width={800}
@@ -32,7 +31,6 @@ const Faq = () => {
             />
           </div>
 
-          {/* FAQ Content Section */}
           <div className="mt-14 space-y-6 r">
             <h2 className="text-4xl font-bold mb-4 text-primary-white">
               {faq.title}

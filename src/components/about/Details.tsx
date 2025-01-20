@@ -18,7 +18,6 @@ const Details = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      {/* Hero Section */}
       <div className="text-center mb-16">
         <h1 className="text-4xl md:text-5xl font-bold text-primary-black mb-4">
           {hero.title}
@@ -26,9 +25,7 @@ const Details = () => {
         <p className="text-lg text-primary-black">{hero.subtitle}</p>
       </div>
 
-      {/* Main Content */}
       <div className="grid lg:grid-cols-2 gap-12 items-center">
-        {/* Image Section */}
         <div className="relative rounded-xl overflow-hidden group">
           <Image
             src={hero.image}
@@ -39,7 +36,6 @@ const Details = () => {
           />
         </div>
 
-        {/* Features Grid */}
         <div className="grid md:grid-cols-2 gap-6">
           {features.map((feature) => {
             const IconComponent =

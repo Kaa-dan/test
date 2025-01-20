@@ -17,7 +17,7 @@ const Banner = () => {
 
   return (
     <motion.div
-      className="bg-primary-black w-full min-h-screen relative overflow-hidden"
+      className="bg-primary-black w-full min-h-screen relative overflow-hidden "
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}

@@ -16,7 +16,6 @@ const Navbar = () => {
   console.log("ntihin");
   return (
     <div className="w-full h-full z-50">
-      {/* Top bar with logo and social links */}
       <div className="bg-primary-black w-full py-4">
         <div className="mx-auto px-6">
           <div className="flex justify-between items-center">
@@ -38,12 +37,10 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Navbar with links */}
       <div className="mx-auto px-6 py-4 bg-primary-black">
         <nav className="bg-primary-white rounded-full shadow-lg">
           <div className="px-8 py-4">
             <div className="flex justify-between items-center">
-              {/* Hamburger menu for mobile */}
               <button
             suppressHydrationWarning={true}
 
@@ -65,7 +62,6 @@ const Navbar = () => {
                 </svg>
               </button>
 
-              {/* Main navigation for larger screens */}
               <div className="hidden lg:flex items-center space-x-8">
                 {navLinks.slice(0, 3).map((link, index) => (
                   <Link
@@ -80,7 +76,6 @@ const Navbar = () => {
                 ))}
               </div>
 
-              {/* Search and Cart icons */}
               <div className="flex items-center space-x-6">
                 <button 
             suppressHydrationWarning={true}
@@ -124,7 +119,6 @@ const Navbar = () => {
         </nav>
       </div>
 
-      {/* Sidebar for smaller screens */}
       {isSidebarOpen && (
         <div className="fixed inset-0 z-50">
           <div
@@ -133,7 +127,6 @@ const Navbar = () => {
           ></div>
           <div className="absolute left-0 top-0 h-full w-80 bg-primary-white text-primary-black">
             <div className="p-6">
-              {/* Sidebar header */}
               <div className="flex justify-between items-center mb-8">
                 <h2 className="text-2xl font-bold">TECHYFI</h2>
                 <button 
@@ -155,7 +148,6 @@ const Navbar = () => {
                 </button>
               </div>
 
-              {/* Navigation links */}
               <div className="space-y-6">
                 {navLinks.map((link, index) => (
                   <Link

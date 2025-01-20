@@ -17,5 +17,6 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Oswald;
+  /* font-family: Oswald; */
+  font-family: Muslish;
 }

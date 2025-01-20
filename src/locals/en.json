@@ -206,5 +206,120 @@
     "bookingLabel": "Booking",
     "emailLabel": "Email",
     "viewMapLabel": "View larger map"
+  },
+
+  "deals": {
+    "title": "HOT DEALS TODAY",
+    "items": [
+      {
+        "id": 1,
+        "name": "Barda Headphone",
+        "originalPrice": 420.00,
+        "salePrice": 320.00,
+        "image": "/assets/home/deal1.png",
+        "slug": "barda-headphone"
+      },
+      {
+        "id": 2,
+        "name": "Airmax TWS Earphone",
+        "originalPrice": 300.00,
+        "salePrice": 140.00,
+        "image": "/assets/home/deal2.jpg",
+        "slug": "airmax-tws-earphone"
+      },
+      {
+        "id": 3,
+        "name": "TWS Headphone",
+        "originalPrice": 400.00,
+        "salePrice": 320.00,
+        "image": "/assets/home/deal3.jpg",
+        "slug": "tws-headphone"
+      },
+      {
+        "id": 4,
+        "name": "BlueDoo TWS Buds",
+        "originalPrice": 300.00,
+        "salePrice": 210.00,
+        "image": "/assets/home/deal4.jpg",
+        "slug": "bluedoo-tws-buds"
+      }
+    ]
+  },
+
+  "featured_products": {
+    "title": "Featured Products",
+    "products": [
+      {
+        "id": 1,
+        "name": "Barda Headphone",
+        "regularPrice": 420.00,
+        "salePrice": 320.00,
+        "image": "/products/barda-headphone.jpg",
+        "onSale": true,
+        "rating": 5,
+        "category": "headphones",
+        "addToCartText": "ADD TO CART"
+      },
+      {
+        "id": 2,
+        "name": "Airmax TWS Earphone",
+        "regularPrice": 300.00,
+        "salePrice": 140.00,
+        "image": "/products/airmax-tws.jpg",
+        "onSale": true,
+        "rating": 4,
+        "category": "earphones",
+        "addToCartText": "ADD TO CART"
+      },
+      {
+        "id": 3,
+        "name": "TWS Headphone",
+        "regularPrice": 400.00,
+        "salePrice": 320.00,
+        "image": "/products/tws-headphone.jpg",
+        "onSale": true,
+        "rating": 5,
+        "category": "headphones",
+        "addToCartText": "ADD TO CART"
+      },
+      {
+        "id": 4,
+        "name": "BlueDoo TWS Buds",
+        "regularPrice": 300.00,
+        "salePrice": 210.00,
+        "image": "/products/bluedoo-buds.jpg",
+        "onSale": true,
+        "rating": 4,
+        "category": "earphones",
+        "addToCartText": "ADD TO CART"
+      },
+      {
+        "id": 5,
+        "name": "Zoom BT Speaker",
+        "regularPrice": 250.00,
+        "salePrice": 250.00,
+        "image": "/products/zoom-speaker.jpg",
+        "onSale": false,
+        "rating": 5,
+        "category": "speakers",
+        "addToCartText": "ADD TO CART"
+      },
+      {
+        "id": 6,
+        "name": "Gaming BT Headphone",
+        "regularPrice": 270.00,
+        "salePrice": 270.00,
+        "image": "/products/gaming-headphone.jpg",
+        "onSale": false,
+        "rating": 5,
+        "category": "headphones",
+        "addToCartText": "ADD TO CART"
+      }
+    ],
+    "saleLabel": "Sale!",
+    "paginationLabels": {
+      "previous": "Previous",
+      "next": "Next"
+    }
   }
 }

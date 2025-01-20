@@ -57,7 +57,6 @@ const Category = () => {
           animate="visible"
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6"
         >
-          {/* Large Featured Item */}
           <motion.div
             variants={itemVariants}
             className="lg:col-span-6 lg:row-span-2"
@@ -103,7 +102,6 @@ const Category = () => {
             </motion.div>
           </motion.div>
 
-          {/* Smaller Items */}
           {categories.slice(1).map((category, index) => (
             <motion.div
               key={index}

@@ -8,7 +8,6 @@ const Footer: FC = () => {
   return (
     <footer className="bg-primary-black text-primary-white py-16 px-4 md:px-8">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
-        {/* Company Info */}
         <div className="space-y-4">
           <h2 className="text-3xl font-bold">TECHYFI</h2>
           <p className="text-primary-white">
@@ -31,7 +30,6 @@ const Footer: FC = () => {
           </div>
         </div>
 
-        {/* Other Pages */}
         <div>
           <h3 className="text-xl font-semibold mb-4">OTHER PAGES</h3>
           <nav className="space-y-2">
@@ -47,7 +45,6 @@ const Footer: FC = () => {
           </nav>
         </div>
 
-        {/* Quick Links */}
         <div>
           <h3 className="text-xl font-semibold mb-4">QUICK LINKS</h3>
           <nav className="space-y-2">
@@ -63,7 +60,6 @@ const Footer: FC = () => {
           </nav>
         </div>
 
-        {/* Newsletter */}
         <div>
           <h3 className="text-xl font-semibold mb-4">NEWSLETTER</h3>
           <p className="text-primary-white mb-4">
@@ -87,7 +83,6 @@ const Footer: FC = () => {
         </div>
       </div>
 
-      {/* Bottom Section */}
       <div className="max-w-7xl mx-auto mt-12 pt-8 border-t border-gray-800">
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="flex items-center gap-4"></div>

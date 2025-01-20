@@ -19,23 +19,20 @@ const Testimonial = () => {
     );
   };
 
-  // Auto-scroll functionality
   useEffect(() => {
     const interval = setInterval(() => {
       handleNext();
-    }, 4000); // Slide changes every 4 seconds
+    }, 4000);
     return () => clearInterval(interval);
   }, []);
 
   return (
     <div className="bg-primary-white py-16">
       <div className="mx-auto px-6 relative">
-        {/* Title */}
         <h2 className="text-center text-3xl font-bold mb-12 text-primary-black">
           {testimonials.title}
         </h2>
 
-        {/* Testimonial Wrapper */}
         <div className="overflow-hidden relative">
           <div
             className="flex transition-transform duration-500 ease-in-out"
@@ -48,7 +45,6 @@ const Testimonial = () => {
                 key={index}
                 className="min-w-full flex flex-col items-center text-center px-4"
               >
-                {/* Customer Image */}
                 <div className="w-24 h-24 mb-4">
                   <Image
                     src={review.image}
@@ -59,12 +55,10 @@ const Testimonial = () => {
                   />
                 </div>
 
-                {/* Quote */}
                 <p className="text-primary-black italic mb-4">
                   &quot;{review.quote}&quot;
                 </p>
 
-                {/* Name and Role */}
                 <h3 className="text-lg font-bold text-primary-black">
                   {review.name}
                 </h3>
@@ -74,7 +68,6 @@ const Testimonial = () => {
           </div>
         </div>
 
-        {/* Navigation Arrows */}
         <button
           suppressHydrationWarning={true}
           onClick={handlePrev}
@@ -90,7 +83,6 @@ const Testimonial = () => {
           &#8250;
         </button>
 
-        {/* Dots Navigation */}
         <div className="flex justify-center mt-6 space-x-2">
           {testimonials.reviews.map((_, index) => (
             <div

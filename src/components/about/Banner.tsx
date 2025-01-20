@@ -14,7 +14,6 @@ const AboutBanner = () => {
       transition={{ duration: 0.5 }}
     >
       <div className="max-w-[1440px] mx-auto px-6 sm:px-8 lg:px-16 py-10 lg:py-16">
-        {/* Text Content */}
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
           <motion.div
             className="w-full lg:w-1/2"
@@ -37,7 +36,6 @@ const AboutBanner = () => {
             </motion.button>
           </motion.div>
 
-          {/* Image Content */}
           <motion.div
             className="w-full lg:w-1/2 flex justify-center lg:justify-end"
             initial={{ opacity: 0, x: 50 }}
@@ -57,7 +55,6 @@ const AboutBanner = () => {
         </div>
       </div>
 
-      {/* Background Animation */}
       <motion.div
         className="absolute inset-0 z-[-1]"
         animate={{
