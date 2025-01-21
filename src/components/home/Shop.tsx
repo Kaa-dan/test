@@ -36,7 +36,7 @@ const Shop = () => {
   return (
     <div
       ref={ref}
-      className="w-full h-[600px] bg-cover bg-center bg-fixed py-16 px-6 flex items-center justify-center relative overflow-hidden"
+      className="w-full h-[600px] bg-cover bg-center py-16 px-6 flex items-center justify-center relative overflow-hidden"
       style={{
         backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${shop.backgroundImage})`,
       }}

@@ -17,12 +17,12 @@ const Banner = () => {
 
   return (
     <motion.div
-      className="bg-primary-black w-full min-h-screen relative overflow-hidden "
+      // className="bg-primary-black border-2 border-red-800 w-full h-[100vh] relative overflow-hidden"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
+      <div className="bg-primary-black w-full relative overflow-hidden mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12">
           <AnimatePresence mode="wait">
             <motion.div
@@ -121,7 +121,7 @@ const Banner = () => {
       </div>
 
       <motion.div
-        className="absolute inset-0 z-[-1]"
+        className="absolute inset-0 h-full z-[-1]"
         animate={{
           background: [
             "radial-gradient(circle, rgba(0,0,0,0.8) 0%, rgba(0,0,0,1) 100%)",
@@ -135,8 +135,8 @@ const Banner = () => {
           repeatType: "reverse",
         }}
       >
-        <div className="absolute inset-0 bg-gradient-to-r from-black via-blue-900 to-black opacity-50" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-transparent to-black opacity-80" />
+        <div className="absolute inset-0 h-full bg-gradient-to-r from-black via-black to-black opacity-50" />
+        <div className="absolute inset-0 h-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-transparent to-black opacity-80" />
       </motion.div>
     </motion.div>
   );

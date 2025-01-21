@@ -8,7 +8,7 @@ const Offers = () => {
 
   return (
     <div className="w-full h-full bg-primary-white py-10">
-      <div className="flex flex-wrap items-center justify-evenly gap-5 py-10">
+      <div className="flex flex-wrap items-center justify-center gap-7 py-10">
         {offers.map((offer, index) => (
           <div
             key={index}
