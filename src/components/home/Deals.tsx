@@ -42,7 +42,9 @@ const Deals: FC = () => {
               </span>
             </div>
 
-            <button className="w-full bg-primary-black text-primary-white py-2 rounded-md hover:bg-primary-black transition-colors">
+            <button 
+             suppressHydrationWarning={true}
+             className="w-full bg-primary-black text-primary-white py-2 rounded-md hover:bg-primary-black transition-colors">
               ADD TO CART
             </button>
           </div>
