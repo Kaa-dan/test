@@ -8,9 +8,11 @@ interface Product {
   _id: string;
   name: string;
   images: string[];
-  price: number;
+  basePrice: number;
+  discountPrice: number;
   description: string;
   isActive: boolean;
+  isAvailable: boolean;
   category: string;
 }
 
@@ -31,11 +33,16 @@ const Deals: FC = () => {
           throw new Error("Failed to fetch products");
         }
         const data = await response.json();
-        // Filter only active products and take the first 4
-        const activeProducts = data
-          .filter((product: Product) => product.isActive)
+        // Filter for active, available products with discount
+        const hotDeals = data
+          .filter(
+            (product: Product) =>
+              product.isActive &&
+              product.isAvailable &&
+              product.discountPrice > 0
+          )
           .slice(0, 4);
-        setProducts(activeProducts);
+        setProducts(hotDeals);
       } catch (err) {
         setError(err instanceof Error ? err.message : "An error occurred");
       } finally {
@@ -85,7 +92,7 @@ const Deals: FC = () => {
 
             <div className="relative h-48 mb-4 z-0">
               <Image
-                src={product.images[0] || "/placeholder.svg"} // Using the first image
+                src={product.images[0] || "/placeholder.svg"}
                 alt={product.name}
                 fill
                 className="object-contain"
@@ -97,21 +104,24 @@ const Deals: FC = () => {
 
             <div className="flex items-center gap-2 mb-4">
               <span className="text-primary-black line-through">
-                ${(product.price * 1.2).toFixed(2)}{" "}
-                {/* Showing 20% higher price as original */}
+                ${product.basePrice.toFixed(2)}{" "}
               </span>
               <span className="text-primary-orange font-bold">
-                ${product.price.toFixed(2)}
+                ${(product.basePrice - product.discountPrice).toFixed(2)}
               </span>
             </div>
 
             <button
               onClick={(e) => {
-                e.stopPropagation(); // Prevent triggering the product click
+                e.stopPropagation();
+                const priceToAdd = product.discountPrice
+                  ? product.basePrice - product.discountPrice
+                  : product.basePrice;
+
                 addToCart({
                   _id: product._id,
                   name: product.name,
-                  price: product.price,
+                  price: priceToAdd,
                   quantity: 1,
                   image: product.images[0],
                 });

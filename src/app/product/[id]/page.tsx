@@ -5,12 +5,13 @@ import ProductDetails from "@/components/ProductDetails";
 interface Product {
   _id: string;
   name: string;
-  description: string;
-  price: number;
   images: string[];
+  basePrice: number;
+  discountPrice: number;
+  description: string;
+  isActive: boolean;
+  isAvailable: boolean;
   category: string;
-  specifications?: Record<string, string>;
-  stock?: number;
 }
 
 async function getProduct(id: string): Promise<Product | undefined> {

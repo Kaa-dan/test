@@ -4,12 +4,12 @@ export interface Product {
   _id: string;
   name: string;
   description: string;
-  price: number;
+  basePrice: number;
+  discountPrice: number;
   images: string[];
   isActive: boolean;
+  isAvailable: boolean;
   category: string;
-  stock?: number;
-  specifications?: Record<string, string>;
   createdAt?: string;
   updatedAt?: string;
 }
@@ -46,6 +46,17 @@ const fetchActiveProducts = async (): Promise<Product[]> => {
   return products.filter((product: Product) => product.isActive);
 };
 
+const fetchAvailableProducts = async (): Promise<Product[]> => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/products`
+  );
+  if (!response.ok) {
+    throw new Error("Failed to fetch products");
+  }
+  const products = await response.json();
+  return products.filter((product: Product) => product.isAvailable);
+};
+
 const fetchProductsByCategory = async (
   categoryId: string
 ): Promise<Product[]> => {
@@ -58,26 +69,30 @@ const fetchProductsByCategory = async (
   return response.json();
 };
 
-// Search Products
-const searchProducts = async (query: string): Promise<Product[]> => {
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/products/search?q=${encodeURIComponent(query)}`
-  );
-  if (!response.ok) {
-    throw new Error("Failed to search products");
-  }
-  return response.json();
-};
-
 export const useHotDeals = () => {
   return useQuery({
     queryKey: ["products", "hot-deals"],
     queryFn: async () => {
-      const products = await fetchActiveProducts();
-      return products.slice(0, 4).map((product) => ({
-        ...product,
-        originalPrice: product.price * 1.2, // 20% higher for "original" price
-      }));
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/products`
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch products");
+      }
+      const products = await response.json();
+      return products
+        .filter(
+          (product: Product) =>
+            product.isActive && // Must be active
+            product.isAvailable && // Must be available
+            product.discountPrice > 0 // Must have a discount
+        )
+        .slice(0, 4)
+        .map((product: Product) => ({
+          ...product,
+          originalPrice: product.basePrice,
+          discountAmount: product.basePrice - product.discountPrice,
+        }));
     },
     staleTime: 1000 * 60 * 30,
   });
@@ -87,26 +102,10 @@ export const useFeaturedProducts = () => {
   return useQuery({
     queryKey: ["products", "featured"],
     queryFn: async () => {
-      const products = await fetchActiveProducts();
-      // Get 6 products for featured section
-      return products.slice(0, 6);
+      const products = await fetchAvailableProducts();
+      return products.filter((product) => product.isAvailable);
     },
-    staleTime: 1000 * 60 * 30,
-  });
-};
-
-// Related Products Hook
-export const useRelatedProducts = (productId: string, categoryId: string) => {
-  return useQuery({
-    queryKey: ["products", "related", productId],
-    queryFn: async () => {
-      const products = await fetchProductsByCategory(categoryId);
-      return products
-        .filter((product) => product._id !== productId)
-        .slice(0, 4);
-    },
-    enabled: !!productId && !!categoryId,
-    staleTime: 1000 * 60 * 30,
+    staleTime: 1000 * 6 * 3,
   });
 };
 
@@ -116,7 +115,7 @@ export const useProduct = (id: string) => {
     queryKey: ["product", id],
     queryFn: () => fetchProduct(id),
     enabled: !!id,
-    staleTime: 1000 * 60 * 30,
+    staleTime: 1000 * 6 * 3,
   });
 };
 
@@ -124,7 +123,7 @@ export const useProducts = () => {
   return useQuery({
     queryKey: ["products"],
     queryFn: fetchProducts,
-    staleTime: 1000 * 60 * 30,
+    staleTime: 1000 * 6 * 3,
   });
 };
 
@@ -132,16 +131,7 @@ export const useActiveProducts = () => {
   return useQuery({
     queryKey: ["products", "active"],
     queryFn: fetchActiveProducts,
-    staleTime: 1000 * 60 * 30,
-  });
-};
-
-export const useSearchProducts = (query: string) => {
-  return useQuery({
-    queryKey: ["products", "search", query],
-    queryFn: () => searchProducts(query),
-    enabled: query.length >= 2,
-    staleTime: 1000 * 60 * 30,
+    staleTime: 1000 * 6 * 3,
   });
 };
 
@@ -150,7 +140,7 @@ export const useProductsByCategory = (categoryId: string) => {
     queryKey: ["products", "category", categoryId],
     queryFn: () => fetchProductsByCategory(categoryId),
     enabled: !!categoryId,
-    staleTime: 1000 * 60 * 30,
+    staleTime: 1000 * 6 * 3,
   });
 };
 
@@ -187,7 +177,7 @@ export const useCategories = () => {
   return useQuery({
     queryKey: ["categories"],
     queryFn: fetchCategories,
-    staleTime: 1000 * 60 * 30,
+    staleTime: 1000 * 6 * 3,
   });
 };
 
@@ -196,13 +186,13 @@ export const useCategory = (id: string) => {
     queryKey: ["category", id],
     queryFn: () => fetchCategory(id),
     enabled: !!id,
-    staleTime: 1000 * 60 * 30,
+    staleTime: 1000 * 6 * 3,
   });
 };
 
 export interface Review {
   _id: string;
-  product: string; // ObjectId of the product
+  product: string;
   message: string;
   approved: boolean;
   stars: number;
@@ -247,7 +237,7 @@ export const useProductReviews = (productId: string) => {
     queryKey: ["reviews", productId],
     queryFn: () => fetchReviewsByProductId(productId),
     enabled: !!productId,
-    staleTime: 1000 * 60 * 30,
+    staleTime: 1000 * 6 * 3,
   });
 };
 
@@ -262,6 +252,52 @@ export const useCreateReview = () => {
         queryKey: ["reviews", newReview.product],
       });
     },
+  });
+};
+
+export interface Coupon {
+  _id: string;
+  name: string;
+  percentage: number;
+  active: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+const fetchCoupon = async (): Promise<Coupon[]> => {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/coupon`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch coupon");
+  }
+  return response.json();
+};
+
+const fetchCouponById = async (id: string): Promise<Coupon> => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/coupon/${id}`
+  );
+  if (!response.ok) {
+    throw new Error("Failed to fetch coupon");
+  }
+  return response.json();
+};
+
+// Fetch all coupons
+export const useCoupons = () => {
+  return useQuery({
+    queryKey: ["coupons"],
+    queryFn: fetchCoupon,
+    staleTime: 1000 * 6 * 3,
+  });
+};
+
+// Fetch a single coupon by ID
+export const useCoupon = (id: string) => {
+  return useQuery({
+    queryKey: ["coupon", id],
+    queryFn: () => fetchCouponById(id),
+    enabled: !!id, // Ensures query is only run if ID is provided
+    staleTime: 1000 * 6 * 3,
   });
 };
 

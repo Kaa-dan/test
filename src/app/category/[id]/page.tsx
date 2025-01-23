@@ -5,8 +5,13 @@ import ProductList from "@/components/ProductList";
 interface Product {
   _id: string;
   name: string;
-  price: number;
   images: string[];
+  basePrice: number;
+  discountPrice: number;
+  description: string;
+  isActive: boolean;
+  isAvailable: boolean;
+  category: string;
 }
 
 async function getCategory(id: string) {
@@ -30,18 +35,23 @@ async function getProductsByCategory(id: string): Promise<Product[]> {
 }
 
 export default async function CategoryPage({
-  params,
+  params: rawParams,
 }: {
   params: { id: string };
 }) {
-  const categoryPromise = getCategory(params.id);
-  const productsPromise = getProductsByCategory(params.id);
+  // Await `params` before using its properties
+  const { id } = await rawParams;
+
+  // Fetch category and products
+  const categoryPromise = getCategory(id);
+  const productsPromise = getProductsByCategory(id);
 
   const [category, products] = await Promise.all([
     categoryPromise,
     productsPromise,
   ]);
 
+  // If no category is found, return 404
   if (!category) {
     notFound();
   }

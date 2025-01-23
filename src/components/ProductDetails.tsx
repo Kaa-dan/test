@@ -1,23 +1,20 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
-import {
-  useProduct,
-  useRelatedProducts,
-} from "@/components/hooks/product-hooks";
+import { useProduct } from "@/components/hooks/product-hooks";
 import { useCart } from "@/components/contexts/CardContext";
 import { Tab } from "@headlessui/react";
 import { Star, Truck, Shield, RefreshCw } from "lucide-react";
+import { useCoupons } from "@/components/hooks/product-hooks"; // Import useCoupons hook
 
 interface Product {
   _id: string;
   name: string;
   description: string;
-  price: number;
+  basePrice: number;
+  discountPrice: number;
   images: string[];
   category: string;
-  specifications?: Record<string, string>;
-  stock?: number;
 }
 
 interface ProductDetailsProps {
@@ -34,18 +31,34 @@ export default function ProductDetails({
   const { data: fetchedProduct, isLoading } = useProduct(productId || "");
   const product = initialProduct || fetchedProduct;
 
-  const { addToCart } = useCart();
-  const { data: relatedProducts } = useRelatedProducts(
-    product?._id || "",
-    product?.category || ""
-  );
+  const { addToCart, appliedCoupon } = useCart(); // Extract appliedCoupon from CartContext
+  const { data: coupons = [] } = useCoupons(); // Fetch available coupons
+
+  const [finalPrice, setFinalPrice] = useState<number>(0);
+
+  useEffect(() => {
+    if (!product) return;
+
+    // Calculate price after discount if coupon is applied
+    let price = product.discountPrice * quantity;
+    if (appliedCoupon) {
+      const discount = (price * appliedCoupon.percentage) / 100;
+      price = price - discount;
+    }
+    setFinalPrice(price);
+  }, [product, quantity, appliedCoupon]);
 
   const handleAddToCart = () => {
     if (!product) return;
+
+    const finalPrice = product.discountPrice
+      ? product.basePrice - product.discountPrice
+      : product.basePrice;
+
     addToCart({
       _id: product._id,
       name: product.name,
-      price: product.price,
+      price: finalPrice,
       quantity,
       image: product.images[0],
     });
@@ -101,21 +114,28 @@ export default function ProductDetails({
         {/* Product Info */}
         <div className="space-y-6">
           <h1 className="text-3xl font-bold">{product.name}</h1>
-          <div className="flex items-center space-x-4">
-            <div className="flex items-center">
-              {[...Array(5)].map((_, i) => (
-                <Star
-                  key={i}
-                  className="w-5 h-5 text-yellow-400 fill-current"
-                />
-              ))}
-            </div>
-            <span className="text-gray-500">(128 reviews)</span>
-          </div>
 
           <p className="text-gray-600">{product.description}</p>
 
-          <div className="text-3xl font-bold">${product.price.toFixed(2)}</div>
+          {/* Price Section: Show both Discounted and Original Price */}
+          <div className="space-y-2">
+            {/* Show the Original Price */}
+            {product.discountPrice &&
+            product.discountPrice < product.basePrice ? (
+              <div className="text-xl text-gray-500 line-through">
+                ${product.basePrice.toFixed(2)} {/* Original Price */}
+              </div>
+            ) : null}{" "}
+            {/* Only show original price if there's a discount */}
+            {/* Show the Base Price or Final Price */}
+            <div className="text-3xl font-bold">
+              $
+              {product.discountPrice
+                ? (product.basePrice - product.discountPrice).toFixed(2)
+                : product.basePrice.toFixed(2)}{" "}
+              {/* Show final price after applying discount or base price if no discount */}
+            </div>
+          </div>
 
           {/* Quantity Selector */}
           <div className="flex items-center space-x-4">
@@ -207,17 +227,6 @@ export default function ProductDetails({
         </Tab.List>
         <Tab.Panels className="mt-6">
           <Tab.Panel>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {product.specifications &&
-                Object.entries(product.specifications).map(([key, value]) => (
-                  <div key={key} className="border-b pb-4">
-                    <dt className="font-medium text-gray-900">{key}</dt>
-                    <dd className="mt-1 text-gray-600">{value}</dd>
-                  </div>
-                ))}
-            </div>
-          </Tab.Panel>
-          <Tab.Panel>
             <div className="space-y-6">
               {/* Sample Reviews - Replace with actual reviews data */}
               {[1, 2, 3].map((review) => (
@@ -246,32 +255,6 @@ export default function ProductDetails({
           </Tab.Panel>
         </Tab.Panels>
       </Tab.Group>
-
-      {/* Related Products */}
-      {relatedProducts && relatedProducts.length > 0 && (
-        <div className="mt-12">
-          <h2 className="text-2xl font-bold mb-6">Related Products</h2>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            {relatedProducts.map((relatedProduct) => (
-              <div key={relatedProduct._id} className="border rounded-lg p-4">
-                <div className="relative h-48 mb-4">
-                  <Image
-                    src={relatedProduct.images[0]}
-                    alt={relatedProduct.name}
-                    fill
-                    className="object-cover rounded-md"
-                    sizes="(max-width: 768px) 100vw, 25vw"
-                  />
-                </div>
-                <h3 className="font-medium">{relatedProduct.name}</h3>
-                <p className="text-gray-600 mt-2">
-                  ${relatedProduct.price.toFixed(2)}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
     </div>
   );
 }

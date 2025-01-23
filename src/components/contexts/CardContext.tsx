@@ -1,5 +1,6 @@
 "use client";
 import { createContext, useContext, useState, useEffect } from "react";
+import { useCoupons, Coupon } from "@/components/hooks/product-hooks"; // Import the useCoupons hook from product-hook.ts
 import type { ReactNode } from "react";
 
 interface CartItem {
@@ -8,13 +9,6 @@ interface CartItem {
   price: number;
   quantity: number;
   image: string;
-}
-
-interface Coupon {
-  code: string;
-  discountPercentage: number;
-  minimumPurchase?: number;
-  maximumDiscount?: number;
 }
 
 interface CartContextType {
@@ -33,21 +27,13 @@ interface CartContextType {
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
-const AVAILABLE_COUPONS: Coupon[] = [
-  { code: "WELCOME10", discountPercentage: 10 },
-  { code: "SAVE20", discountPercentage: 20, minimumPurchase: 100 },
-  {
-    code: "SUPER30",
-    discountPercentage: 30,
-    minimumPurchase: 200,
-    maximumDiscount: 100,
-  },
-];
-
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [appliedCoupon, setAppliedCoupon] = useState<Coupon | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  // Fetch available coupons using the useCoupons hook
+  const { data: coupons = [], error: fetchCouponError } = useCoupons();
 
   useEffect(() => {
     const savedCart = localStorage.getItem("cart");
@@ -105,17 +91,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     if (!appliedCoupon) return 0;
 
     const subtotal = getSubtotal();
-    if (
-      appliedCoupon.minimumPurchase &&
-      subtotal < appliedCoupon.minimumPurchase
-    ) {
-      return 0;
-    }
-
-    const discount = (subtotal * appliedCoupon.discountPercentage) / 100;
-    if (appliedCoupon.maximumDiscount) {
-      return Math.min(discount, appliedCoupon.maximumDiscount);
-    }
+    const discount = (subtotal * appliedCoupon.percentage) / 100;
     return discount;
   };
 
@@ -125,20 +101,12 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
   const applyCoupon = async (code: string) => {
     setError(null);
-    const coupon = AVAILABLE_COUPONS.find(
-      (c) => c.code.toLowerCase() === code.toLowerCase()
+    const coupon = coupons.find(
+      (c) => c.name.toLowerCase() === code.toLowerCase() && c.active
     );
 
     if (!coupon) {
-      setError("Invalid coupon code");
-      return;
-    }
-
-    const subtotal = getSubtotal();
-    if (coupon.minimumPurchase && subtotal < coupon.minimumPurchase) {
-      setError(
-        `Minimum purchase of $${coupon.minimumPurchase} required for this coupon`
-      );
+      setError("Invalid or inactive coupon code");
       return;
     }
 

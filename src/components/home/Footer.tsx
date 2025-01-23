@@ -7,7 +7,7 @@ import { IoSend } from "react-icons/io5";
 const Footer: FC = () => {
   return (
     <footer className="bg-primary-black text-primary-white py-16 px-4 md:px-8">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 justify-evenly">
         <div className="space-y-4">
           <h2 className="text-3xl font-bold">TECHYFI</h2>
           <p className="text-primary-white">
@@ -48,7 +48,7 @@ const Footer: FC = () => {
         <div>
           <h3 className="text-xl font-semibold mb-4">QUICK LINKS</h3>
           <nav className="space-y-2">
-            {["Returns & refunds", "Order tracking", "Cart"].map((item) => (
+            {["Privacy", "Terms", "Help"].map((item) => (
               <Link
                 key={item}
                 href={`/${item.toLowerCase().replace(" ", "-")}`}
@@ -58,28 +58,6 @@ const Footer: FC = () => {
               </Link>
             ))}
           </nav>
-        </div>
-
-        <div>
-          <h3 className="text-xl font-semibold mb-4">NEWSLETTER</h3>
-          <p className="text-primary-white mb-4">
-            Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-            accusantium
-          </p>
-          <form className="flex">
-            <input
-              type="email"
-              placeholder="Your Email Address"
-              className="flex-1 px-4 py-2 rounded-l-md focus:outline-none text-primary-black"
-            />
-            <button
-              suppressHydrationWarning={true}
-              type="submit"
-              className="bg-primary-orange px-4 py-2 rounded-r-md transition-colors"
-            >
-              <IoSend className="w-5 h-5" />
-            </button>
-          </form>
         </div>
       </div>
 
@@ -91,19 +69,7 @@ const Footer: FC = () => {
               href="/privacy"
               className="text-primary-white hover:text-primary-orange"
             >
-              Privacy
-            </Link>
-            <Link
-              href="/terms"
-              className="text-primary-white hover:text-primary-orange"
-            >
-              Terms
-            </Link>
-            <Link
-              href="/help"
-              className="text-primary-white hover:text-primary-orange"
-            >
-              Help
+              Developed By ZikrByte
             </Link>
           </div>
         </div>
