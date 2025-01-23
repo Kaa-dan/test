@@ -26,7 +26,7 @@ const Navbar = () => {
             <Link href="/">
               <img
                 src="/assets/logo.png"
-                alt="Techyfi Logo"
+                alt="Zap Store Logo"
                 className="h-14 w-40 object-contain"
               />
             </Link>
@@ -141,7 +141,7 @@ const Navbar = () => {
           <div className="absolute left-0 top-0 h-full w-80 bg-primary-white text-primary-black">
             <div className="p-6">
               <div className="flex justify-between items-center mb-8">
-                <h2 className="text-2xl font-bold">TECHYFI</h2>
+                <h2 className="text-2xl font-bold">Zap Store</h2>
                 <button
                   suppressHydrationWarning={true}
                   onClick={toggleSidebar}

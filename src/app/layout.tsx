@@ -4,8 +4,8 @@ import Navbar from "@/components/home/Navbar";
 import Footer from "@/components/home/Footer";
 
 export const metadata = {
-  title: "TECHYFI",
-  description: "Learn more about Techyfi",
+  title: "ZAP STORE",
+  description: "Learn more about Zap Store",
 };
 
 export default function RootLayout({

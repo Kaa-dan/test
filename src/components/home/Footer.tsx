@@ -9,7 +9,7 @@ const Footer: FC = () => {
     <footer className="bg-primary-black text-primary-white py-16 px-4 md:px-8">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 justify-evenly">
         <div className="space-y-4">
-          <h2 className="text-3xl font-bold">TECHYFI</h2>
+          <h2 className="text-3xl font-bold">Zap Store</h2>
           <p className="text-primary-white">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit
             tellus, luctus nec.
