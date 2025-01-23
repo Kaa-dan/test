@@ -1,9 +1,11 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
+import { useCart } from "@/components/contexts/CardContext";
 
 const Navbar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const { cart } = useCart();
 
   const navLinks = [
     { href: "/", label: "HOME" },
@@ -13,15 +15,22 @@ const Navbar = () => {
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
-  console.log("ntihin");
+
+  const cartItemsCount = cart.reduce((total, item) => total + item.quantity, 0);
+
   return (
     <div className="w-full h-full z-50">
-      <div className="bg-primary-black w-full py-4">
+      <div className="bg-primary-black w-full py-2">
         <div className="mx-auto px-6">
           <div className="flex justify-between items-center">
-            <Link href="/" className="text-primary-white text-3xl font-bold">
-              TECHYFI
+            <Link href="/">
+              <img
+                src="/assets/logo.png"
+                alt="Techyfi Logo"
+                className="h-14 w-40 object-contain"
+              />
             </Link>
+            {/* Social Media Links */}
             <div className="hidden lg:flex space-x-6">
               <Link href="#" className="text-primary-white hover:text-gray-200">
                 Facebook
@@ -42,8 +51,7 @@ const Navbar = () => {
           <div className="px-8 py-4">
             <div className="flex justify-between items-center">
               <button
-            suppressHydrationWarning={true}
-
+                suppressHydrationWarning={true}
                 className="text-gray-600 hover:text-primary-orange lg:hidden"
                 onClick={toggleSidebar}
               >
@@ -63,7 +71,7 @@ const Navbar = () => {
               </button>
 
               <div className="hidden lg:flex items-center space-x-8">
-                {navLinks.slice(0, 3).map((link, index) => (
+                {navLinks.map((link, index) => (
                   <Link
                     key={index}
                     href={link.href}
@@ -77,10 +85,10 @@ const Navbar = () => {
               </div>
 
               <div className="flex items-center space-x-6">
-                <button 
-            suppressHydrationWarning={true}
-
-                className="text-gray-600 hover:text-primary-orange">
+                <button
+                  suppressHydrationWarning={true}
+                  className="text-gray-600 hover:text-primary-orange"
+                >
                   <svg
                     className="w-6 h-6"
                     fill="none"
@@ -95,10 +103,10 @@ const Navbar = () => {
                     />
                   </svg>
                 </button>
-                <button 
-            suppressHydrationWarning={true}
-
-                className="text-gray-600 hover:text-primary-orange">
+                <Link
+                  href="/cart"
+                  className="text-gray-600 hover:text-primary-orange relative"
+                >
                   <svg
                     className="w-6 h-6"
                     fill="none"
@@ -112,7 +120,12 @@ const Navbar = () => {
                       d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
                     />
                   </svg>
-                </button>
+                  {cartItemsCount > 0 && (
+                    <span className="absolute -top-2 -right-2 bg-primary-orange text-primary-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
+                      {cartItemsCount}
+                    </span>
+                  )}
+                </Link>
               </div>
             </div>
           </div>
@@ -129,9 +142,11 @@ const Navbar = () => {
             <div className="p-6">
               <div className="flex justify-between items-center mb-8">
                 <h2 className="text-2xl font-bold">TECHYFI</h2>
-                <button 
-            suppressHydrationWarning={true}
-            onClick={toggleSidebar} className="text-primary-black">
+                <button
+                  suppressHydrationWarning={true}
+                  onClick={toggleSidebar}
+                  className="text-primary-black"
+                >
                   <svg
                     className="w-6 h-6"
                     fill="none"

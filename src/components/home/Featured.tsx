@@ -1,113 +1,136 @@
 "use client"
-import React, { useState } from 'react';
-import enData from '../../locals/en.json';
+import React from 'react';
+import { motion } from 'framer-motion';
+import { useFeaturedProducts } from '@/components/hooks/product-hooks';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import Image from 'next/image';
+import { useCart } from '@/components/contexts/CardContext';
 
-interface Product {
-  id: number;
-  name: string;
-  regularPrice: number;
-  salePrice: number;
-  image: string;
-  onSale: boolean;
-  addToCartText: string;
-}
+const Featured = () => {
+  const { data: products, isLoading, error } = useFeaturedProducts();
+  const { addToCart } = useCart();
+  const router = useRouter();
 
-interface FeaturedProductsData {
-  title: string;
-  products: Product[];
-  saleLabel: string;
-}
+  const handleProductClick = (productId: string) => {
+    router.push(`/product/${productId}`);
+  };
 
-const Featured: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const productsPerPage = 3;
-  
-  const { featured_products: data } = enData as { featured_products: FeaturedProductsData };
-  const { products } = data;
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
 
-  // Calculate pagination
-  const indexOfLastProduct = currentPage * productsPerPage;
-  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
-  const totalPages = Math.ceil(products.length / productsPerPage);
+  const item = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0 },
+  };
+
+  const imageVariants = {
+    hover: {
+      scale: 1.05,
+      transition: { duration: 0.2 },
+    },
+  };
 
   return (
-    <div className="w-full px-4 py-8">
-      <h2 className="text-2xl font-bold text-center mb-8">FEATURED PRODUCT</h2>
+    <section className="w-full mx-auto py-12">
+      <h2 className="text-4xl font-bold text-center mb-12">FEATURED PRODUCT</h2>
+      <div className="p-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 col-span-2 gap-8"
+          variants={container}
+          initial="hidden"
+          animate="show"
+        >
+          {products?.map((product) => (
+            <motion.div
+              onClick={() => handleProductClick(product._id)}
+              key={product._id}
+              variants={item}
+              className="group relative cursor-pointer"
+            >
+              <motion.div
+                whileHover="hover"
+                variants={imageVariants}
+                className="relative h-64 mb-4 bg-gray-100 rounded-lg overflow-hidden"
+              >
+                <Image
+                  src={product.images[0] || '/placeholder.svg'}
+                  alt={product.name}
+                  fill
+                  className="object-contain"
+                />
+              </motion.div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {/* Products Column */}
-        <div className="col-span-2 grid grid-cols-1 md:grid-cols-3 gap-6">
-          {currentProducts.map((product) => (
-            <div key={product.id} className="relative bg-white">
-              {product.onSale && (
-                <div className="absolute top-2 left-2 bg-blue-600 text-white text-xs px-3 py-1 rounded-full">
-                  Sale!
-                </div>
-              )}
-              <img
-                src={product.image || "/api/placeholder/200/200"}
-                alt={product.name}
-                className="w-full h-auto"
-              />
-              <div className="text-center p-4">
-                <h3 className="text-sm mb-2">{product.name}</h3>
-                <p className="text-sm mb-2">
-                  {product.onSale && (
-                    <span className="line-through text-gray-400 mr-2">
-                      ${product.regularPrice.toFixed(2)}
-                    </span>
-                  )}
-                  <span className="font-bold">
-                    ${product.salePrice.toFixed(2)}
-                  </span>
-                </p>
-                <button className="text-xs uppercase border border-gray-300 px-4 py-2 hover:bg-gray-100 transition-colors">
-                  {product.addToCartText}
-                </button>
+              <h3 className="text-lg font-semibold mb-2">{product.name}</h3>
+              <div className="flex items-center gap-2 mb-4">
+                <span className="text-gray-500 line-through">
+                  ${(product.price * 1.2).toFixed(2)}
+                </span>
+                <span className="text-xl font-bold">
+                  ${product.price.toFixed(2)}
+                </span>
               </div>
-            </div>
-          ))}
-        </div>
 
-        {/* Best Deals Column */}
-        <div className="bg-blue-600 text-white p-8 flex flex-col items-center justify-center">
-          <h3 className="text-3xl font-bold text-center mb-4">
-            BEST<br />PRODUCT<br />DEALS !
-          </h3>
-          <div className="w-16 h-1 bg-white mb-4"></div>
-          <p className="text-center text-sm mb-6">
-            Get a 20% Cashback when buying TWS Product From SoundPro Audio Technology.
+              <button
+                onClick={(e) => {
+                  e.stopPropagation(); // Prevent triggering the product click
+                  addToCart({
+                    _id: product._id,
+                    name: product.name,
+                    price: product.price,
+                    quantity: 1,
+                    image: product.images[0],
+                  });
+                }}
+                className="w-full bg-black text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors inline-block text-center"
+              >
+                ADD TO CART
+              </button>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.5 }}
+          className="bg-primary-black rounded-lg p-8 text-white flex flex-col items-center justify-center text-center h-full"
+        >
+          <h3 className="text-4xl font-bold mb-4">BEST PRODUCT DEALS!</h3>
+          <p className="mb-8">
+            Get a 20% Cashback when buying TWS Product From SoundPro Audio
+            Technology.
           </p>
-          <button className="border border-white px-6 py-2 text-sm hover:bg-white hover:text-blue-600 transition-colors">
+          <Link
+            href="/shop"
+            className="border-2 border-white text-white py-2 px-6 rounded-md hover:bg-white hover:text-blue-600 transition-colors inline-block"
+          >
             SHOP NOW
-          </button>
-        </div>
+          </Link>
+        </motion.div>
       </div>
 
-      {/* Pagination */}
-      <div className="flex justify-center gap-2 mt-8">
-        {[...Array(totalPages)].map((_, i) => (
+      <div className="flex justify-center gap-2 mt-12">
+        {[1, 2, 3].map((page) => (
           <button
-            key={i}
-            onClick={() => setCurrentPage(i + 1)}
-            className={`w-8 h-8 ${
-              currentPage === i + 1
-                ? 'bg-gray-800 text-white'
-                : 'text-gray-600 hover:bg-gray-100'
-            }`}
+            key={page}
+            className="w-10 h-10 border border-gray-200 rounded-md hover:bg-blue-600 hover:text-white transition-colors"
           >
-            {i + 1}
+            {page}
           </button>
         ))}
-        <button
-          onClick={() => setCurrentPage(currentPage < totalPages ? currentPage + 1 : currentPage)}
-          className="w-8 h-8 text-gray-600 hover:bg-gray-100"
-        >
+        <button className="w-10 h-10 border border-gray-200 rounded-md hover:bg-blue-600 hover:text-white transition-colors">
           →
         </button>
       </div>
-    </div>
+    </section>
   );
 };
 

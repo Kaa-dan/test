@@ -8,13 +8,13 @@ const AboutBanner = () => {
 
   return (
     <motion.div
-      className="bg-primary-black w-full min-h-screen relative overflow-hidden"
+      // className="bg-primary-black w-full min-h-screen relative overflow-hidden"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="max-w-[1440px] mx-auto px-6 sm:px-8 lg:px-16 py-10 lg:py-16">
-        <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+      <div className="bg-primary-black w-full relative overflow-hidden mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12">
           <motion.div
             className="w-full lg:w-1/2"
             initial={{ opacity: 0, x: -50 }}
