@@ -14,7 +14,7 @@ const Benefits = () => {
 
   return (
     <div className="bg-primary-white py-16 w-full h-full">
-      <div className="mx-auto px-6 max-w-7xl">
+      <div className="mx-auto px-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {benefits.map((benefit, index) => {
             const IconComponent =
@@ -23,16 +23,16 @@ const Benefits = () => {
             return (
               <div
                 key={index}
-                className="flex items-center space-x-4 p-4 bg-white shadow-md rounded-lg"
+                className="flex items-center space-x-4 p-4 bg-primary-white shadow-md rounded-lg"
               >
                 <div className="w-12 h-12 flex items-center justify-center text-primary-black">
                   {IconComponent && <IconComponent size={48} />}
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-primary-black">
+                  <h3 className="text-base font-bold text-primary-black cursor-default">
                     {benefit.title}
                   </h3>
-                  <p className="text-sm text-gray-500">{benefit.description}</p>
+                  <p className="text-sm text-gray-600 cursor-default">{benefit.description}</p>
                 </div>
               </div>
             );

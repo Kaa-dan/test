@@ -35,13 +35,22 @@ const Navbar = () => {
             </Link>
             {/* Social Media Links */}
             <div className="hidden lg:flex space-x-6">
-              <Link href="#" className="text-primary-white hover:text-gray-200">
+              <Link
+                href="#"
+                className="text-primary-white text-base hover:text-gray-200"
+              >
                 Facebook
               </Link>
-              <Link href="#" className="text-primary-white hover:text-gray-200">
+              <Link
+                href="#"
+                className="text-primary-white text-base hover:text-gray-200"
+              >
                 Twitter
               </Link>
-              <Link href="#" className="text-primary-white hover:text-gray-200">
+              <Link
+                href="#"
+                className="text-primary-white text-base hover:text-gray-200"
+              >
                 Instagram
               </Link>
             </div>
@@ -78,7 +87,7 @@ const Navbar = () => {
                   <Link
                     key={index}
                     href={link.href}
-                    className={`text-gray-700 hover:text-primary-orange transition-colors ${
+                    className={`text-base font-semibold text-primary-black hover:text-primary-orange transition-colors ${
                       link.href === "/" ? "" : ""
                     }`}
                   >
@@ -90,7 +99,7 @@ const Navbar = () => {
               <div className="flex items-center space-x-6">
                 <Link
                   href="/cart"
-                  className="text-gray-600 hover:text-primary-orange relative"
+                  className="text-primary-black text-base hover:text-primary-orange relative"
                 >
                   <svg
                     className="w-6 h-6"
@@ -120,13 +129,21 @@ const Navbar = () => {
       {isSidebarOpen && (
         <div className="fixed inset-0 z-50">
           <div
-            className="absolute inset-0 bg-black bg-opacity-50"
+            className="absolute inset-0 bg-primary-black bg-opacity-50"
             onClick={toggleSidebar}
           ></div>
           <div className="absolute left-0 top-0 h-full w-80 bg-primary-white text-primary-black">
             <div className="p-6">
               <div className="flex justify-between items-center mb-8">
-                <h2 className="text-2xl font-bold">Zap Store</h2>
+                <Link href="/">
+                  <Image
+                    src="/assets/logo.png"
+                    alt="Zap Store Logo"
+                    className="h-14 w-40 object-contain bg-primary-black rounded-lg"
+                    width={100}
+                    height={100}
+                  />
+                </Link>
                 <button
                   suppressHydrationWarning={true}
                   onClick={toggleSidebar}
@@ -153,7 +170,7 @@ const Navbar = () => {
                   <Link
                     key={index}
                     href={link.href}
-                    className="block text-lg text-primary-black hover:text-primary-orange"
+                    className="block text-base text-primary-black hover:text-primary-orange"
                     onClick={toggleSidebar}
                   >
                     {link.label}

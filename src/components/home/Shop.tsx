@@ -67,21 +67,25 @@ const Shop = () => {
           animate={isInView ? "visible" : "hidden"}
           variants={contentVariants}
         >
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-300">
+          <h1 className="cursor-default text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-300">
             {shop.title}
           </h1>
-          <h2 className="text-xl sm:text-2xl font-semibold mb-3 sm:mb-4 text-primary-orange">
+          <h2 className="cursor-default text-xl sm:text-2xl font-semibold mb-3 sm:mb-4 text-primary-orange">
             {shop.price}
           </h2>
-          <p className="text-sm sm:text-base leading-relaxed mb-6 sm:mb-8 text-primary-white">
+          <p className="cursor-default text-sm sm:text-base leading-relaxed mb-6 sm:mb-8 text-primary-white">
             {shop.description}
           </p>
           <motion.button
             suppressHydrationWarning={true}
             className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-primary-white text-primary-black font-semibold rounded-lg shadow-xl 
-                     hover:bg-primary-orange transform transition-all duration-300 text-sm sm:text-base"
+            hover:bg-primary-orange transform transition-all duration-300 text-sm sm:text-base"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
+            onClick={() => {
+              const section = document.getElementById(shop.ctaTargetId); // Use the ctaTargetId field
+              section?.scrollIntoView({ behavior: "smooth" });
+            }}
           >
             {shop.cta}
           </motion.button>

@@ -4,6 +4,7 @@ export interface Banner {
   heading: string;
   subHeading: string;
   buttonTxt: string;
+  buttonLink: string;
   image: string;
 }
 

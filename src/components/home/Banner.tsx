@@ -1,5 +1,4 @@
 "use client";
-
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
@@ -9,11 +8,7 @@ const Banner = () => {
   const [currentSlide, setCurrentSlide] = useState<number>(0);
 
   // Using the custom `useBanners` hook
-  const {
-    data: banners = [],
-    isLoading,
-    error,
-  } = useBanners();
+  const { data: banners = [], isLoading, error } = useBanners();
 
   // Auto-slide logic
   useEffect(() => {
@@ -30,9 +25,8 @@ const Banner = () => {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-[500px] bg-primary-black">
-      <div className="colorful-loader"></div>
-    </div>
-    
+        <div className="colorful-loader"></div>
+      </div>
     );
   }
 
@@ -40,7 +34,7 @@ const Banner = () => {
   if (error) {
     return (
       <div className="flex items-center justify-center h-[500px] bg-primary-black">
-        <div className="text-white">Error: {error.message}</div>
+        <div className="text-primary-white">Error: {error.message}</div>
       </div>
     );
   }
@@ -49,7 +43,7 @@ const Banner = () => {
   if (banners.length === 0) {
     return (
       <div className="flex items-center justify-center h-[500px] bg-primary-black">
-        <div className="text-white">No banners available</div>
+        <div className="text-primary-white">No banners available</div>
       </div>
     );
   }
@@ -74,7 +68,7 @@ const Banner = () => {
                 className="w-full lg:w-1/2 text-white"
               >
                 <motion.h1
-                  className="text-4xl sm:text-5xl md:text-6xl lg:text-[80px] font-bold leading-tight mb-4 lg:mb-6 tracking-wider"
+                  className="cursor-default text-4xl sm:text-5xl md:text-6xl lg:text-[80px] font-bold leading-tight mb-4 lg:mb-6 tracking-wider"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2, duration: 0.8 }}
@@ -83,7 +77,7 @@ const Banner = () => {
                 </motion.h1>
 
                 <motion.p
-                  className="mb-6 lg:mb-8 text-base sm:text-lg max-w-xl"
+                  className="cursor-default mb-6 lg:mb-8 text-base sm:text-lg max-w-xl"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4, duration: 0.8 }}
@@ -91,10 +85,13 @@ const Banner = () => {
                   {banners[currentSlide].subHeading}
                 </motion.p>
 
-                <motion.a
-                  // href={banners[currentSlide].buttonLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <motion.button
+                  onClick={() => {
+                    const section = document.getElementById(
+                      banners[currentSlide].buttonLink
+                    );
+                    section?.scrollIntoView({ behavior: "smooth" });
+                  }}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   className="w-full sm:w-auto bg-primary-orange text-primary-white font-semibold py-2 sm:py-3 px-8 sm:px-12 rounded-full shadow-lg uppercase relative overflow-hidden group"
@@ -102,7 +99,7 @@ const Banner = () => {
                   <span className="relative z-10">
                     {banners[currentSlide].buttonTxt}
                   </span>
-                </motion.a>
+                </motion.button>
               </motion.div>
             </AnimatePresence>
 

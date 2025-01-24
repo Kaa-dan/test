@@ -33,15 +33,13 @@ export default function ProductDetails({
   const product = initialProduct || fetchedProduct;
   const [addedToCartItem, setAddedToCartItem] = useState<boolean>(false);
 
-  const { addToCart, appliedCoupon } = useCart(); // Extract appliedCoupon from CartContext
-  // const { data: coupons = [] } = useCoupons();
+  const { addToCart, appliedCoupon } = useCart();
 
   const [finalPrice, setFinalPrice] = useState<number>(0);
 
   useEffect(() => {
     if (!product) return;
 
-    // Calculate price after discount if coupon is applied
     let price = product.discountPrice * quantity;
     if (appliedCoupon) {
       const discount = (price * appliedCoupon.percentage) / 100;
@@ -82,10 +80,10 @@ export default function ProductDetails({
   return (
     <div className="container mx-auto px-4 py-8">
       {/* Product Overview Section */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
         {/* Image Gallery */}
         <div className="space-y-4">
-          <div className="relative h-[500px] rounded-lg overflow-hidden ">
+          <div className="relative h-64 md:h-96 lg:h-[500px] rounded-lg overflow-hidden">
             <Image
               src={product.images[selectedImage]}
               alt={product.name}
@@ -95,12 +93,12 @@ export default function ProductDetails({
               priority
             />
           </div>
-          <div className="grid grid-cols-4 gap-4">
+          <div className="grid grid-cols-4 gap-2 sm:gap-4">
             {product.images.map((image, index) => (
               <button
                 key={index}
                 onClick={() => setSelectedImage(index)}
-                className={`relative h-24 rounded-md overflow-hidden border-2 ${
+                className={`relative h-20 md:h-24 lg:h-28 rounded-md overflow-hidden border-2 ${
                   selectedImage === index
                     ? "border-primary-orange"
                     : "border-transparent"
@@ -120,27 +118,24 @@ export default function ProductDetails({
 
         {/* Product Info */}
         <div className="space-y-6">
-          <h1 className="text-3xl font-bold">{product.name}</h1>
+          <h1 className="text-2xl md:text-3xl font-bold">{product.name}</h1>
 
-          <p className="text-gray-600">{product.description}</p>
+          <p className="text-gray-600 text-sm md:text-base">
+            {product.description}
+          </p>
 
-          {/* Price Section: Show both Discounted and Original Price */}
+          {/* Price Section */}
           <div className="space-y-2">
-            {/* Show the Original Price */}
-            {product.discountPrice &&
-            product.discountPrice < product.basePrice ? (
-              <div className="text-xl text-gray-500 line-through">
-                ${product.basePrice.toFixed(2)} {/* Original Price */}
+            {product.discountPrice && product.discountPrice < product.basePrice && (
+              <div className="text-lg md:text-xl text-gray-500 line-through">
+                ${product.basePrice.toFixed(2)}
               </div>
-            ) : null}{" "}
-            {/* Only show original price if there's a discount */}
-            {/* Show the Base Price or Final Price */}
-            <div className="text-3xl font-bold">
+            )}
+            <div className="text-xl md:text-3xl font-bold">
               $
               {product.discountPrice
                 ? (product.basePrice - product.discountPrice).toFixed(2)
-                : product.basePrice.toFixed(2)}{" "}
-              {/* Show final price after applying discount or base price if no discount */}
+                : product.basePrice.toFixed(2)}
             </div>
           </div>
 
@@ -197,7 +192,7 @@ export default function ProductDetails({
           </button>
 
           {/* Features */}
-          <div className="grid grid-cols-2 gap-4 pt-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-6">
             <div className="flex items-center space-x-3">
               <Truck className="w-6 h-6 text-gray-600" />
               <div>
@@ -225,10 +220,10 @@ export default function ProductDetails({
 
       {/* Product Details Tabs */}
       <Tab.Group>
-        <Tab.List className="flex space-x-4 border-b">
+        <Tab.List className="flex space-x-2 sm:space-x-4 border-b overflow-x-auto">
           <Tab
             className={({ selected }) =>
-              `py-4 px-6 text-sm font-medium focus:outline-none ${
+              `py-2 px-4 sm:py-4 sm:px-6 text-sm font-medium focus:outline-none ${
                 selected
                   ? "text-primary-orange border-b-2 border-primary-orange"
                   : "text-gray-500 hover:text-gray-700"
@@ -239,7 +234,7 @@ export default function ProductDetails({
           </Tab>
           <Tab
             className={({ selected }) =>
-              `py-4 px-6 text-sm font-medium focus:outline-none ${
+              `py-2 px-4 sm:py-4 sm:px-6 text-sm font-medium focus:outline-none ${
                 selected
                   ? "text-primary-orange border-b-2 border-primary-orange"
                   : "text-gray-500 hover:text-gray-700"
@@ -251,7 +246,9 @@ export default function ProductDetails({
         </Tab.List>
         <Tab.Panels className="mt-6">
           <Tab.Panel>
-            <div className="space-y-6">{product.description}</div>
+            <div className="space-y-6 text-sm md:text-base">
+              {product.description}
+            </div>
           </Tab.Panel>
 
           <Tab.Panel>

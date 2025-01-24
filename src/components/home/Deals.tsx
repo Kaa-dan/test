@@ -117,7 +117,7 @@ const Deals: FC = () => {
         />
       </div>
 
-      <h3 className="text-lg font-semibold mb-2">{product.name}</h3>
+      <h3 className="text-lg font-semibold mb-2 text-primary-black">{product.name}</h3>
 
       <div className="flex items-center gap-2 mb-4">
         <span className="text-primary-black line-through">
@@ -129,7 +129,7 @@ const Deals: FC = () => {
       </div>
 
       <button
-        className="w-full relative bg-primary-black text-primary-white py-2 rounded-md hover:bg-primary-black/80 transition-colors"
+        className="w-full relative bg-primary-black text-primary-white py-2 rounded-md hover:bg-primary-orange transition-colors"
         onClick={(e) => {
           e.stopPropagation();
           const priceToAdd = product.discountPrice
@@ -179,7 +179,7 @@ const Deals: FC = () => {
 
   return (
     <div className="mx-auto px-4 py-12">
-      <h1 className="text-4xl font-bold text-center mb-12">Hot Deals</h1>
+      <h1 className="cursor-default text-4xl font-bold text-center mb-12">HOT DEALS</h1>
 
       {isMobile ? (
         <div className="relative flex items-center justify-center">

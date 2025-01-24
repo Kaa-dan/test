@@ -27,12 +27,14 @@
       "title": "NEW YEAR SALE",
       "description": "GET AN EXTRA 50% OFF",
       "cta": "SHOP NOW",
+      "ctaTargetId": "deals",
       "image": "/assets/home/offer1.png"
     },
     {
       "title": "BIRTHDAY SALE",
       "description": "30% DISCOUNT ON SPEAKER",
       "cta": "VIEW COLLECTION",
+      "ctaTargetId": "category",
       "image": "/assets/home/offer2.png"
     }
   ],
@@ -42,6 +44,7 @@
     "price": "START FROM $20.99",
     "description": "New Release Wireless Headphone from SoundPro Sound Technology. Using Bluetooth 5.0, Noise Canceling and APTX Technology to make a good experience when listening to music.",
     "cta": "SHOP HERE",
+    "ctaTargetId": "category",
     "backgroundImage": "/assets/home/shop1.jpg",
     "productImage": "/assets/home/shop2.png"
   },

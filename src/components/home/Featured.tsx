@@ -6,8 +6,11 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useCart } from "@/components/contexts/CardContext";
 import { ShoppingCartIcon } from "lucide-react";
+import en from "../../locals/en.json";
 
 const Featured = () => {
+  const { shop } = en;
+
   const { data: products, isLoading, error } = useFeaturedProducts();
   const { addToCart } = useCart();
   const router = useRouter();
@@ -80,7 +83,7 @@ const Featured = () => {
 
   return (
     <section className="w-full mx-auto py-12 px-4">
-      <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
+      <h2 className="cursor-default text-3xl md:text-4xl font-bold text-center mb-12">
         FEATURED PRODUCTS
       </h2>
 
@@ -104,7 +107,7 @@ const Featured = () => {
                 {product.discountPrice &&
                   product.discountPrice > 0 &&
                   product.discountPrice < product.basePrice && (
-                    <div className="absolute top-2 right-2 z-10 bg-primary-orange text-white px-2 py-1 rounded-full text-xs">
+                    <div className="absolute top-2 right-2 z-10 bg-primary-orange text-primary-white px-3 py-1 rounded-full text-sm">
                       Sale!
                     </div>
                   )}
@@ -142,7 +145,7 @@ const Featured = () => {
 
               <button
                 onClick={() => handleAddToCart(product)}
-                className="w-full relative bg-primary-black text-primary-white py-2 rounded-md hover:bg-primary-black/80 transition-colors"
+                className="w-full relative bg-primary-black text-primary-white py-2 rounded-md hover:bg-primary-orange transition-colors"
               >
                 <AnimatePresence mode="wait">
                   {addedToCartItem === product._id ? (
@@ -177,10 +180,15 @@ const Featured = () => {
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.5 }}
-          className="hidden lg:flex bg-primary-black rounded-lg p-8 text-white flex-col items-center justify-center text-center h-full"
+          className="hidden lg:flex bg-primary-black rounded-lg p-8 text-primary-white flex-col items-center justify-center text-center h-full"
+          style={{
+            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${shop.backgroundImage})`,
+          }}
         >
-          <h3 className="text-3xl font-bold mb-4">BEST PRODUCT DEALS!</h3>
-          <p className="mb-8">
+          <h3 className="text-3xl font-bold mb-4 cursor-default">
+            BEST PRODUCT DEALS!
+          </h3>
+          <p className="mb-8 cursor-default">
             Get a 20% Cashback when buying TWS Product From SoundPro Audio
             Technology.
           </p>
@@ -195,8 +203,8 @@ const Featured = () => {
             onClick={() => setCurrentPage((prev) => prev - 1)}
             className={`text-sm px-4 py-2 rounded-md ${
               currentPage === 1
-                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                : "bg-primary-black text-white hover:bg-primary-black/80"
+                ? "bg-gray-300 text-gray-600 cursor-not-allowed"
+                : "bg-primary-black text-white hover:bg-primary-orange"
             }`}
           >
             Previous
@@ -209,8 +217,8 @@ const Featured = () => {
             onClick={() => setCurrentPage((prev) => prev + 1)}
             className={`text-sm px-4 py-2 rounded-md ${
               currentPage === totalPages
-                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                : "bg-primary-black text-white hover:bg-primary-black/80"
+                ? "bg-gray-300 text-gray-600 cursor-not-allowed"
+                : "bg-primary-black text-white hover:bg-primary-orange"
             }`}
           >
             Next

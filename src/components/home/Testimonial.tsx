@@ -34,7 +34,9 @@ const Testimonial: React.FC = () => {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-[300px] md:h-[600px] bg-gray-100">
-        <div className="text-gray-600">Loading...</div>
+        <div className="flex items-center justify-center h-[500px] bg-primary-black">
+          <div className="colorful-loader"></div>
+        </div>
       </div>
     );
   }
@@ -166,32 +168,32 @@ const TestimonialItem: React.FC<TestimonialItemProps> = ({ testimonial }) => {
         {/* Content */}
         <div className="bg-primary-black p-4 md:p-6 text-primary-white w-full h-full">
           {/* Quote Open */}
-          <div className="text-3xl md:text-4xl font-serif text-primary-white leading-none mb-2">
-            "
+          <div className="cursor-default text-3xl md:text-4xl font-serif text-primary-white leading-none mb-2">
+            &quot;
           </div>
 
           {/* Message */}
-          <p className="text-primary-white text-center text-xs md:text-sm mb-2 md:mb-4">
+          <p className="cursor-default text-primary-white text-center text-xs md:text-sm mb-2 md:mb-4">
             {testimonial.message}
           </p>
 
           {/* Quote Close */}
-          <div className="text-3xl md:text-4xl font-serif text-primary-white leading-none text-right -mt-2">
-            "
+          <div className="cursor-default text-3xl md:text-4xl font-serif text-primary-white leading-none text-right -mt-2">
+            &quot;
           </div>
 
           {/* Name and Role */}
           <div className="text-center mt-4">
-            <h3 className="font-bold uppercase tracking-wider text-primary-orange text-xs md:text-sm">
+            <h3 className="cursor-default font-bold uppercase tracking-wider text-primary-orange text-xs md:text-sm">
               {testimonial.name}
             </h3>
-            <p className="text-[10px] md:text-xs text-primary-white mt-1">
+            <p className="cursor-default text-[10px] md:text-xs text-primary-white mt-1">
               {testimonial.role}
             </p>
           </div>
 
           {/* Stars */}
-          <div className="flex justify-center mt-2">
+          <div className="cursor-default flex justify-center mt-2">
             {[...Array(5)].map((_, i) => (
               <Star
                 key={i}

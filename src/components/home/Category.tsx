@@ -46,8 +46,8 @@ const Category: React.FC = () => {
   if (loading) {
     return (
       <div className="py-16 flex justify-center items-center">
-        <div className="text-xl font-semibold text-gray-600">
-          Loading categories...
+        <div className="flex items-center justify-center h-[500px] bg-primary-black">
+          <div className="colorful-loader"></div>
         </div>
       </div>
     );
@@ -65,17 +65,17 @@ const Category: React.FC = () => {
 
   return (
     <section className="py-16 bg-[#fafafa]">
-      <div className="max-w-[1440px] mx-auto px-4">
+      <div className="mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <h2 className="cursor-default text-3xl md:text-4xl font-bold text-primary-black mb-4">
             Explore Our Collections
           </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
+          <p className="cursor-default text-gray-600 mx-auto">
             Discover our carefully curated categories, each offering unique
             pieces that blend style with functionality.
           </p>
@@ -114,11 +114,11 @@ const Category: React.FC = () => {
             >
               <motion.div
                 whileHover={{ scale: 1.02, transition: { duration: 0.3 } }}
-                className="group bg-white rounded-2xl p-8 h-full transition-all hover:shadow-lg cursor-pointer"
+                className="group bg-primary-white rounded-2xl p-8 h-full transition-all hover:shadow-lg cursor-pointer"
                 onClick={() => handleCategoryClick(category)}
               >
                 <div className="flex flex-col h-full">
-                  <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
+                  <h2 className="text-xl sm:text-2xl font-bold text-primary-black mb-2">
                     {category.name}
                   </h2>
                   <motion.div
@@ -139,7 +139,7 @@ const Category: React.FC = () => {
                   <motion.div
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="flex gap-3 mt-6 text-sm font-medium text-gray-900 pb-1 hover:text-gray-700 hover:border-gray-700 transition-colors"
+                    className="flex gap-3 mt-6 text-sm font-medium text-primary-black pb-1 hover:text-primary-orange hover:border-gray-700 transition-colors"
                   >
                     DISCOVER NOW <FaArrowRight className="mt-1" />
                   </motion.div>

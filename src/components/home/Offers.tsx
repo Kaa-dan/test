@@ -15,15 +15,20 @@ const Offers = () => {
             className="bg-gray-100 p-6 rounded-lg flex justify-between items-start w-[500px] shadow-md"
           >
             <div className="flex flex-col items-start">
-              <h4 className="text-sm font-medium text-primary-orange">
+              <h4 className="cursor-default text-sm font-medium text-primary-orange">
                 {offer.title}
               </h4>
-              <h2 className="text-2xl font-bold text-black my-3">
+              <h2 className="cursor-default text-2xl font-bold text-primary-black my-3">
                 {offer.description}
               </h2>
-              <button 
-            suppressHydrationWarning={true}
-            className="text-sm font-medium text-gray-600 underline mb-4 hover:text-primary-orange">
+              <button
+                suppressHydrationWarning={true}
+                className="text-sm text-gray-600 font-semibold underline mb-4 hover:text-primary-orange"
+                onClick={() => {
+                  const section = document.getElementById(offer.ctaTargetId); // Use the ctaTargetId field
+                  section?.scrollIntoView({ behavior: "smooth" });
+                }}
+              >
                 {offer.cta}
               </button>
             </div>
