@@ -4,8 +4,9 @@ import Image from "next/image";
 import { useProduct } from "@/components/hooks/product-hooks";
 import { useCart } from "@/components/contexts/CardContext";
 import { Tab } from "@headlessui/react";
-import { Star, Truck, Shield, RefreshCw } from "lucide-react";
-import { useCoupons } from "@/components/hooks/product-hooks"; // Import useCoupons hook
+import { Truck, Shield, RefreshCw, ShoppingCartIcon } from "lucide-react";
+import ProductReviews from "./ProductReviews";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface Product {
   _id: string;
@@ -30,9 +31,10 @@ export default function ProductDetails({
   const [quantity, setQuantity] = useState(1);
   const { data: fetchedProduct, isLoading } = useProduct(productId || "");
   const product = initialProduct || fetchedProduct;
+  const [addedToCartItem, setAddedToCartItem] = useState<boolean>(false);
 
   const { addToCart, appliedCoupon } = useCart(); // Extract appliedCoupon from CartContext
-  const { data: coupons = [] } = useCoupons(); // Fetch available coupons
+  // const { data: coupons = [] } = useCoupons();
 
   const [finalPrice, setFinalPrice] = useState<number>(0);
 
@@ -62,6 +64,11 @@ export default function ProductDetails({
       quantity,
       image: product.images[0],
     });
+
+    setAddedToCartItem(true);
+    setTimeout(() => {
+      setAddedToCartItem(false);
+    }, 2000);
   };
 
   if (isLoading || !product) {
@@ -169,7 +176,24 @@ export default function ProductDetails({
             onClick={handleAddToCart}
             className="w-full bg-primary-orange text-white py-4 rounded-md hover:bg-primary-orange/90 transition-colors"
           >
-            Add to Cart
+            <AnimatePresence mode="wait">
+              {addedToCartItem ? (
+                <motion.span
+                  key="added"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="block text-sm"
+                >
+                  Added
+                </motion.span>
+              ) : (
+                <span className="flex items-center justify-center">
+                  <ShoppingCartIcon className="h-5 w-5 mr-2" />
+                  Add to Cart
+                </span>
+              )}
+            </AnimatePresence>
           </button>
 
           {/* Features */}
@@ -211,7 +235,7 @@ export default function ProductDetails({
               }`
             }
           >
-            Specifications
+            Description
           </Tab>
           <Tab
             className={({ selected }) =>
@@ -227,30 +251,12 @@ export default function ProductDetails({
         </Tab.List>
         <Tab.Panels className="mt-6">
           <Tab.Panel>
+            <div className="space-y-6">{product.description}</div>
+          </Tab.Panel>
+
+          <Tab.Panel>
             <div className="space-y-6">
-              {/* Sample Reviews - Replace with actual reviews data */}
-              {[1, 2, 3].map((review) => (
-                <div key={review} className="border-b pb-6">
-                  <div className="flex items-center mb-2">
-                    <div className="flex items-center">
-                      {[...Array(5)].map((_, i) => (
-                        <Star
-                          key={i}
-                          className="w-4 h-4 text-yellow-400 fill-current"
-                        />
-                      ))}
-                    </div>
-                    <span className="ml-2 text-sm text-gray-500">
-                      1 month ago
-                    </span>
-                  </div>
-                  <h4 className="font-medium">John Doe</h4>
-                  <p className="text-gray-600 mt-2">
-                    Great product! Exactly what I was looking for. The quality
-                    is excellent and it arrived quickly.
-                  </p>
-                </div>
-              ))}
+              <ProductReviews productId={product._id} />
             </div>
           </Tab.Panel>
         </Tab.Panels>

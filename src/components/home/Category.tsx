@@ -6,13 +6,6 @@ import { useRouter } from "next/navigation";
 import { FaArrowRight } from "react-icons/fa";
 import axios from "axios";
 
-// Utility function to slugify the category name
-const slugify = (text: string): string =>
-  text
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-") // Replace spaces and non-alphanumeric characters with "-"
-    .replace(/^-+|-+$/g, ""); // Remove leading/trailing hyphens
-
 interface Category {
   _id: string;
   name: string;
@@ -84,7 +77,7 @@ const Category: React.FC = () => {
           </h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
             Discover our carefully curated categories, each offering unique
-            pieces that blend style with functionality
+            pieces that blend style with functionality.
           </p>
         </motion.div>
 
@@ -100,7 +93,7 @@ const Category: React.FC = () => {
           }}
           initial="hidden"
           animate="visible"
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
         >
           {categories.map((category, index) => (
             <motion.div
@@ -115,8 +108,8 @@ const Category: React.FC = () => {
               }}
               className={`${
                 index === 0
-                  ? "lg:col-span-6 lg:row-span-2"
-                  : "lg:col-span-3 lg:row-span-1"
+                  ? "lg:col-span-2 lg:row-span-2"
+                  : "lg:col-span-1 lg:row-span-1"
               }`}
             >
               <motion.div
@@ -125,7 +118,7 @@ const Category: React.FC = () => {
                 onClick={() => handleCategoryClick(category)}
               >
                 <div className="flex flex-col h-full">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                  <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
                     {category.name}
                   </h2>
                   <motion.div
@@ -139,7 +132,7 @@ const Category: React.FC = () => {
                       src={category.photo}
                       alt={category.name}
                       fill
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                       className="object-contain"
                     />
                   </motion.div>

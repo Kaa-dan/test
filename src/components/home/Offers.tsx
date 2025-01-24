@@ -7,8 +7,8 @@ const Offers = () => {
   const { offers } = en;
 
   return (
-    <div className="w-full h-full bg-primary-white py-10">
-      <div className="flex flex-wrap items-center justify-center gap-7 py-10">
+    <div className="w-full h-full bg-primary-white">
+      <div className="flex flex-wrap items-center justify-center gap-7 py-3 px-4">
         {offers.map((offer, index) => (
           <div
             key={index}

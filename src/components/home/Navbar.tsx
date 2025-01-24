@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useCart } from "@/components/contexts/CardContext";
+import Image from "next/image";
 
 const Navbar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -24,10 +25,12 @@ const Navbar = () => {
         <div className="mx-auto px-6">
           <div className="flex justify-between items-center">
             <Link href="/">
-              <img
+              <Image
                 src="/assets/logo.png"
                 alt="Zap Store Logo"
                 className="h-14 w-40 object-contain"
+                width={100}
+                height={100}
               />
             </Link>
             {/* Social Media Links */}
@@ -85,24 +88,6 @@ const Navbar = () => {
               </div>
 
               <div className="flex items-center space-x-6">
-                <button
-                  suppressHydrationWarning={true}
-                  className="text-gray-600 hover:text-primary-orange"
-                >
-                  <svg
-                    className="w-6 h-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                    />
-                  </svg>
-                </button>
                 <Link
                   href="/cart"
                   className="text-gray-600 hover:text-primary-orange relative"

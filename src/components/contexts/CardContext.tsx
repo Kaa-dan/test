@@ -33,7 +33,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [error, setError] = useState<string | null>(null);
 
   // Fetch available coupons using the useCoupons hook
-  const { data: coupons = [], error: fetchCouponError } = useCoupons();
+  const { data: coupons = [],  } = useCoupons();
 
   useEffect(() => {
     const savedCart = localStorage.getItem("cart");

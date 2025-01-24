@@ -1,8 +1,6 @@
 "use client";
 import en from "../../locals/en.json";
-import { MdPayment, MdAttachMoney, MdSupport } from "react-icons/md";
-
-import { MdLocalShipping } from "react-icons/md";
+import { MdPayment, MdAttachMoney, MdSupport, MdLocalShipping } from "react-icons/md";
 
 const Benefits = () => {
   const iconMapping = {
@@ -16,8 +14,8 @@ const Benefits = () => {
 
   return (
     <div className="bg-primary-white py-16 w-full h-full">
-      <div className="mx-auto px-6">
-        <div className="flex flex-wrap justify-evenly gap-8">
+      <div className="mx-auto px-6 max-w-7xl">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {benefits.map((benefit, index) => {
             const IconComponent =
               iconMapping[benefit.icon as keyof typeof iconMapping];
@@ -25,14 +23,13 @@ const Benefits = () => {
             return (
               <div
                 key={index}
-                className="flex items-center space-x-4 border-r border-gray-300 pr-8 last:border-r-0"
+                className="flex items-center space-x-4 p-4 bg-white shadow-md rounded-lg"
               >
-                <div className="w-12 h-12 flex items-center justify-center text-black">
+                <div className="w-12 h-12 flex items-center justify-center text-primary-black">
                   {IconComponent && <IconComponent size={48} />}
                 </div>
-
                 <div>
-                  <h3 className="text-lg font-bold text-black">
+                  <h3 className="text-lg font-bold text-primary-black">
                     {benefit.title}
                   </h3>
                   <p className="text-sm text-gray-500">{benefit.description}</p>

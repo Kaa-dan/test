@@ -3,6 +3,9 @@ import { useProducts } from "@/components/hooks/product-hooks";
 import { useCart } from "@/components/contexts/CardContext";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ShoppingCartIcon } from "lucide-react";
 
 interface Product {
   _id: string;
@@ -25,6 +28,7 @@ export default function ProductList({
 }: ProductListProps) {
   const { data: fetchedProducts, isLoading, error } = useProducts();
   const { addToCart } = useCart();
+  const [addedToCartItem, setAddedToCartItem] = useState<string | null>(null);
 
   const products = initialProducts || fetchedProducts;
 
@@ -95,10 +99,32 @@ export default function ProductList({
                   quantity: 1,
                   image: product.images[0],
                 });
+
+                setAddedToCartItem(product._id);
+                setTimeout(() => {
+                  setAddedToCartItem(null);
+                }, 2000);
               }}
               className="w-full bg-primary-black text-primary-white py-2 rounded-md hover:bg-primary-black/80 transition-colors"
             >
-              ADD TO CART
+              <AnimatePresence mode="wait">
+                {addedToCartItem === product._id ? (
+                  <motion.span
+                    key="added"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    className="block text-sm"
+                  >
+                    Added
+                  </motion.span>
+                ) : (
+                  <span className="text-sm flex items-center justify-center">
+                    <ShoppingCartIcon className="h-5 w-5 mr-2" />
+                    ADD TO CART
+                  </span>
+                )}
+              </AnimatePresence>
             </button>
           </div>
         </div>
