@@ -1,37 +1,34 @@
-import type { Metadata } from "next";
+import { Providers } from "./providers";
 import "./globals.css";
-import Footer from "@/components/home/Footer";
 import Navbar from "@/components/home/Navbar";
+import Footer from "@/components/home/Footer";
 
-export const metadata: Metadata = {
-  title: "TECHYFI",
-  description: "Learn more about Techyfi",
+export const metadata = {
+  title: "ZAP STORE",
+  description: "Learn more about Zap Store",
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
       <head>
-        {/* <link
-          href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap"
-          rel="stylesheet"
-        /> */}
-
         <link
           href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap"
           rel="stylesheet"
         />
       </head>
       <body>
-        <div>
-          <Navbar />
-          <main>{children}</main>
-          <Footer />
-        </div>
+        <Providers>
+          <div className="min-h-screen">
+            <Navbar />
+            <main className="">{children}</main>
+            <Footer />
+          </div>
+        </Providers>
       </body>
     </html>
   );

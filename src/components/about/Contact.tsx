@@ -9,13 +9,13 @@ const Contact = () => {
       <h2 className="text-4xl font-bold mb-12 text-center">{store.title}</h2>
 
       <div className="grid md:grid-cols-2 gap-8">
-        <div className="bg-white rounded-lg shadow-md p-6">
+        <div className="bg-primary-white rounded-lg shadow-md p-6">
           <h3 className="text-2xl font-semibold mb-6">{store.locationTitle}</h3>
 
           <div className="space-y-6">
             <div>
               <h4 className="font-semibold mb-1">{store.name}</h4>
-              <p className="text-gray-600">{store.address}</p>
+              <p className="text-primary-black">{store.address}</p>
             </div>
 
             <div className="space-y-4">
@@ -60,25 +60,25 @@ const Contact = () => {
                 <div className="flex gap-6">
                   <a
                     href="#"
-                    className="text-gray-600 hover:text-blue-600 transition"
+                    className="text-primary-black hover:text-primary-orange transition"
                   >
                     <FaFacebookF className="w-6 h-6" />
                   </a>
                   <a
                     href="#"
-                    className="text-gray-600 hover:text-pink-600 transition"
+                    className="text-primary-black hover:text-primary-orange transition"
                   >
                     <FaInstagram className="w-6 h-6" />
                   </a>
                   <a
                     href="#"
-                    className="text-gray-600 hover:text-red-600 transition"
+                    className="text-primary-black hover:text-primary-orange transition"
                   >
                     <FaYoutube className="w-6 h-6" />
                   </a>
                   <a
                     href="#"
-                    className="text-gray-600 hover:text-blue-400 transition"
+                    className="text-primary-black hover:text-primary-orange transition"
                   >
                     <FaTwitter className="w-6 h-6" />
                   </a>
@@ -88,7 +88,7 @@ const Contact = () => {
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow-md overflow-hidden h-[400px]">
+        <div className="bg-primary-white rounded-lg shadow-md overflow-hidden h-[400px]">
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1234.5678!2d115.1234!3d-8.1234!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zM!5e0!3m2!1sen!2sid!4v1234567890"
             className="w-full h-full border-0"

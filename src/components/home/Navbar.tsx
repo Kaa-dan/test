@@ -1,9 +1,12 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
+import { useCart } from "@/components/contexts/CardContext";
+import Image from "next/image";
 
 const Navbar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const { cart } = useCart();
 
   const navLinks = [
     { href: "/", label: "HOME" },
@@ -13,23 +16,41 @@ const Navbar = () => {
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
-  console.log("ntihin");
+
+  const cartItemsCount = cart.reduce((total, item) => total + item.quantity, 0);
+
   return (
     <div className="w-full h-full z-50">
-      <div className="bg-primary-black w-full py-4">
+      <div className="bg-primary-black w-full py-2">
         <div className="mx-auto px-6">
           <div className="flex justify-between items-center">
-            <Link href="/" className="text-primary-white text-3xl font-bold">
-              TECHYFI
+            <Link href="/">
+              <Image
+                src="/assets/logo.png"
+                alt="Zap Store Logo"
+                className="h-14 w-40 object-contain"
+                width={100}
+                height={100}
+              />
             </Link>
+            {/* Social Media Links */}
             <div className="hidden lg:flex space-x-6">
-              <Link href="#" className="text-primary-white hover:text-gray-200">
+              <Link
+                href="#"
+                className="text-primary-white text-base hover:text-gray-200"
+              >
                 Facebook
               </Link>
-              <Link href="#" className="text-primary-white hover:text-gray-200">
+              <Link
+                href="#"
+                className="text-primary-white text-base hover:text-gray-200"
+              >
                 Twitter
               </Link>
-              <Link href="#" className="text-primary-white hover:text-gray-200">
+              <Link
+                href="#"
+                className="text-primary-white text-base hover:text-gray-200"
+              >
                 Instagram
               </Link>
             </div>
@@ -42,8 +63,7 @@ const Navbar = () => {
           <div className="px-8 py-4">
             <div className="flex justify-between items-center">
               <button
-            suppressHydrationWarning={true}
-
+                suppressHydrationWarning={true}
                 className="text-gray-600 hover:text-primary-orange lg:hidden"
                 onClick={toggleSidebar}
               >
@@ -63,11 +83,11 @@ const Navbar = () => {
               </button>
 
               <div className="hidden lg:flex items-center space-x-8">
-                {navLinks.slice(0, 3).map((link, index) => (
+                {navLinks.map((link, index) => (
                   <Link
                     key={index}
                     href={link.href}
-                    className={`text-gray-700 hover:text-primary-orange transition-colors ${
+                    className={`text-base font-semibold text-primary-black hover:text-primary-orange transition-colors ${
                       link.href === "/" ? "" : ""
                     }`}
                   >
@@ -77,28 +97,10 @@ const Navbar = () => {
               </div>
 
               <div className="flex items-center space-x-6">
-                <button 
-            suppressHydrationWarning={true}
-
-                className="text-gray-600 hover:text-primary-orange">
-                  <svg
-                    className="w-6 h-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                    />
-                  </svg>
-                </button>
-                <button 
-            suppressHydrationWarning={true}
-
-                className="text-gray-600 hover:text-primary-orange">
+                <Link
+                  href="/cart"
+                  className="text-primary-black text-base hover:text-primary-orange relative"
+                >
                   <svg
                     className="w-6 h-6"
                     fill="none"
@@ -112,7 +114,12 @@ const Navbar = () => {
                       d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
                     />
                   </svg>
-                </button>
+                  {cartItemsCount > 0 && (
+                    <span className="absolute -top-2 -right-2 bg-primary-orange text-primary-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
+                      {cartItemsCount}
+                    </span>
+                  )}
+                </Link>
               </div>
             </div>
           </div>
@@ -122,16 +129,26 @@ const Navbar = () => {
       {isSidebarOpen && (
         <div className="fixed inset-0 z-50">
           <div
-            className="absolute inset-0 bg-black bg-opacity-50"
+            className="absolute inset-0 bg-primary-black bg-opacity-50"
             onClick={toggleSidebar}
           ></div>
           <div className="absolute left-0 top-0 h-full w-80 bg-primary-white text-primary-black">
             <div className="p-6">
               <div className="flex justify-between items-center mb-8">
-                <h2 className="text-2xl font-bold">TECHYFI</h2>
-                <button 
-            suppressHydrationWarning={true}
-            onClick={toggleSidebar} className="text-primary-black">
+                <Link href="/">
+                  <Image
+                    src="/assets/logo.png"
+                    alt="Zap Store Logo"
+                    className="h-14 w-40 object-contain bg-primary-black rounded-lg"
+                    width={100}
+                    height={100}
+                  />
+                </Link>
+                <button
+                  suppressHydrationWarning={true}
+                  onClick={toggleSidebar}
+                  className="text-primary-black"
+                >
                   <svg
                     className="w-6 h-6"
                     fill="none"
@@ -153,7 +170,7 @@ const Navbar = () => {
                   <Link
                     key={index}
                     href={link.href}
-                    className="block text-lg text-primary-black hover:text-primary-orange"
+                    className="block text-base text-primary-black hover:text-primary-orange"
                     onClick={toggleSidebar}
                   >
                     {link.label}

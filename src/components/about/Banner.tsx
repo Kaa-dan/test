@@ -8,32 +8,25 @@ const AboutBanner = () => {
 
   return (
     <motion.div
-      className="bg-primary-black w-full min-h-screen relative overflow-hidden"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
+      className="relative"
     >
-      <div className="max-w-[1440px] mx-auto px-6 sm:px-8 lg:px-16 py-10 lg:py-16">
-        <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+      <div className="bg-primary-black w-full overflow-hidden px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
+        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between space-y-8 lg:space-y-0 lg:space-x-12">
           <motion.div
-            className="w-full lg:w-1/2"
+            className="w-full lg:w-1/2 text-center lg:text-left"
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-primary-white leading-tight mb-6">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-primary-white leading-tight mb-4 sm:mb-6">
               {aboutBanner.title}
             </h1>
-            <p className="text-lg sm:text-xl text-primary-white leading-relaxed mb-8">
+            <p className="text-sm sm:text-base md:text-lg text-primary-white leading-relaxed mb-6 sm:mb-8">
               {aboutBanner.description}
             </p>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-primary-orange text-primary-white font-semibold py-3 px-8 rounded-full shadow-lg uppercase transition-all"
-            >
-              {aboutBanner.buttonText}
-            </motion.button>
           </motion.div>
 
           <motion.div
@@ -42,13 +35,14 @@ const AboutBanner = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <div className="relative w-[280px] h-[280px] sm:w-[400px] sm:h-[400px] md:w-[500px] md:h-[500px] lg:w-[600px] lg:h-[500px]">
+            <div className="relative w-[250px] h-[250px] sm:w-[350px] sm:h-[350px] md:w-[450px] md:h-[450px] lg:w-[500px] lg:h-[500px]">
               <Image
                 src={aboutBanner.imageSrc}
                 alt={aboutBanner.title}
                 fill
                 className="object-contain rounded-xl shadow-lg"
                 priority
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
             </div>
           </motion.div>
@@ -56,7 +50,7 @@ const AboutBanner = () => {
       </div>
 
       <motion.div
-        className="absolute inset-0 z-[-1]"
+        className="fixed inset-0 -z-10"
         animate={{
           background: [
             "radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(240,240,240,1) 100%)",

@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useRef } from "react";
 import Image from "next/image";
 import { motion, useInView } from "framer-motion";
@@ -36,53 +35,57 @@ const Shop = () => {
   return (
     <div
       ref={ref}
-      className="w-full h-[600px] bg-cover bg-center py-16 px-6 flex items-center justify-center relative overflow-hidden"
+      className="w-full min-h-[600px] bg-cover bg-center py-16 px-4 sm:px-6 flex items-center justify-center relative overflow-hidden"
       style={{
         backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${shop.backgroundImage})`,
       }}
     >
-      <div className="flex flex-col lg:flex-row items-center gap-16 max-w-7xl w-full">
+      <div className="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-16 max-w-7xl w-full px-4">
         <motion.div
-          className="flex-shrink-0 relative"
+          className="flex-shrink-0 relative w-full max-w-xs sm:max-w-md lg:max-w-lg"
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
           whileHover="hover"
           variants={imageVariants}
         >
-          <div className="relative group">
+          <div className="relative group w-full">
             <Image
               src={shop.productImage}
               alt="Product Image"
+              layout="responsive"
               width={500}
               height={500}
               className="object-contain rounded-xl shadow-2xl"
               priority
             />
-            <div className="absolute inset-0  rounded-xl" />
           </div>
         </motion.div>
 
         <motion.div
-          className="text-center lg:text-left text-primary-white max-w-xl"
+          className="text-center lg:text-left text-primary-white max-w-xl w-full px-4"
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
           variants={contentVariants}
         >
-          <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-300">
+          <h1 className="cursor-default text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-300">
             {shop.title}
           </h1>
-          <h2 className="text-2xl font-semibold mb-4 text-primary-orange">
+          <h2 className="cursor-default text-xl sm:text-2xl font-semibold mb-3 sm:mb-4 text-primary-orange">
             {shop.price}
           </h2>
-          <p className="text-base leading-relaxed mb-8 text-primary-white">
+          <p className="cursor-default text-sm sm:text-base leading-relaxed mb-6 sm:mb-8 text-primary-white">
             {shop.description}
           </p>
           <motion.button
             suppressHydrationWarning={true}
-            className="px-8 py-4 bg-primary-white text-primary-black font-semibold rounded-lg shadow-xl 
-                     hover:bg-primary-orange transform transition-all duration-300"
+            className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-primary-white text-primary-black font-semibold rounded-lg shadow-xl 
+            hover:bg-primary-orange transform transition-all duration-300 text-sm sm:text-base"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
+            onClick={() => {
+              const section = document.getElementById(shop.ctaTargetId); // Use the ctaTargetId field
+              section?.scrollIntoView({ behavior: "smooth" });
+            }}
           >
             {shop.cta}
           </motion.button>
