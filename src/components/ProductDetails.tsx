@@ -114,7 +114,7 @@ export default function ProductDetails({
                   src={image}
                   alt={`${product.name} - View ${index + 1}`}
                   fill
-                  className="object-cover"
+                  className="object-contain"
                   sizes="(max-width: 768px) 25vw, 15vw"
                 />
               </button>

@@ -88,7 +88,7 @@ export default function CartPage() {
                   src={item.image || "/placeholder.svg"}
                   alt={item.name}
                   fill
-                  className="object-cover rounded-md"
+                  className="object-contain rounded-md"
                 />
               </div>
               <div className="flex flex-col md:flex-row md:items-center justify-between w-full">

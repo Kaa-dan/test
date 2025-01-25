@@ -8,6 +8,7 @@ import Featured from "@/components/home/Featured";
 import Offers from "@/components/home/Offers";
 import Shop from "@/components/home/Shop";
 import Testimonial from "@/components/home/Testimonial";
+import Logo from "@/components/home/Logo";
 
 export default function Home() {
   useEffect(() => {
@@ -31,6 +32,9 @@ export default function Home() {
       </div>
       <div id="featured">
         <Featured />
+      </div>
+      <div id="logo">
+        <Logo />
       </div>
       <div id="category">
         <Category />

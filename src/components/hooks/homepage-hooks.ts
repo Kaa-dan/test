@@ -24,6 +24,30 @@ export const useBanners = () => {
   });
 };
 
+interface Logo {
+  _id: string;
+  name: string;
+  image: string;
+}
+
+const fetchLogo = async (): Promise<Logo[]> => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/company-logos`
+  );
+  if (!response.ok) {
+    throw new Error("Failed to fetch logos");
+  }
+  return response.json();
+};
+
+export const useLogos = () => {
+  return useQuery({
+    queryKey: ["logos"],
+    queryFn: fetchLogo,
+    staleTime: 1000 * 60 * 30,
+  });
+};
+
 interface Testimonial {
   _id: string;
   name: string;
