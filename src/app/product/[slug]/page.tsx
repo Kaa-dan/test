@@ -12,11 +12,12 @@ interface Product {
   isActive: boolean;
   isAvailable: boolean;
   category: string;
+  slug: string;
 }
 
-async function getProduct(id: string): Promise<Product | undefined> {
+async function getProduct(slug: string): Promise<Product | undefined> {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/products/${id}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/api/products/get-by-slug/${slug}`,
     { next: { revalidate: 60 } }
   );
   if (!res.ok) return undefined;
@@ -26,12 +27,12 @@ async function getProduct(id: string): Promise<Product | undefined> {
 export default async function ProductPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ slug: string }>;
 }) {
   // Await params correctly
-  const { id } = await params;
-  
-  const product = await getProduct(id);
+  const { slug } = await params;
+  console.log({ slug });
+  const product = await getProduct(slug);
 
   if (!product) {
     notFound();

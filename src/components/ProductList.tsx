@@ -15,6 +15,11 @@ interface Product {
   discountPrice: number;
   images: string[];
   category: string;
+  createdAt?: string;
+  updatedAt?: string;
+  isActive: boolean;
+  isAvailable: boolean;
+  slug: string;
 }
 
 // Add props interface
@@ -26,7 +31,7 @@ interface ProductListProps {
 export default function ProductList({
   products: initialProducts,
 }: ProductListProps) {
-  const { data: fetchedProducts, isLoading, error } = useProducts();
+  const { data: fetchedProducts, isLoading } = useProducts();
   const { addToCart } = useCart();
   const [addedToCartItem, setAddedToCartItem] = useState<string | null>(null);
 
@@ -54,7 +59,7 @@ export default function ProductList({
             key={product._id}
             className="border rounded-lg p-4 flex flex-col hover:shadow-lg transition-shadow"
           >
-            <Link href={`/product/${product._id}`}>
+            <Link href={`/product/${product.slug}`}>
               <div className="relative h-48 mb-4">
                 <Image
                   src={product.images[0] || "/placeholder.svg"}

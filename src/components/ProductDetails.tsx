@@ -16,6 +16,7 @@ interface Product {
   discountPrice: number;
   images: string[];
   category: string;
+  slug: string;
 }
 
 interface ProductDetailsProps {
@@ -35,7 +36,6 @@ export default function ProductDetails({
 
   const { addToCart, appliedCoupon } = useCart();
 
-  const [finalPrice, setFinalPrice] = useState<number>(0);
 
   // Scroll to top on component mount
   useEffect(() => {
@@ -50,20 +50,19 @@ export default function ProductDetails({
       const discount = (price * appliedCoupon.percentage) / 100;
       price = price - discount;
     }
-    setFinalPrice(price);
   }, [product, quantity, appliedCoupon]);
 
   const handleAddToCart = () => {
     if (!product) return;
 
-    const finalPrice = product.discountPrice
+    const price = product.discountPrice
       ? product.basePrice - product.discountPrice
       : product.basePrice;
 
     addToCart({
       _id: product._id,
       name: product.name,
-      price: finalPrice,
+      price: price,
       quantity,
       image: product.images[0],
     });

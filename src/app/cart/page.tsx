@@ -4,6 +4,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "@/components/contexts/CardContext";
 
+interface CartItem {
+  _id: string;
+  name: string;
+  price: number;
+  quantity: number;
+  image: string;
+}
+
 export default function CartPage() {
   const {
     cart,
@@ -22,7 +30,7 @@ export default function CartPage() {
   const [couponCode, setCouponCode] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleQuantityChange = (item: any, newQuantity: number) => {
+  const handleQuantityChange = (item: CartItem, newQuantity: number) => {
     if (newQuantity === 0) {
       removeFromCart(item._id);
     } else {
@@ -51,7 +59,7 @@ export default function CartPage() {
           Your Cart is Empty
         </h1>
         <p className="text-primary-black mb-8">
-          It looks like you haven't added anything to your cart yet. Start
+          It looks like you haven&#39;t added anything to your cart yet. Start
           shopping to fill it up!
         </p>
         <Link

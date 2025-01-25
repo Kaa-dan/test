@@ -8,6 +8,16 @@ import { useCart } from "@/components/contexts/CardContext";
 import { ShoppingCartIcon } from "lucide-react";
 import en from "../../locals/en.json";
 
+interface Product {
+  _id: string;
+  name: string;
+  basePrice: number;
+  discountPrice?: number;
+  images: string[];
+  isAvailable: boolean;
+  slug: string;
+}
+
 const Featured = () => {
   const { shop } = en;
 
@@ -19,18 +29,18 @@ const Featured = () => {
   const [addedToCartItem, setAddedToCartItem] = useState<string | null>(null);
   const productsPerPage = 6;
 
-  const handleProductClick = (productId: string) => {
-    router.push(`/product/${productId}`);
+  const handleProductClick = (slug: string) => {
+    router.push(`/product/${slug}`);
   };
 
-  const handleAddToCart = (product: any) => {
+  const handleAddToCart = (product: Product) => {
     const priceToAdd =
       product.discountPrice &&
       product.discountPrice > 0 &&
       product.discountPrice < product.basePrice
         ? product.basePrice - product.discountPrice
         : product.basePrice;
-
+  
     addToCart({
       _id: product._id,
       name: product.name,
@@ -38,7 +48,7 @@ const Featured = () => {
       quantity: 1,
       image: product.images[0],
     });
-
+  
     setAddedToCartItem(product._id);
     setTimeout(() => setAddedToCartItem(null), 2000);
   };
@@ -103,7 +113,7 @@ const Featured = () => {
               className="shadow-lg p-3 rounded-lg relative group"
             >
               <div
-                onClick={() => handleProductClick(product._id)}
+                onClick={() => handleProductClick(product.slug)}
                 className="cursor-pointer"
               >
                 {product.discountPrice &&

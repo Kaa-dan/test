@@ -16,6 +16,7 @@ interface Product {
   isActive: boolean;
   isAvailable: boolean;
   category: string;
+  slug: string;
 }
 
 const Deals: FC = () => {
@@ -67,8 +68,8 @@ const Deals: FC = () => {
     fetchProducts();
   }, []);
 
-  const handleProductClick = (productId: string) => {
-    router.push(`/product/${productId}`);
+  const handleProductClick = (slug: string) => {
+    router.push(`/product/${slug}`);
   };
 
   const handleNext = () => {
@@ -101,7 +102,7 @@ const Deals: FC = () => {
     <div
       key={product._id}
       className="bg-primary-white rounded-lg shadow-lg p-6 relative cursor-pointer w-full"
-      onClick={() => handleProductClick(product._id)}
+      onClick={() => handleProductClick(product.slug)}
     >
       <div className="absolute top-4 right-4 z-10">
         <span className="bg-primary-orange text-primary-white px-3 py-1 rounded-full text-sm">

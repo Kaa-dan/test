@@ -12,13 +12,14 @@ interface Category {
   photo: string;
   createdAt: string;
   updatedAt: string;
+  slug: string;
 }
 
 const LargeScreenCategories: React.FC<{ categories: Category[] }> = ({ categories }) => {
   const router = useRouter();
 
   const handleCategoryClick = (category: Category): void => {
-    router.push(`/category/${category._id}`);
+    router.push(`/category/${category.slug}`);
   };
 
   return (
@@ -96,7 +97,7 @@ const SmallScreenCategories: React.FC<{ categories: Category[] }> = ({ categorie
   const router = useRouter();
 
   const handleCategoryClick = (category: Category): void => {
-    router.push(`/category/${category._id}`);
+    router.push(`/category/${category.slug}`);
   };
 
   return (
@@ -168,15 +169,20 @@ const Category: React.FC = () => {
           `${process.env.NEXT_PUBLIC_API_URL}/api/categories`
         );
         setCategories(response.data);
-      } catch (err) {
-        const error = err as any;
-        setError(error.response?.data?.message || "Failed to fetch categories");
+      } catch (err: unknown) {
+        const error = err as Error;
+        setError(
+          // Check if it's an axios error with a response
+          axios.isAxiosError(err) 
+            ? err.response?.data?.message 
+            : error.message || "Failed to fetch categories"
+        );
         console.error("Error fetching categories:", error);
       } finally {
         setLoading(false);
       }
     };
-
+  
     fetchCategories();
   }, []);
 
