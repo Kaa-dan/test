@@ -1,30 +1,9 @@
 {
-  "banners": [
-    {
-      "title": "SOUND-PRO\nTWS AIR1",
-      "description": "New Release Wireless Headphone from SoundPro Sound Technology. Using Bluetooth 5.0, Noise Canceling and APTX Technology to make a good experience when listening to music.",
-      "buttonText": "Shop Here",
-      "imageSrc": "/assets/home/banner1.png"
-    },
-    {
-      "title": "NEXT-GEN\nAUDIO X",
-      "description": "Experience the future of sound with Audio X. Featuring superior sound quality and cutting-edge design.",
-      "buttonText": "Explore More",
-      "imageSrc": "/assets/home/banner2.png"
-    },
-    {
-      "title": "NEXT-GEN\nAUDIO X",
-      "description": "Experience the future of sound with Audio X. Featuring superior sound quality and cutting-edge design.",
-      "buttonText": "Explore More",
-      "imageSrc": "/assets/home/banner1.png"
-    }
-  ],
-
   "benefits": [
     {
       "icon": "MdLocalShipping",
       "title": "FREE SHIPPING",
-      "description": "Orders Over $500"
+      "description": "Orders Over ₹500"
     },
     {
       "icon": "MdPayment",
@@ -48,88 +27,27 @@
       "title": "NEW YEAR SALE",
       "description": "GET AN EXTRA 50% OFF",
       "cta": "SHOP NOW",
+      "ctaTargetId": "deals",
       "image": "/assets/home/offer1.png"
     },
     {
       "title": "BIRTHDAY SALE",
       "description": "30% DISCOUNT ON SPEAKER",
       "cta": "VIEW COLLECTION",
+      "ctaTargetId": "category",
       "image": "/assets/home/offer2.png"
     }
   ],
 
   "shop": {
     "title": "ACTIVE NOISE CANCELING",
-    "price": "START FROM $20.99",
+    "price": "START FROM ₹20.99",
     "description": "New Release Wireless Headphone from SoundPro Sound Technology. Using Bluetooth 5.0, Noise Canceling and APTX Technology to make a good experience when listening to music.",
     "cta": "SHOP HERE",
+    "ctaTargetId": "category",
     "backgroundImage": "/assets/home/shop1.jpg",
     "productImage": "/assets/home/shop2.png"
   },
-
-  "testimonials": {
-    "title": "What Our Customers Say",
-    "reviews": [
-      {
-        "name": "John Doe",
-        "role": "Software Engineer",
-        "image": "/assets/home/testimonial1.jpg",
-        "quote": "This product has exceeded my expectations. The quality is amazing, and the service is outstanding!"
-      },
-      {
-        "name": "Jane Smith",
-        "role": "Designer",
-        "image": "/assets/home/testimonial1.jpg",
-        "quote": "Absolutely love this product! It’s been a game-changer for my workflow."
-      },
-      {
-        "name": "Michael Johnson",
-        "role": "Entrepreneur",
-        "image": "/assets/home/testimonial1.jpg",
-        "quote": "Great value for the price. Highly recommend to everyone!"
-      },
-      {
-        "name": "Michael Johnson",
-        "role": "Entrepreneur",
-        "image": "/assets/home/testimonial1.jpg",
-        "quote": "Great value for the price. Highly recommend to everyone!"
-      },
-      {
-        "name": "Michael Johnson",
-        "role": "Entrepreneur",
-        "image": "/assets/home/testimonial1.jpg",
-        "quote": "Great value for the price. Highly recommend to everyone!"
-      }
-    ]
-  },
-
-  "categories": [
-    {
-      "title": "Gaming Headset",
-      "image": "/assets/home/category1.png",
-      "link": "/gaming-headset"
-    },
-    {
-      "title": "TWS Earphone",
-      "image": "/assets/home/category2.png",
-      "link": "/tws-earphone"
-    },
-    {
-      "title": "TWS Headphone",
-      "image": "/assets/home/category3.png",
-      "link": "/tws-headphone"
-    },
-    {
-      "title": "Bluetooth Speaker",
-      "image": "/assets/home/category4.png",
-      "link": "/bluetooth-speaker"
-    },
-    {
-      "title": "TWS Earphone",
-      "image": "/assets/home/category2.png",
-      "link": "/tws-earphone"
-    }
-  ],
 
   "aboutBanner": {
     "title": "About Our Journey",
@@ -198,128 +116,13 @@
   "store": {
     "title": "Our Store",
     "locationTitle": "Visit Our Store",
-    "name": "TECHYFI STORE NUSA DUA",
+    "name": "ZAP STORE NUSA DUA",
     "address": "Jln. Nusa Dua, Bali 80361",
     "phone": "(+62) 2020-2020",
-    "email": "contact@techyfi.com",
+    "email": "contact@zapstore.com",
     "socialTitle": "Our Social Media",
     "bookingLabel": "Booking",
     "emailLabel": "Email",
     "viewMapLabel": "View larger map"
-  },
-
-  "deals": {
-    "title": "HOT DEALS TODAY",
-    "items": [
-      {
-        "id": 1,
-        "name": "Barda Headphone",
-        "originalPrice": 420.0,
-        "salePrice": 320.0,
-        "image": "/assets/home/deal1.png",
-        "slug": "barda-headphone"
-      },
-      {
-        "id": 2,
-        "name": "Airmax TWS Earphone",
-        "originalPrice": 300.0,
-        "salePrice": 140.0,
-        "image": "/assets/home/deal2.jpg",
-        "slug": "airmax-tws-earphone"
-      },
-      {
-        "id": 3,
-        "name": "TWS Headphone",
-        "originalPrice": 400.0,
-        "salePrice": 320.0,
-        "image": "/assets/home/deal3.jpg",
-        "slug": "tws-headphone"
-      },
-      {
-        "id": 4,
-        "name": "BlueDoo TWS Buds",
-        "originalPrice": 300.0,
-        "salePrice": 210.0,
-        "image": "/assets/home/deal4.jpg",
-        "slug": "bluedoo-tws-buds"
-      }
-    ]
-  },
-
-  "featured_products": {
-    "title": "Featured Products",
-    "products": [
-      {
-        "id": 1,
-        "name": "Barda Headphone",
-        "regularPrice": 420.0,
-        "salePrice": 320.0,
-        "image": "/products/barda-headphone.jpg",
-        "onSale": true,
-        "rating": 5,
-        "category": "headphones",
-        "addToCartText": "ADD TO CART"
-      },
-      {
-        "id": 2,
-        "name": "Airmax TWS Earphone",
-        "regularPrice": 300.0,
-        "salePrice": 140.0,
-        "image": "/products/airmax-tws.jpg",
-        "onSale": true,
-        "rating": 4,
-        "category": "earphones",
-        "addToCartText": "ADD TO CART"
-      },
-      {
-        "id": 3,
-        "name": "TWS Headphone",
-        "regularPrice": 400.0,
-        "salePrice": 320.0,
-        "image": "/products/tws-headphone.jpg",
-        "onSale": true,
-        "rating": 5,
-        "category": "headphones",
-        "addToCartText": "ADD TO CART"
-      },
-      {
-        "id": 4,
-        "name": "BlueDoo TWS Buds",
-        "regularPrice": 300.0,
-        "salePrice": 210.0,
-        "image": "/products/bluedoo-buds.jpg",
-        "onSale": true,
-        "rating": 4,
-        "category": "earphones",
-        "addToCartText": "ADD TO CART"
-      },
-      {
-        "id": 5,
-        "name": "Zoom BT Speaker",
-        "regularPrice": 250.0,
-        "salePrice": 250.0,
-        "image": "/products/zoom-speaker.jpg",
-        "onSale": false,
-        "rating": 5,
-        "category": "speakers",
-        "addToCartText": "ADD TO CART"
-      },
-      {
-        "id": 6,
-        "name": "Gaming BT Headphone",
-        "regularPrice": 270.0,
-        "salePrice": 270.0,
-        "image": "/products/gaming-headphone.jpg",
-        "onSale": false,
-        "rating": 5,
-        "category": "headphones",
-        "addToCartText": "ADD TO CART"
-      }
-    ],
-    "saleLabel": "Sale!",
-    "paginationLabels": {
-      "previous": "Previous",
-      "next": "Next"
-    }
   }
 }

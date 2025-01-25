@@ -1,113 +1,243 @@
-"use client"
-import React, { useState } from 'react';
-import enData from '../../locals/en.json';
+"use client";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useFeaturedProducts } from "@/components/hooks/product-hooks";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { useCart } from "@/components/contexts/CardContext";
+import { ShoppingCartIcon } from "lucide-react";
+import en from "../../locals/en.json";
 
 interface Product {
-  id: number;
+  _id: string;
   name: string;
-  regularPrice: number;
-  salePrice: number;
-  image: string;
-  onSale: boolean;
-  addToCartText: string;
+  basePrice: number;
+  discountPrice?: number;
+  images: string[];
+  isAvailable: boolean;
+  slug: string;
 }
 
-interface FeaturedProductsData {
-  title: string;
-  products: Product[];
-  saleLabel: string;
-}
+const Featured = () => {
+  const { shop } = en;
 
-const Featured: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const productsPerPage = 3;
+  const { data: products, isLoading, error } = useFeaturedProducts();
+  const { addToCart } = useCart();
+  const router = useRouter();
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [addedToCartItem, setAddedToCartItem] = useState<string | null>(null);
+  const productsPerPage = 6;
+
+  const handleProductClick = (slug: string) => {
+    router.push(`/product/${slug}`);
+  };
+
+  const handleAddToCart = (product: Product) => {
+    const priceToAdd =
+      product.discountPrice &&
+      product.discountPrice > 0 &&
+      product.discountPrice < product.basePrice
+        ? product.basePrice - product.discountPrice
+        : product.basePrice;
   
-  const { featured_products: data } = enData as { featured_products: FeaturedProductsData };
-  const { products } = data;
+    addToCart({
+      _id: product._id,
+      name: product.name,
+      price: priceToAdd,
+      quantity: 1,
+      image: product.images[0],
+    });
+  
+    setAddedToCartItem(product._id);
+    setTimeout(() => setAddedToCartItem(null), 2000);
+  };
 
-  // Calculate pagination
-  const indexOfLastProduct = currentPage * productsPerPage;
-  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
-  const totalPages = Math.ceil(products.length / productsPerPage);
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const item = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0 },
+  };
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center min-h-[600px]">
+        <div className="flex items-center justify-center h-[500px] bg-primary-black">
+          <div className="colorful-loader"></div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return <div>Error loading featured products</div>;
+  }
+
+  if (!products || products.length === 0) {
+    return <div>No featured products available</div>;
+  }
+
+  const availableProducts = products.filter((product) => product.isAvailable);
+  const totalPages = Math.ceil(availableProducts.length / productsPerPage);
+  const paginatedProducts = availableProducts.slice(
+    (currentPage - 1) * productsPerPage,
+    currentPage * productsPerPage
+  );
 
   return (
-    <div className="w-full px-4 py-8">
-      <h2 className="text-2xl font-bold text-center mb-8">FEATURED PRODUCT</h2>
+    <section className="w-full mx-auto py-12 px-4">
+      <h2 className="cursor-default text-3xl md:text-4xl font-bold text-center mb-12">
+        FEATURED PRODUCTS
+      </h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {/* Products Column */}
-        <div className="col-span-2 grid grid-cols-1 md:grid-cols-3 gap-6">
-          {currentProducts.map((product) => (
-            <div key={product.id} className="relative bg-white">
-              {product.onSale && (
-                <div className="absolute top-2 left-2 bg-blue-600 text-white text-xs px-3 py-1 rounded-full">
-                  Sale!
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 col-span-1 lg:col-span-2 gap-8"
+          variants={container}
+          initial="hidden"
+          animate="show"
+        >
+          {paginatedProducts?.map((product) => (
+            <motion.div
+              key={product._id}
+              variants={item}
+              className="shadow-lg p-3 rounded-lg relative group"
+            >
+              <div
+                onClick={() => handleProductClick(product.slug)}
+                className="cursor-pointer"
+              >
+                {product.discountPrice &&
+                  product.discountPrice > 0 &&
+                  product.discountPrice < product.basePrice && (
+                    <div className="absolute top-2 right-2 z-10 bg-primary-orange text-primary-white px-3 py-1 rounded-full text-sm">
+                      Sale!
+                    </div>
+                  )}
+
+                <div className="relative h-64 mb-4 rounded-lg overflow-hidden">
+                  <Image
+                    src={product.images[0] || "/placeholder.svg"}
+                    alt={product.name}
+                    fill
+                    className="object-contain"
+                  />
                 </div>
-              )}
-              <img
-                src={product.image || "/api/placeholder/200/200"}
-                alt={product.name}
-                className="w-full h-auto"
-              />
-              <div className="text-center p-4">
-                <h3 className="text-sm mb-2">{product.name}</h3>
-                <p className="text-sm mb-2">
-                  {product.onSale && (
-                    <span className="line-through text-gray-400 mr-2">
-                      ${product.regularPrice.toFixed(2)}
+
+                <h3 className="text-lg font-semibold mb-2">{product.name}</h3>
+                <div className="flex items-center gap-2 mb-4">
+                  {product.discountPrice &&
+                  product.discountPrice > 0 &&
+                  product.discountPrice < product.basePrice ? (
+                    <>
+                      <span className="text-primary-black line-through">
+                      ₹{product.basePrice.toFixed(2)}{" "}
+                      </span>
+                      <span className="text-primary-orange font-bold">
+                      ₹
+                        {(product.basePrice - product.discountPrice).toFixed(2)}
+                      </span>
+                    </>
+                  ) : (
+                    <span className="text-primary-orange font-bold">
+                      ₹{product.basePrice.toFixed(2)}
                     </span>
                   )}
-                  <span className="font-bold">
-                    ${product.salePrice.toFixed(2)}
-                  </span>
-                </p>
-                <button className="text-xs uppercase border border-gray-300 px-4 py-2 hover:bg-gray-100 transition-colors">
-                  {product.addToCartText}
-                </button>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
 
-        {/* Best Deals Column */}
-        <div className="bg-blue-600 text-white p-8 flex flex-col items-center justify-center">
-          <h3 className="text-3xl font-bold text-center mb-4">
-            BEST<br />PRODUCT<br />DEALS !
+              <button
+                onClick={() => handleAddToCart(product)}
+                className="w-full relative bg-primary-black text-primary-white py-2 rounded-md hover:bg-primary-orange transition-colors"
+              >
+                <AnimatePresence mode="wait">
+                  {addedToCartItem === product._id ? (
+                    <motion.span
+                      key="added"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      className="block text-sm"
+                    >
+                      Added
+                    </motion.span>
+                  ) : (
+                    <motion.span
+                      key="add-to-cart"
+                      initial={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      className="text-sm flex items-center justify-center"
+                    >
+                      <ShoppingCartIcon className="h-5 w-5 mr-2" />
+                      ADD TO CART
+                    </motion.span>
+                  )}
+                </AnimatePresence>
+              </button>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        {/* Responsive Sidebar - Hidden on smaller screens */}
+        <motion.div
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.5 }}
+          className="hidden lg:flex bg-primary-black rounded-lg p-8 text-primary-white flex-col items-center justify-center text-center h-full"
+          style={{
+            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${shop.backgroundImage})`,
+          }}
+        >
+          <h3 className="text-3xl font-bold mb-4 cursor-default">
+            BEST PRODUCT DEALS!
           </h3>
-          <div className="w-16 h-1 bg-white mb-4"></div>
-          <p className="text-center text-sm mb-6">
-            Get a 20% Cashback when buying TWS Product From SoundPro Audio Technology.
+          <p className="mb-8 cursor-default">
+            Get a 20% Cashback when buying TWS Product From SoundPro Audio
+            Technology.
           </p>
-          <button className="border border-white px-6 py-2 text-sm hover:bg-white hover:text-blue-600 transition-colors">
-            SHOP NOW
-          </button>
-        </div>
+        </motion.div>
       </div>
 
-      {/* Pagination */}
-      <div className="flex justify-center gap-2 mt-8">
-        {[...Array(totalPages)].map((_, i) => (
+      {/* Pagination with Progress Bar */}
+      <div className="mt-12 flex flex-col items-center">
+        <div className="flex items-center space-x-4">
           <button
-            key={i}
-            onClick={() => setCurrentPage(i + 1)}
-            className={`w-8 h-8 ${
-              currentPage === i + 1
-                ? 'bg-gray-800 text-white'
-                : 'text-gray-600 hover:bg-gray-100'
+            disabled={currentPage === 1}
+            onClick={() => setCurrentPage((prev) => prev - 1)}
+            className={`text-sm px-4 py-2 rounded-md ${
+              currentPage === 1
+                ? "bg-gray-300 text-gray-600 cursor-not-allowed"
+                : "bg-primary-black text-white hover:bg-primary-orange"
             }`}
           >
-            {i + 1}
+            Previous
           </button>
-        ))}
-        <button
-          onClick={() => setCurrentPage(currentPage < totalPages ? currentPage + 1 : currentPage)}
-          className="w-8 h-8 text-gray-600 hover:bg-gray-100"
-        >
-          →
-        </button>
+          <span className="text-sm font-medium">
+            Page {currentPage} of {totalPages}
+          </span>
+          <button
+            disabled={currentPage === totalPages}
+            onClick={() => setCurrentPage((prev) => prev + 1)}
+            className={`text-sm px-4 py-2 rounded-md ${
+              currentPage === totalPages
+                ? "bg-gray-300 text-gray-600 cursor-not-allowed"
+                : "bg-primary-black text-white hover:bg-primary-orange"
+            }`}
+          >
+            Next
+          </button>
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 

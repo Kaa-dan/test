@@ -2,21 +2,100 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+body {
+  width: 100%;
+  font-family: Mulish;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* Global styles for the loader */
+.colorful-loader {
+  width: 44.8px;
+  height: 44.8px;
+  border-radius: 50%;
+  background: radial-gradient(farthest-side, #100c08 94%, transparent),
+    radial-gradient(farthest-side, #ff7542 94%, transparent), #100c08;
+  background-position: center;
+  background-repeat: no-repeat;
+  animation: colorful-animation 1.5s infinite;
+}
+
+@keyframes colorful-animation {
+  0% {
+    background-size:
+      0 0,
+      0 0;
+  }
+
+  30%,
+  50% {
+    background-size:
+      0 0,
+      120% 120%;
+  }
+
+  80%,
+  100% {
+    background-size:
+      120% 120%,
+      120% 120%;
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  /* font-family: Oswald; */
-  font-family: Mulish;
+.masonry-layout {
+  column-gap: 30px;
+  column-count: 4;
+}
+
+.masonry-item1,
+.masonry-item2 {
+  break-inside: avoid;
+  margin-bottom: 1em;
+  background-color: #ffffff;
+  border-radius: 20px;
+  padding: 15px;
+  box-sizing: border-box;
+}
+
+.masonry-item3,
+.masonry-item4 {
+  break-inside: avoid;
+  margin-bottom: 1em;
+  background-color: #ffffff;
+  border-radius: 20px;
+  padding: 15px;
+  box-sizing: border-box;
+  grid-column: span 2;
+}
+
+.masonry-item5 {
+  break-inside: avoid;
+  margin-bottom: 1em;
+  background-color: #ffffff;
+  border-radius: 20px;
+  padding: 15px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 1200px) {
+  .masonry-layout {
+    column-count: 4;
+  }
+}
+
+@media (max-width: 992px) {
+  .masonry-layout {
+    column-count: 3;
+  }
+}
+
+@media (max-width: 768px) {
+  .masonry-layout {
+    column-count: 2;
+  }
+}
+
+@media (max-width: 576px) {
+  .masonry-layout {
+    column-count: 1;
+  }
 }

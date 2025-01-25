@@ -2,108 +2,99 @@ import Link from "next/link";
 import { FC } from "react";
 import { TbClockBitcoin, TbLocationDiscount } from "react-icons/tb";
 import { BiPhoneIncoming } from "react-icons/bi";
-import { IoSend } from "react-icons/io5";
+import Image from "next/image";
 
 const Footer: FC = () => {
   return (
-    <footer className="bg-primary-black text-primary-white py-16 px-4 md:px-8">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
-        <div className="space-y-4">
-          <h2 className="text-3xl font-bold">TECHYFI</h2>
-          <p className="text-primary-white">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit
-            tellus, luctus nec.
+    <footer className="bg-primary-black w-full text-primary-white py-16 px-4 md:px-8">
+      <div className="mx-auto flex flex-wrap justify-between gap-8">
+        {/* Brand Section */}
+        <div className="space-y-6 w-full sm:w-auto">
+          <Link href="/">
+            <div className="relative w-52 h-16 mx-auto md:mx-0">
+              <Image
+                src="/assets/logo.png"
+                alt="Zap Store Logo"
+                layout="fill"
+                objectFit="contain"
+                priority
+                className="rounded-md"
+              />
+            </div>
+          </Link>
+          <p className="cursor-default text-primary-white leading-relaxed text-center md:text-left">
+            Discover quality products at unbeatable prices. Your satisfaction is
+            our priority.
           </p>
-          <div className="space-y-2">
-            <p className="flex items-center gap-2">
-              <TbLocationDiscount className="w-5 h-5" />
-              Jln. Raya Nusa Dua, Bali 80361
-            </p>
-            <p className="flex items-center gap-2">
-              <TbClockBitcoin className="w-5 h-5" />
-              Sun - Sat : 9:00 AM - 20:00 PM
-            </p>
-            <p className="flex items-center gap-2">
-              <BiPhoneIncoming className="w-5 h-5" />
-              (+62)81 32 539 780
-            </p>
+
+          <div className="cursor-default space-y-4 text-sm text-primary-white">
+            <div className="flex items-center gap-3 justify-center md:justify-start">
+              <TbLocationDiscount className="w-6 h-6 text-primary-orange" />
+              <span>Jln. Raya Nusa Dua, Bali 80361</span>
+            </div>
+            <div className="flex items-center gap-3 justify-center md:justify-start">
+              <TbClockBitcoin className="w-6 h-6 text-primary-orange" />
+              <span>Sun - Sat: 9:00 AM - 8:00 PM</span>
+            </div>
+            <div className="flex items-center gap-3 justify-center md:justify-start">
+              <BiPhoneIncoming className="w-6 h-6 text-primary-orange" />
+              <span>(+62) 81 32 539 780</span>
+            </div>
           </div>
         </div>
 
-        <div>
-          <h3 className="text-xl font-semibold mb-4">OTHER PAGES</h3>
-          <nav className="space-y-2">
-            {["Home", "About Us"].map((item) => (
-              <Link
-                key={item}
-                href={`/${item.toLowerCase().replace(" ", "-")}`}
-                className="block text-primary-white hover:text-primary-orange transition-colors"
-              >
-                {item}
-              </Link>
-            ))}
-          </nav>
-        </div>
-
-        <div>
-          <h3 className="text-xl font-semibold mb-4">QUICK LINKS</h3>
-          <nav className="space-y-2">
-            {["Returns & refunds", "Order tracking", "Cart"].map((item) => (
-              <Link
-                key={item}
-                href={`/${item.toLowerCase().replace(" ", "-")}`}
-                className="block text-primary-white hover:text-primary-orange transition-colors"
-              >
-                {item}
-              </Link>
-            ))}
-          </nav>
-        </div>
-
-        <div>
-          <h3 className="text-xl font-semibold mb-4">NEWSLETTER</h3>
-          <p className="text-primary-white mb-4">
-            Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-            accusantium
-          </p>
-          <form className="flex">
-            <input
-              type="email"
-              placeholder="Your Email Address"
-              className="flex-1 px-4 py-2 rounded-l-md focus:outline-none text-primary-black"
-            />
-            <button
-              suppressHydrationWarning={true}
-              type="submit"
-              className="bg-primary-orange px-4 py-2 rounded-r-md transition-colors"
+        {/* Other Pages Section */}
+        <div className="space-y-4 w-full sm:w-auto">
+          <h3 className="cursor-default text-lg font-semibold text-primary-white text-center md:text-left">
+            Other Pages
+          </h3>
+          <nav className="space-y-2 text-center md:text-left">
+            <Link
+              href={"/"}
+              className="block hover:text-primary-orange transition-colors"
             >
-              <IoSend className="w-5 h-5" />
-            </button>
-          </form>
+              Home
+            </Link>
+            <Link
+              href={"/about"}
+              className="block hover:text-primary-orange transition-colors"
+            >
+              About Us
+            </Link>
+          </nav>
+        </div>
+
+        {/* Quick Links Section */}
+        <div className="space-y-4 w-full sm:w-auto">
+          <h3 className="cursor-default text-lg font-semibold text-primary-white text-center md:text-left">
+            Quick Links
+          </h3>
+          <nav className="space-y-2 text-center md:text-left">
+            {["Privacy", "Terms", "Help"].map((item) => (
+              <Link
+                key={item}
+                href={`/${item.toLowerCase().replace(" ", "-")}`}
+                className="block hover:text-primary-orange transition-colors"
+              >
+                {item}
+              </Link>
+            ))}
+          </nav>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto mt-12 pt-8 border-t border-gray-800">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-          <div className="flex items-center gap-4"></div>
-          <div className="flex gap-6">
+      {/* Bottom Bar */}
+      <div className="mt-12 pt-8 border-t border-gray-700">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-center">
+          <p className="cursor-default text-sm">
+            &copy; {new Date().getFullYear()} Zap Store. All rights reserved.
+          </p>
+          <div className="text-sm">
             <Link
-              href="/privacy"
-              className="text-primary-white hover:text-primary-orange"
+              href="https://zikrabyte.com/"
+              className="hover:text-primary-orange"
             >
-              Privacy
-            </Link>
-            <Link
-              href="/terms"
-              className="text-primary-white hover:text-primary-orange"
-            >
-              Terms
-            </Link>
-            <Link
-              href="/help"
-              className="text-primary-white hover:text-primary-orange"
-            >
-              Help
+              &copy; Developed By ZikraByte Solutions.
             </Link>
           </div>
         </div>
