@@ -87,15 +87,15 @@ export default function ProductList({
                 product.discountPrice < product.basePrice ? (
                   <>
                     <span className="text-primary-black line-through">
-                      ${product.basePrice.toFixed(2)}{" "}
+                    ₹{product.basePrice.toFixed(2)}{" "}
                     </span>
                     <span className="text-primary-orange font-bold">
-                      ${(product.basePrice - product.discountPrice).toFixed(2)}
+                    ₹{(product.basePrice - product.discountPrice).toFixed(2)}
                     </span>
                   </>
                 ) : (
                   <span className="text-primary-orange font-bold">
-                    ${product.basePrice.toFixed(2)}
+                    ₹{product.basePrice.toFixed(2)}
                   </span>
                 )}
               </div>

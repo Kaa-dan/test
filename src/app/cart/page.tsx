@@ -94,7 +94,7 @@ export default function CartPage() {
               <div className="flex flex-col md:flex-row md:items-center justify-between w-full">
                 <div>
                   <h2 className="text-lg font-semibold">{item.name}</h2>
-                  <p className="text-gray-600">${item.price.toFixed(2)}</p>
+                  <p className="text-gray-600">₹{item.price.toFixed(2)}</p>
                 </div>
                 <div className="flex items-center mt-2 md:mt-0 gap-2">
                   <button
@@ -123,7 +123,7 @@ export default function CartPage() {
                 </div>
               </div>
               <div className="text-lg font-semibold mt-2 md:mt-0">
-                ${(item.price * item.quantity).toFixed(2)}
+              ₹{(item.price * item.quantity).toFixed(2)}
               </div>
             </div>
           ))}

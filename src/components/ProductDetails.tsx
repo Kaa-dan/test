@@ -36,7 +36,6 @@ export default function ProductDetails({
 
   const { addToCart, appliedCoupon } = useCart();
 
-
   // Scroll to top on component mount
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -135,11 +134,11 @@ export default function ProductDetails({
             {product.discountPrice &&
               product.discountPrice < product.basePrice && (
                 <div className="text-lg md:text-xl text-gray-500 line-through">
-                  ${product.basePrice.toFixed(2)}
+                  ₹{product.basePrice.toFixed(2)}
                 </div>
               )}
             <div className="text-xl md:text-3xl font-bold">
-              $
+              ₹
               {product.discountPrice
                 ? (product.basePrice - product.discountPrice).toFixed(2)
                 : product.basePrice.toFixed(2)}
@@ -204,7 +203,7 @@ export default function ProductDetails({
               <Truck className="w-6 h-6 text-gray-600" />
               <div>
                 <p className="font-medium text-xs sm:text-sm">Free Shipping</p>
-                <p className="text-xs text-gray-500">On orders over $100</p>
+                <p className="text-xs text-gray-500">On orders over ₹100</p>
               </div>
             </div>
             <div className="flex items-center space-x-3">

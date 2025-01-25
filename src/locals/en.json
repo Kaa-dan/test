@@ -3,7 +3,7 @@
     {
       "icon": "MdLocalShipping",
       "title": "FREE SHIPPING",
-      "description": "Orders Over $500"
+      "description": "Orders Over ₹500"
     },
     {
       "icon": "MdPayment",
@@ -41,7 +41,7 @@
 
   "shop": {
     "title": "ACTIVE NOISE CANCELING",
-    "price": "START FROM $20.99",
+    "price": "START FROM ₹20.99",
     "description": "New Release Wireless Headphone from SoundPro Sound Technology. Using Bluetooth 5.0, Noise Canceling and APTX Technology to make a good experience when listening to music.",
     "cta": "SHOP HERE",
     "ctaTargetId": "category",
