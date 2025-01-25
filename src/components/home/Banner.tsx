@@ -144,7 +144,7 @@ const Banner = () => {
               >
                 <motion.div
                   className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full ${
-                    index === currentSlide ? "bg-primary-white" : "bg-gray-500"
+                    index === currentSlide ? "bg-primary-white" : "bg-gray-400"
                   }`}
                   initial={false}
                   animate={{
