@@ -82,7 +82,9 @@ const Deals: FC = () => {
   if (loading) {
     return (
       <div className="mx-auto px-4 py-12">
-        <div className="text-center">Loading deals...</div>
+        <div className="flex items-center justify-center h-[500px] bg-primary-black">
+          <div className="colorful-loader"></div>
+        </div>
       </div>
     );
   }
@@ -117,7 +119,9 @@ const Deals: FC = () => {
         />
       </div>
 
-      <h3 className="text-lg font-semibold mb-2 text-primary-black">{product.name}</h3>
+      <h3 className="text-lg font-semibold mb-2 text-primary-black">
+        {product.name}
+      </h3>
 
       <div className="flex items-center gap-2 mb-4">
         <span className="text-primary-black line-through">
@@ -179,7 +183,9 @@ const Deals: FC = () => {
 
   return (
     <div className="mx-auto px-4 py-12">
-      <h1 className="cursor-default text-4xl font-bold text-center mb-12">HOT DEALS</h1>
+      <h1 className="cursor-default text-4xl font-bold text-center mb-12">
+        HOT DEALS
+      </h1>
 
       {isMobile ? (
         <div className="relative flex items-center justify-center">

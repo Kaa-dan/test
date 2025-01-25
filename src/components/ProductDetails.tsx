@@ -37,6 +37,11 @@ export default function ProductDetails({
 
   const [finalPrice, setFinalPrice] = useState<number>(0);
 
+  // Scroll to top on component mount
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   useEffect(() => {
     if (!product) return;
 
@@ -72,13 +77,15 @@ export default function ProductDetails({
   if (isLoading || !product) {
     return (
       <div className="flex justify-center items-center min-h-[600px]">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-orange"></div>
+        <div className="flex items-center justify-center h-[500px] bg-primary-black">
+          <div className="colorful-loader"></div>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="p-12">
       {/* Product Overview Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
         {/* Image Gallery */}
@@ -126,11 +133,12 @@ export default function ProductDetails({
 
           {/* Price Section */}
           <div className="space-y-2">
-            {product.discountPrice && product.discountPrice < product.basePrice && (
-              <div className="text-lg md:text-xl text-gray-500 line-through">
-                ${product.basePrice.toFixed(2)}
-              </div>
-            )}
+            {product.discountPrice &&
+              product.discountPrice < product.basePrice && (
+                <div className="text-lg md:text-xl text-gray-500 line-through">
+                  ${product.basePrice.toFixed(2)}
+                </div>
+              )}
             <div className="text-xl md:text-3xl font-bold">
               $
               {product.discountPrice
@@ -192,26 +200,28 @@ export default function ProductDetails({
           </button>
 
           {/* Features */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-6">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6">
             <div className="flex items-center space-x-3">
               <Truck className="w-6 h-6 text-gray-600" />
               <div>
-                <p className="font-medium">Free Shipping</p>
-                <p className="text-sm text-gray-500">On orders over $100</p>
+                <p className="font-medium text-xs sm:text-sm">Free Shipping</p>
+                <p className="text-xs text-gray-500">On orders over $100</p>
               </div>
             </div>
             <div className="flex items-center space-x-3">
               <Shield className="w-6 h-6 text-gray-600" />
               <div>
-                <p className="font-medium">2 Year Warranty</p>
-                <p className="text-sm text-gray-500">Full coverage</p>
+                <p className="font-medium text-xs sm:text-sm">
+                  2 Year Warranty
+                </p>
+                <p className="text-xs text-gray-500">Full coverage</p>
               </div>
             </div>
             <div className="flex items-center space-x-3">
               <RefreshCw className="w-6 h-6 text-gray-600" />
               <div>
-                <p className="font-medium">30 Day Returns</p>
-                <p className="text-sm text-gray-500">Hassle-free returns</p>
+                <p className="font-medium text-xs sm:text-sm">30 Day Returns</p>
+                <p className="text-xs text-gray-500">Hassle-free returns</p>
               </div>
             </div>
           </div>

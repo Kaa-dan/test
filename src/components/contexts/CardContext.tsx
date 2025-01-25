@@ -1,6 +1,6 @@
 "use client";
 import { createContext, useContext, useState, useEffect } from "react";
-import { useCoupons, Coupon } from "@/components/hooks/product-hooks"; // Import the useCoupons hook from product-hook.ts
+import { useCoupons, Coupon } from "@/components/hooks/product-hooks";
 import type { ReactNode } from "react";
 
 interface CartItem {
@@ -32,8 +32,11 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [appliedCoupon, setAppliedCoupon] = useState<Coupon | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch available coupons using the useCoupons hook
-  const { data: coupons = [],  } = useCoupons();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  const { data: coupons = [] } = useCoupons();
 
   useEffect(() => {
     const savedCart = localStorage.getItem("cart");

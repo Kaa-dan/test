@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import ProductList from "@/components/ProductList";
+import CategoryBanner from "@/components/home/CategoryBanner";
 
 interface Product {
   _id: string;
@@ -39,10 +40,8 @@ export default async function CategoryPage({
 }: {
   params: { id: string };
 }) {
-  // Await `params` before using its properties
   const { id } = await rawParams;
 
-  // Fetch category and products
   const categoryPromise = getCategory(id);
   const productsPromise = getProductsByCategory(id);
 
@@ -51,14 +50,13 @@ export default async function CategoryPage({
     productsPromise,
   ]);
 
-  // If no category is found, return 404
   if (!category) {
     notFound();
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6">{category.name}</h1>
+    <div className="w-full overflow-hidden">
+      <CategoryBanner categoryName={category.name} />
       <Suspense fallback={<div>Loading products...</div>}>
         <ProductList products={products} />
       </Suspense>

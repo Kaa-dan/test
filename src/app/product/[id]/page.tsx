@@ -38,7 +38,7 @@ export default async function ProductPage({
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="w-full overflow-hidden">
       <Suspense fallback={<div>Loading product details...</div>}>
         <ProductDetails product={product} />
       </Suspense>

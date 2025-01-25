@@ -16,7 +16,7 @@ const Faq = () => {
     <div
       className="w-full bg-cover bg-center bg-no-repeat py-12"
       style={{
-        backgroundImage: `url(${faq.backgroundImage})`, 
+        backgroundImage: `url(${faq.backgroundImage})`,
       }}
     >
       <div className="w-full max-w-6xl mx-auto px-4">
@@ -44,8 +44,7 @@ const Faq = () => {
                   className="border border-primary-white rounded-lg overflow-hidden"
                 >
                   <button
-            suppressHydrationWarning={true}
-
+                    suppressHydrationWarning={true}
                     className="w-full px-6 py-4 text-left flex justify-between items-center text-primary-white hover:bg-primary-black transition-colors"
                     onClick={() => toggleFaq(index)}
                   >

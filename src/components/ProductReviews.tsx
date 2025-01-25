@@ -120,21 +120,23 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({ productId }) => {
   if (isLoading) {
     return (
       <div className="flex justify-center items-center min-h-[200px]">
-        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary-orange"></div>
+        <div className="flex items-center justify-center h-[500px] bg-primary-black">
+          <div className="colorful-loader"></div>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="bg-white rounded-lg shadow-lg p-6 space-y-6">
+    <div className="bg-primary-white">
       <div className="space-y-6">
         {/* Average Rating and Summary */}
         <div className="border-b border-gray-200 pb-4">
-          <div className="flex items-center justify-between">
-            <div className="flex gap-7">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div className="flex flex-col md:flex-row gap-6">
+              {/* Average Rating Section */}
               <div className="flex items-center space-x-4">
-                {/* Average Rating */}
-                <div className="text-5xl font-bold text-gray-800">
+                <div className="text-5xl font-bold text-primary-black">
                   {avgRating.toFixed(1)}
                 </div>
                 <div>
@@ -142,21 +144,21 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({ productId }) => {
                     {[...Array(Math.floor(avgRating))].map((_, i) => (
                       <Star
                         key={i}
-                        className="w-6 h-6 text-yellow-400 fill-current"
+                        className="w-5 h-5 md:w-6 md:h-6 text-primary-orange fill-current"
                       />
                     ))}
                     {avgRating % 1 !== 0 && (
-                      <Star className="w-6 h-6 text-yellow-400 fill-current" />
+                      <Star className="w-5 h-5 md:w-6 md:h-6 text-primary-orange fill-current" />
                     )}
                   </div>
-                  <span className="text-sm text-gray-500">
+                  <span className="text-sm text-primary-black">
                     {allReviews.length} reviews
                   </span>
                 </div>
               </div>
 
-              {/* Star Distribution */}
-              <div className="space-y-1">
+              {/* Star Distribution Section */}
+              <div className="space-y-2">
                 {[5, 4, 3, 2, 1].map((star) => {
                   const count = allReviews.filter(
                     (r) => r.stars === star
@@ -164,14 +166,18 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({ productId }) => {
                   const percentage = (count / allReviews.length) * 100;
                   return (
                     <div key={star} className="flex items-center space-x-2">
-                      <span className="text-sm text-gray-500">{star} Star</span>
-                      <div className="relative w-40 h-3 bg-gray-200 rounded">
+                      <span className="text-sm text-primary-black">
+                        {star} Star
+                      </span>
+                      <div className="relative w-full md:w-40 h-3 bg-gray-300 rounded">
                         <div
-                          className="absolute h-3 bg-yellow-400 rounded"
+                          className="absolute h-3 bg-primary-orange rounded"
                           style={{ width: `${percentage}%` }}
                         />
                       </div>
-                      <span className="text-sm text-gray-500">{count}</span>
+                      <span className="text-sm text-primary-black">
+                        {count}
+                      </span>
                     </div>
                   );
                 })}
@@ -179,34 +185,43 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({ productId }) => {
             </div>
 
             {/* Write a Review Button */}
-            <button
-              className="bg-primary-orange text-white py-2 px-4 rounded-md hover:bg-primary-orange/90 transition-colors"
-              onClick={() => setIsModalOpen(true)}
-            >
-              Write a review
-            </button>
+            <div className="flex justify-center md:justify-end mt-4 md:mt-0">
+              <button
+                className="bg-primary-orange text-primary-white py-2 px-4 rounded-md hover:bg-primary-orange/90 transition-colors w-full md:w-auto"
+                onClick={() => setIsModalOpen(true)}
+              >
+                Write a review
+              </button>
+            </div>
           </div>
         </div>
 
         {/* Reviews List */}
         <div className="masonry-layout">
           {allReviews.map((review, index) => (
-            <div key={review._id} className={`masonry-item${(index % 5) + 1}`}>
+            <div
+              key={review._id}
+              className={`masonry-item${(index % 5) + 1} shadow-md`}
+            >
               <div className="flex items-center mb-2">
                 <div className="flex items-center space-x-1">
                   {[...Array(review.stars)].map((_, i) => (
                     <Star
                       key={i}
-                      className="w-4 h-4 text-yellow-400 fill-current"
+                      className="w-4 h-4 text-primary-orange fill-current"
                     />
                   ))}
                 </div>
-                <span className="ml-2 text-sm text-gray-500">
+                <span className="ml-2 text-sm text-primary-black">
                   {new Date(review.createdAt || "").toLocaleDateString()}
                 </span>
               </div>
-              <h4 className="font-medium">{review.name}</h4>
-              <p className="text-gray-600 mt-2">{review.message}</p>
+              <h4 className="font-bold text-base text-primary-black">
+                {review.name}
+              </h4>
+              <p className="text-primary-black font-medium text-sm mt-2">
+                {review.message}
+              </p>
             </div>
           ))}
         </div>
@@ -214,7 +229,7 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({ productId }) => {
 
       {/* Custom Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+        <div className="p-5 fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white rounded-lg shadow-lg w-96 p-6">
             <h2 className="text-xl font-semibold mb-4">Write a Review</h2>
             <form onSubmit={handleSubmitReview} className="space-y-4">
@@ -241,7 +256,7 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({ productId }) => {
                       key={starCount}
                       className={`w-6 h-6 cursor-pointer ${
                         newReview.stars >= starCount
-                          ? "text-yellow-400 fill-current"
+                          ? "text-primary-orange fill-current"
                           : "text-gray-300"
                       }`}
                       onClick={() => handleStarClick(starCount)}

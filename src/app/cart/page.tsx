@@ -16,7 +16,7 @@ export default function CartPage() {
     appliedCoupon,
     applyCoupon,
     removeCoupon,
-    error
+    error,
   } = useCart();
 
   const [couponCode, setCouponCode] = useState("");
@@ -46,73 +46,89 @@ export default function CartPage() {
 
   if (cart.length === 0) {
     return (
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-2xl font-bold mb-4">Your Cart</h1>
-        <p>
-          Your cart is empty.{" "}
-          <Link href="/" className="text-primary-orange hover:underline">
-            Continue shopping
-          </Link>
+      <div className="container mx-auto px-4 py-16 flex flex-col items-center text-center">
+        <h1 className="text-3xl font-bold mb-4 text-primary-black">
+          Your Cart is Empty
+        </h1>
+        <p className="text-primary-black mb-8">
+          It looks like you haven't added anything to your cart yet. Start
+          shopping to fill it up!
         </p>
+        <Link
+          href="/"
+          className="bg-primary-orange text-primary-white px-6 py-3 rounded-md hover:bg-primary-orange/90 transition-colors"
+        >
+          Continue Shopping
+        </Link>
       </div>
     );
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="p-4 md:p-8 lg:p-11">
       <h1 className="text-2xl font-bold mb-4">Your Cart</h1>
-      <div className="flex flex-col md:flex-row gap-8">
-        <div className="md:w-2/3">
+      <div className="flex flex-col lg:flex-row gap-6">
+        {/* Cart Items */}
+        <div className="lg:w-2/3 space-y-6">
           {cart.map((item) => (
-            <div key={item._id} className="flex items-center border-b py-4">
+            <div
+              key={item._id}
+              className="flex flex-col md:flex-row items-center border-b py-4 gap-4"
+            >
               <div className="w-24 h-24 relative flex-shrink-0">
                 <Image
                   src={item.image || "/placeholder.svg"}
                   alt={item.name}
                   fill
-                  className="object-cover"
+                  className="object-cover rounded-md"
                 />
               </div>
-              <div className="ml-4 flex-grow">
-                <h2 className="text-lg font-semibold">{item.name}</h2>
-                <p className="text-gray-600">${item.price.toFixed(2)}</p>
-                <div className="flex items-center mt-2">
+              <div className="flex flex-col md:flex-row md:items-center justify-between w-full">
+                <div>
+                  <h2 className="text-lg font-semibold">{item.name}</h2>
+                  <p className="text-gray-600">${item.price.toFixed(2)}</p>
+                </div>
+                <div className="flex items-center mt-2 md:mt-0 gap-2">
                   <button
-                    onClick={() => handleQuantityChange(item, item.quantity - 1)}
+                    onClick={() =>
+                      handleQuantityChange(item, item.quantity - 1)
+                    }
                     className="bg-gray-200 px-2 py-1 rounded-l"
                   >
                     -
                   </button>
                   <span className="bg-gray-100 px-4 py-1">{item.quantity}</span>
                   <button
-                    onClick={() => handleQuantityChange(item, item.quantity + 1)}
+                    onClick={() =>
+                      handleQuantityChange(item, item.quantity + 1)
+                    }
                     className="bg-gray-200 px-2 py-1 rounded-r"
                   >
                     +
                   </button>
                   <button
                     onClick={() => removeFromCart(item._id)}
-                    className="ml-4 text-red-500 hover:text-red-700"
+                    className="text-red-500 hover:text-red-700"
                   >
                     Remove
                   </button>
                 </div>
               </div>
-              <div className="ml-auto">
-                <p className="text-lg font-semibold">
-                  ${(item.price * item.quantity).toFixed(2)}
-                </p>
+              <div className="text-lg font-semibold mt-2 md:mt-0">
+                ${(item.price * item.quantity).toFixed(2)}
               </div>
             </div>
           ))}
         </div>
-        <div className="md:w-1/3">
+
+        {/* Order Summary */}
+        <div className="lg:w-1/3">
           <div className="bg-gray-100 p-6 rounded-lg">
             <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
 
             {/* Coupon Section */}
             <div className="mb-4">
-              <div className="flex gap-2">
+              <div className="flex flex-col sm:flex-row gap-2">
                 <input
                   type="text"
                   value={couponCode}
@@ -139,11 +155,6 @@ export default function CartPage() {
                 )}
               </div>
               {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
-              {appliedCoupon && (
-                <p className="text-green-600 text-sm mt-2">
-                  Coupon {appliedCoupon.code} applied! ({appliedCoupon.discountPercentage}% off)
-                </p>
-              )}
             </div>
 
             {/* Price Summary */}

@@ -1,3 +1,5 @@
+"use client";
+import { useEffect } from "react";
 import Banner from "@/components/home/Banner";
 import Benefits from "@/components/home/Benefits";
 import Category from "@/components/home/Category";
@@ -8,6 +10,10 @@ import Shop from "@/components/home/Shop";
 import Testimonial from "@/components/home/Testimonial";
 
 export default function Home() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div>
       <Banner />
