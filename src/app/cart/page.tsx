@@ -169,12 +169,12 @@ export default function CartPage() {
             <div className="space-y-2">
               <div className="flex justify-between">
                 <span>Subtotal</span>
-                <span>${getSubtotal().toFixed(2)}</span>
+                <span>₹{getSubtotal().toFixed(2)}</span>
               </div>
               {getDiscount() > 0 && (
                 <div className="flex justify-between text-green-600">
                   <span>Discount</span>
-                  <span>-${getDiscount().toFixed(2)}</span>
+                  <span>-₹{getDiscount().toFixed(2)}</span>
                 </div>
               )}
               <div className="flex justify-between">
@@ -184,7 +184,7 @@ export default function CartPage() {
               <div className="border-t pt-2 mt-2">
                 <div className="flex justify-between font-semibold">
                   <span>Total</span>
-                  <span>${getTotal().toFixed(2)}</span>
+                  <span>₹{getTotal().toFixed(2)}</span>
                 </div>
               </div>
             </div>

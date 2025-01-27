@@ -26,8 +26,9 @@ const Deals: FC = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const router = useRouter();
-  const [addedToCartItem, setAddedToCartItem] = useState<string | null>(null);
   const { addToCart } = useCart();
+  const [popupVisible, setPopupVisible] = useState(false);
+  const [popupProduct, setPopupProduct] = useState<Product | null>(null);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -80,12 +81,27 @@ const Deals: FC = () => {
     setCurrentIndex((prev) => (prev - 1 + products.length) % products.length);
   };
 
+  const handleAddToCart = (product: Product) => {
+    const priceToAdd = product.discountPrice
+      ? product.basePrice - product.discountPrice
+      : product.basePrice;
+
+    addToCart({
+      _id: product._id,
+      name: product.name,
+      price: priceToAdd,
+      quantity: 1,
+      image: product.images[0],
+    });
+
+    setPopupProduct(product);
+    setPopupVisible(true);
+  };
+
   if (loading) {
     return (
-      <div className="mx-auto px-4 py-12">
-        <div className="flex items-center justify-center h-[500px] bg-primary-black">
-          <div className="colorful-loader"></div>
-        </div>
+      <div className="flex items-center justify-center h-[500px]">
+        <div className="colorful-loader"></div>
       </div>
     );
   }
@@ -120,73 +136,38 @@ const Deals: FC = () => {
         />
       </div>
 
-      <h3 className="text-lg font-semibold mb-2 text-primary-black">
+      <h3
+        className="text-lg font-semibold mb-2 text-primary-black line-clamp-1"
+        title={product.name}
+      >
         {product.name}
       </h3>
 
       <div className="flex items-center gap-2 mb-4">
         <span className="text-primary-black line-through">
-        ₹{product.basePrice.toFixed(2)}{" "}
+          ₹{product.basePrice.toFixed(2)}
         </span>
         <span className="text-primary-orange font-bold">
-        ₹{(product.basePrice - product.discountPrice).toFixed(2)}
+          ₹{(product.basePrice - product.discountPrice).toFixed(2)}
         </span>
       </div>
 
       <button
-        className="w-full relative bg-primary-black text-primary-white py-2 rounded-md hover:bg-primary-orange transition-colors"
+        className="w-full bg-primary-black text-primary-white flex items-center justify-center gap-2 py-2 rounded-md hover:bg-primary-orange transition-colors"
         onClick={(e) => {
           e.stopPropagation();
-          const priceToAdd = product.discountPrice
-            ? product.basePrice - product.discountPrice
-            : product.basePrice;
-
-          addToCart({
-            _id: product._id,
-            name: product.name,
-            price: priceToAdd,
-            quantity: 1,
-            image: product.images[0],
-          });
-
-          setAddedToCartItem(product._id);
-          setTimeout(() => {
-            setAddedToCartItem(null);
-          }, 2000);
+          handleAddToCart(product);
         }}
       >
-        <AnimatePresence mode="wait">
-          {addedToCartItem === product._id ? (
-            <motion.span
-              key="added"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              className="block text-sm"
-            >
-              Added
-            </motion.span>
-          ) : (
-            <motion.span
-              key="add-to-cart"
-              initial={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="text-sm flex items-center justify-center"
-            >
-              <ShoppingCartIcon className="h-5 w-5 mr-2" />
-              ADD TO CART
-            </motion.span>
-          )}
-        </AnimatePresence>
+        <ShoppingCartIcon className="w-5 h-5" />
+        <span>ADD TO CART</span>
       </button>
     </div>
   );
 
   return (
     <div className="mx-auto px-4 py-12">
-      <h1 className="cursor-default text-4xl font-bold text-center mb-12">
-        HOT DEALS
-      </h1>
+      <h1 className="text-4xl font-bold text-center mb-12">HOT DEALS</h1>
 
       {isMobile ? (
         <div className="relative flex items-center justify-center">
@@ -219,24 +200,34 @@ const Deals: FC = () => {
           >
             <ChevronRight />
           </button>
-
-          <div className="absolute -bottom-8 left-0 right-0 flex justify-center gap-2">
-            {products.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentIndex(index)}
-                className={`w-2 h-2 rounded-full ${
-                  index === currentIndex
-                    ? "bg-primary-black w-6"
-                    : "bg-gray-300"
-                }`}
-              />
-            ))}
-          </div>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {products.map(renderProductCard)}
+        </div>
+      )}
+
+      {popupVisible && popupProduct && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-sm">
+            <h3 className="text-lg font-semibold mb-4">
+              {popupProduct.name} added to your cart!
+            </h3>
+            <div className="flex justify-between gap-4">
+              <button
+                onClick={() => setPopupVisible(false)}
+                className="w-full bg-gray-300 text-black py-2 rounded-md"
+              >
+                Continue Shopping
+              </button>
+              <button
+                onClick={() => router.push("/cart")}
+                className="w-full bg-primary-black hover:bg-primary-orange text-white py-2 rounded-md"
+              >
+                Go to Cart
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>

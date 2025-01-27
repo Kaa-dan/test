@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { useFeaturedProducts } from "@/components/hooks/product-hooks";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
@@ -26,7 +26,8 @@ const Featured = () => {
   const router = useRouter();
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [addedToCartItem, setAddedToCartItem] = useState<string | null>(null);
+  const [popupVisible, setPopupVisible] = useState(false);
+  const [popupProduct, setPopupProduct] = useState<Product | null>(null);
   const productsPerPage = 6;
 
   const handleProductClick = (slug: string) => {
@@ -40,7 +41,7 @@ const Featured = () => {
       product.discountPrice < product.basePrice
         ? product.basePrice - product.discountPrice
         : product.basePrice;
-  
+
     addToCart({
       _id: product._id,
       name: product.name,
@@ -48,9 +49,9 @@ const Featured = () => {
       quantity: 1,
       image: product.images[0],
     });
-  
-    setAddedToCartItem(product._id);
-    setTimeout(() => setAddedToCartItem(null), 2000);
+
+    setPopupProduct(product);
+    setPopupVisible(true);
   };
 
   const container = {
@@ -70,10 +71,8 @@ const Featured = () => {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center min-h-[600px]">
-        <div className="flex items-center justify-center h-[500px] bg-primary-black">
-          <div className="colorful-loader"></div>
-        </div>
+      <div className="flex items-center justify-center h-[500px]">
+        <div className="colorful-loader"></div>
       </div>
     );
   }
@@ -133,17 +132,22 @@ const Featured = () => {
                   />
                 </div>
 
-                <h3 className="text-lg font-semibold mb-2">{product.name}</h3>
+                <h3
+                  className="text-lg font-semibold mb-2 line-clamp-1"
+                  title={product.name}
+                >
+                  {product.name}
+                </h3>
                 <div className="flex items-center gap-2 mb-4">
                   {product.discountPrice &&
                   product.discountPrice > 0 &&
                   product.discountPrice < product.basePrice ? (
                     <>
                       <span className="text-primary-black line-through">
-                      ₹{product.basePrice.toFixed(2)}{" "}
+                        ₹{product.basePrice.toFixed(2)}{" "}
                       </span>
                       <span className="text-primary-orange font-bold">
-                      ₹
+                        ₹
                         {(product.basePrice - product.discountPrice).toFixed(2)}
                       </span>
                     </>
@@ -159,35 +163,15 @@ const Featured = () => {
                 onClick={() => handleAddToCart(product)}
                 className="w-full relative bg-primary-black text-primary-white py-2 rounded-md hover:bg-primary-orange transition-colors"
               >
-                <AnimatePresence mode="wait">
-                  {addedToCartItem === product._id ? (
-                    <motion.span
-                      key="added"
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      className="block text-sm"
-                    >
-                      Added
-                    </motion.span>
-                  ) : (
-                    <motion.span
-                      key="add-to-cart"
-                      initial={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      className="text-sm flex items-center justify-center"
-                    >
-                      <ShoppingCartIcon className="h-5 w-5 mr-2" />
-                      ADD TO CART
-                    </motion.span>
-                  )}
-                </AnimatePresence>
+                <span className="text-sm flex items-center justify-center">
+                  <ShoppingCartIcon className="h-5 w-5 mr-2" />
+                  ADD TO CART
+                </span>
               </button>
             </motion.div>
           ))}
         </motion.div>
 
-        {/* Responsive Sidebar - Hidden on smaller screens */}
         <motion.div
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
@@ -207,7 +191,6 @@ const Featured = () => {
         </motion.div>
       </div>
 
-      {/* Pagination with Progress Bar */}
       <div className="mt-12 flex flex-col items-center">
         <div className="flex items-center space-x-4">
           <button
@@ -237,6 +220,30 @@ const Featured = () => {
           </button>
         </div>
       </div>
+
+      {popupVisible && popupProduct && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-sm">
+            <h3 className="text-lg font-semibold mb-4">
+              {popupProduct.name} added to your cart!
+            </h3>
+            <div className="flex justify-between gap-4">
+              <button
+                onClick={() => setPopupVisible(false)}
+                className="w-full bg-gray-300 text-black py-2 rounded-md"
+              >
+                Continue Shopping
+              </button>
+              <button
+                onClick={() => router.push("/cart")}
+                className="w-full bg-primary-black hover:bg-primary-orange text-white py-2 rounded-md"
+              >
+                Go to Cart
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 };

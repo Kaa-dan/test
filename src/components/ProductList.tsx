@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ShoppingCartIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface Product {
   _id: string;
@@ -33,9 +34,12 @@ export default function ProductList({
 }: ProductListProps) {
   const { data: fetchedProducts, isLoading } = useProducts();
   const { addToCart } = useCart();
-  const [addedToCartItem, setAddedToCartItem] = useState<string | null>(null);
+  const [addedToCartItem] = useState<string | null>(null);
 
   const products = initialProducts || fetchedProducts;
+  const router = useRouter();
+  const [popupVisible, setPopupVisible] = useState(false);
+  const [popupProduct, setPopupProduct] = useState<Product | null>(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -87,10 +91,10 @@ export default function ProductList({
                 product.discountPrice < product.basePrice ? (
                   <>
                     <span className="text-primary-black line-through">
-                    ₹{product.basePrice.toFixed(2)}{" "}
+                      ₹{product.basePrice.toFixed(2)}{" "}
                     </span>
                     <span className="text-primary-orange font-bold">
-                    ₹{(product.basePrice - product.discountPrice).toFixed(2)}
+                      ₹{(product.basePrice - product.discountPrice).toFixed(2)}
                     </span>
                   </>
                 ) : (
@@ -114,10 +118,8 @@ export default function ProductList({
                     image: product.images[0],
                   });
 
-                  setAddedToCartItem(product._id);
-                  setTimeout(() => {
-                    setAddedToCartItem(null);
-                  }, 2000);
+                  setPopupProduct(product);
+                  setPopupVisible(true);
                 }}
                 className="w-full bg-primary-black text-primary-white py-2 rounded-md hover:bg-primary-orange transition-colors"
               >
@@ -144,6 +146,29 @@ export default function ProductList({
           </div>
         ))}
       </div>
+      {popupVisible && popupProduct && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-sm">
+            <h3 className="text-lg font-semibold mb-4">
+              {popupProduct.name} added to your cart!
+            </h3>
+            <div className="flex justify-between gap-4">
+              <button
+                onClick={() => setPopupVisible(false)}
+                className="w-full bg-gray-300 text-black py-2 rounded-md"
+              >
+                Continue Shopping
+              </button>
+              <button
+                onClick={() => router.push("/cart")}
+                className="w-full bg-primary-black hover:bg-primary-orange text-white py-2 rounded-md"
+              >
+                Go to Cart
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
