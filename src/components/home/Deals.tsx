@@ -100,10 +100,8 @@ const Deals: FC = () => {
 
   if (loading) {
     return (
-      <div className="mx-auto px-4 py-12">
-        <div className="flex items-center justify-center h-[500px] bg-primary-black">
-          <div className="colorful-loader"></div>
-        </div>
+      <div className="flex items-center justify-center h-[500px]">
+        <div className="colorful-loader"></div>
       </div>
     );
   }

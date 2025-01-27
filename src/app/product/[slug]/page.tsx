@@ -40,7 +40,13 @@ export default async function ProductPage({
 
   return (
     <div className="w-full overflow-hidden">
-      <Suspense fallback={<div>Loading product details...</div>}>
+      <Suspense
+        fallback={
+          <div className="flex items-center justify-center h-[500px]">
+            <div className="colorful-loader"></div>
+          </div>
+        }
+      >
         <ProductDetails product={product} />
       </Suspense>
     </div>
