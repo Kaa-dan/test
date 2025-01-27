@@ -7,6 +7,7 @@ import { Tab } from "@headlessui/react";
 import { Truck, Shield, RefreshCw, ShoppingCartIcon } from "lucide-react";
 import ProductReviews from "./ProductReviews";
 import { motion, AnimatePresence } from "framer-motion";
+import { useRouter } from "next/navigation";
 
 interface Product {
   _id: string;
@@ -32,9 +33,12 @@ export default function ProductDetails({
   const [quantity, setQuantity] = useState(1);
   const { data: fetchedProduct, isLoading } = useProduct(productId || "");
   const product = initialProduct || fetchedProduct;
-  const [addedToCartItem, setAddedToCartItem] = useState<boolean>(false);
+  const [addedToCartItem ] = useState<boolean>(false);
+  const router = useRouter();
 
   const { addToCart, appliedCoupon } = useCart();
+  const [popupVisible, setPopupVisible] = useState(false);
+  const [popupProduct, setPopupProduct] = useState<Product | null>(null);
 
   // Scroll to top on component mount
   useEffect(() => {
@@ -66,10 +70,8 @@ export default function ProductDetails({
       image: product.images[0],
     });
 
-    setAddedToCartItem(true);
-    setTimeout(() => {
-      setAddedToCartItem(false);
-    }, 2000);
+    setPopupProduct(product);
+    setPopupVisible(true);
   };
 
   if (isLoading || !product) {
@@ -153,7 +155,7 @@ export default function ProductDetails({
                 onClick={() => setQuantity(Math.max(1, quantity - 1))}
                 className="px-4 py-2 border-r hover:bg-gray-50"
               >
-                -
+                &#45;
               </button>
               <input
                 type="number"
@@ -167,7 +169,7 @@ export default function ProductDetails({
                 onClick={() => setQuantity(quantity + 1)}
                 className="px-4 py-2 border-l hover:bg-gray-50"
               >
-                +
+                &#43;
               </button>
             </div>
           </div>
@@ -224,12 +226,37 @@ export default function ProductDetails({
             </div>
           </div>
         </div>
+
+        {popupVisible && popupProduct && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+            <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-sm">
+              <h3 className="text-lg font-semibold mb-4">
+                {popupProduct.name} added to your cart!
+              </h3>
+              <div className="flex justify-between gap-4">
+                <button
+                  onClick={() => setPopupVisible(false)}
+                  className="w-full bg-gray-300 text-black py-2 rounded-md"
+                >
+                  Continue Shopping
+                </button>
+                <button
+                  onClick={() => router.push("/cart")}
+                  className="w-full bg-primary-black hover:bg-primary-orange text-white py-2 rounded-md"
+                >
+                  Go to Cart
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Product Details Tabs */}
       <Tab.Group>
         <Tab.List className="flex space-x-2 sm:space-x-4 border-b overflow-x-auto">
           <Tab
+            suppressHydrationWarning={true}
             className={({ selected }) =>
               `py-2 px-4 sm:py-4 sm:px-6 text-sm font-medium focus:outline-none ${
                 selected
