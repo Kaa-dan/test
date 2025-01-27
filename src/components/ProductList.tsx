@@ -34,7 +34,7 @@ export default function ProductList({
 }: ProductListProps) {
   const { data: fetchedProducts, isLoading } = useProducts();
   const { addToCart } = useCart();
-  const [addedToCartItem ] = useState<string | null>(null);
+  const [addedToCartItem] = useState<string | null>(null);
 
   const products = initialProducts || fetchedProducts;
   const router = useRouter();

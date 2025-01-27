@@ -15,7 +15,9 @@ interface Category {
   slug: string;
 }
 
-const LargeScreenCategories: React.FC<{ categories: Category[] }> = ({ categories }) => {
+const LargeScreenCategories: React.FC<{ categories: Category[] }> = ({
+  categories,
+}) => {
   const router = useRouter();
 
   const handleCategoryClick = (category: Category): void => {
@@ -93,7 +95,9 @@ const LargeScreenCategories: React.FC<{ categories: Category[] }> = ({ categorie
   );
 };
 
-const SmallScreenCategories: React.FC<{ categories: Category[] }> = ({ categories }) => {
+const SmallScreenCategories: React.FC<{ categories: Category[] }> = ({
+  categories,
+}) => {
   const router = useRouter();
 
   const handleCategoryClick = (category: Category): void => {
@@ -173,8 +177,8 @@ const Category: React.FC = () => {
         const error = err as Error;
         setError(
           // Check if it's an axios error with a response
-          axios.isAxiosError(err) 
-            ? err.response?.data?.message 
+          axios.isAxiosError(err)
+            ? err.response?.data?.message
             : error.message || "Failed to fetch categories"
         );
         console.error("Error fetching categories:", error);
@@ -182,13 +186,13 @@ const Category: React.FC = () => {
         setLoading(false);
       }
     };
-  
+
     fetchCategories();
   }, []);
 
   if (loading) {
     return (
-      <div className="py-16 flex justify-center items-center">
+      <div className="flex items-center justify-center h-[500px]">
         <div className="colorful-loader"></div>
       </div>
     );

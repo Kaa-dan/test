@@ -33,7 +33,7 @@ export default function ProductDetails({
   const [quantity, setQuantity] = useState(1);
   const { data: fetchedProduct, isLoading } = useProduct(productId || "");
   const product = initialProduct || fetchedProduct;
-  const [addedToCartItem ] = useState<boolean>(false);
+  const [addedToCartItem] = useState<boolean>(false);
   const router = useRouter();
 
   const { addToCart, appliedCoupon } = useCart();
@@ -76,10 +76,8 @@ export default function ProductDetails({
 
   if (isLoading || !product) {
     return (
-      <div className="flex justify-center items-center min-h-[600px]">
-        <div className="flex items-center justify-center h-[500px] bg-primary-black">
-          <div className="colorful-loader"></div>
-        </div>
+      <div className="flex items-center justify-center h-[500px]">
+        <div className="colorful-loader"></div>
       </div>
     );
   }

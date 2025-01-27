@@ -71,10 +71,8 @@ const Featured = () => {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center min-h-[600px]">
-        <div className="flex items-center justify-center h-[500px] bg-primary-black">
-          <div className="colorful-loader"></div>
-        </div>
+      <div className="flex items-center justify-center h-[500px]">
+        <div className="colorful-loader"></div>
       </div>
     );
   }
