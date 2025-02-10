@@ -2,6 +2,7 @@ import { Providers } from "./providers";
 import "./globals.css";
 import Navbar from "@/components/home/Navbar";
 import Footer from "@/components/home/Footer";
+import { AuthProvider } from "./auth/authContext";
 
 export const metadata = {
   title: "ZAP STORE",
@@ -22,13 +23,16 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <Providers>
-          <div className="min-h-screen">
-            <Navbar />
-            <main className="">{children}</main>
-            <Footer />
-          </div>
-        </Providers>
+        <AuthProvider>
+
+          <Providers>
+            <div className="min-h-screen">
+              <Navbar />
+              <main className="">{children}</main>
+              <Footer />
+            </div>
+          </Providers>
+        </AuthProvider>
       </body>
     </html>
   );
