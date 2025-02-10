@@ -1,7 +1,7 @@
 "use client"
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { useAuth } from '../auth/AuthContext';
+import { useAuth } from '../auth/authContext';
 
 export default function Login() {
     const [phone, setPhone] = useState('');
