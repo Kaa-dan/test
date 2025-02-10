@@ -14,6 +14,6 @@
   "html.format.wrapAttributes": "force-expand-multiline",
   "prettier.arrowParens": "always",
   "[typescriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "vscode.typescript-language-features"
   }
 }
