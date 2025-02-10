@@ -1,17 +1,17 @@
 "use client"
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { useAuth } from '../auth/authContext';
+// import { useAuth } from '../auth/authContext';
 
 export default function Login() {
     const [phone, setPhone] = useState('');
     const [otp, setOtp] = useState('');
     const [step, setStep] = useState('phone'); // 'phone' or 'otp'
     const [error, setError] = useState('');
-    const router = useRouter();
-    const { setUser } = useAuth();
+    // const router = useRouter();
+    // const { setUser } = useAuth();
 
-    const handleRequestOTP = async (e) => {
+    const handleRequestOTP = async (e: any) => {
         e.preventDefault();
         setError('');
 
@@ -36,7 +36,7 @@ export default function Login() {
         }
     };
 
-    const handleVerifyOTP = async (e) => {
+    const handleVerifyOTP = async (e: any) => {
         e.preventDefault();
         setError('');
 
@@ -53,8 +53,8 @@ export default function Login() {
 
             if (response.ok) {
                 localStorage.setItem('token', data.token);
-                setUser(data.user);
-                router.push('/');
+                // setUser(data.user);
+                // router.push('/');
             } else {
                 setError(data.message);
             }
