@@ -1,12 +1,16 @@
 "use client";
+"use client";
 import { useState } from "react";
 import Link from "next/link";
 import { useCart } from "@/components/contexts/CardContext";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [showLogout, setShowLogout] = useState(false);
   const { cart } = useCart();
+  const router = useRouter();
 
   const navLinks = [
     { href: "/", label: "HOME" },
@@ -16,6 +20,15 @@ const Navbar = () => {
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    router.push('/login');
+  };
+
+  const user = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('user') || '{"name": ""}') : { name: "" };
+  const firstLetter = user.name ? user.name.charAt(0).toUpperCase() : "?";
 
   const cartItemsCount = cart.reduce((total, item) => total + item.quantity, 0);
 
@@ -53,6 +66,34 @@ const Navbar = () => {
               >
                 Instagram
               </Link>
+              <div className="relative">
+                <div
+                  className="w-8 h-8 rounded-full bg-primary-white text-primary-black flex items-center justify-center cursor-pointer font-semibold"
+                  onClick={() => setShowLogout(prev => !prev)}
+
+                >
+                  {firstLetter}
+                </div>
+                {showLogout && (
+                  <div
+                    className="absolute right-0 mt-2 w-32 bg-white rounded-md shadow-lg py-1 z-50"
+                    onMouseEnter={() => setShowLogout(true)}
+                    onMouseLeave={() => setShowLogout(false)}
+                  >
+                    <button
+                      onClick={handleLogout}
+                      className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    >
+                      Logout
+                    </button>
+                    <button
+                      onClick={() => router.push('/orders')}
+                      className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                      profile
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -87,9 +128,8 @@ const Navbar = () => {
                   <Link
                     key={index}
                     href={link.href}
-                    className={`text-base font-semibold text-primary-black hover:text-primary-orange transition-colors ${
-                      link.href === "/" ? "" : ""
-                    }`}
+                    className={`text-base font-semibold text-primary-black hover:text-primary-orange transition-colors ${link.href === "/" ? "" : ""
+                      }`}
                   >
                     {link.label}
                   </Link>

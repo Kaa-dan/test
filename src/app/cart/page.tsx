@@ -6,6 +6,45 @@ import { useCart } from "@/components/contexts/CardContext";
 import Footer from "@/components/home/Footer";
 import Navbar from "@/components/home/Navbar";
 
+const INDIAN_STATES = [
+  { value: "Andaman and Nicobar Islands", label: "Andaman and Nicobar Islands" },
+  { value: "Andhra Pradesh", label: "Andhra Pradesh" },
+  { value: "Arunachal Pradesh", label: "Arunachal Pradesh" },
+  { value: "Assam", label: "Assam" },
+  { value: "Bihar", label: "Bihar" },
+  { value: "Chandigarh", label: "Chandigarh" },
+  { value: "Chhattisgarh", label: "Chhattisgarh" },
+  { value: "Dadra and Nagar Haveli", label: "Dadra and Nagar Haveli" },
+  { value: "Daman and Diu", label: "Daman and Diu" },
+  { value: "Delhi", label: "Delhi" },
+  { value: "Goa", label: "Goa" },
+  { value: "Gujarat", label: "Gujarat" },
+  { value: "Haryana", label: "Haryana" },
+  { value: "Himachal Pradesh", label: "Himachal Pradesh" },
+  { value: "Jammu and Kashmir", label: "Jammu and Kashmir" },
+  { value: "Jharkhand", label: "Jharkhand" },
+  { value: "Karnataka", label: "Karnataka" },
+  { value: "Kerala", label: "Kerala" },
+  { value: "Ladakh", label: "Ladakh" },
+  { value: "Lakshadweep", label: "Lakshadweep" },
+  { value: "Madhya Pradesh", label: "Madhya Pradesh" },
+  { value: "Maharashtra", label: "Maharashtra" },
+  { value: "Manipur", label: "Manipur" },
+  { value: "Meghalaya", label: "Meghalaya" },
+  { value: "Mizoram", label: "Mizoram" },
+  { value: "Nagaland", label: "Nagaland" },
+  { value: "Odisha", label: "Odisha" },
+  { value: "Puducherry", label: "Puducherry" },
+  { value: "Punjab", label: "Punjab" },
+  { value: "Rajasthan", label: "Rajasthan" },
+  { value: "Sikkim", label: "Sikkim" },
+  { value: "Tamil Nadu", label: "Tamil Nadu" },
+  { value: "Telangana", label: "Telangana" },
+  { value: "Tripura", label: "Tripura" },
+  { value: "Uttar Pradesh", label: "Uttar Pradesh" },
+  { value: "Uttarakhand", label: "Uttarakhand" },
+  { value: "West Bengal", label: "West Bengal" }
+];
 interface CartItem {
   _id: string;
   name: string;
@@ -60,6 +99,7 @@ interface AddressDetails {
 interface OrderDetails extends AddressDetails {
   order_id: string;
   sub_total: Number;
+  user: any;
   order_items: Array<{
     name: string;
     sku: string;
@@ -87,6 +127,9 @@ export default function CartPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [paymentError, setPaymentError] = useState("");
   const [showAddressForm, setShowAddressForm] = useState(false);
+  const [addressErrors, setAddressErrors] = useState<Partial<AddressDetails>>({});
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')!))
+  const [token, setToken] = useState(localStorage.getItem('token'))
   const [addressDetails, setAddressDetails] = useState<AddressDetails>({
     billing_customer_name: "",
     billing_address: "",
@@ -95,10 +138,10 @@ export default function CartPage() {
     billing_state: "",
     billing_country: "India",
     billing_email: "",
-    billing_phone: "",
+    billing_phone: user.phone,
   });
-  const [addressErrors, setAddressErrors] = useState<Partial<AddressDetails>>({});
 
+  console.log({ user: user.id })
   //validator for address
   const validateAddress = (): boolean => {
     const errors: Partial<AddressDetails> = {};
@@ -131,6 +174,8 @@ export default function CartPage() {
     setAddressErrors(errors);
     return Object.keys(errors).length === 0;
   };
+
+
 
   const handleQuantityChange = (item: CartItem, newQuantity: number) => {
     if (newQuantity === 0) {
@@ -177,6 +222,7 @@ export default function CartPage() {
     return {
       order_id: generateOrderId(),
       ...addressDetails,
+      user: user.id,
       sub_total: cart.reduce((total, item) => total + item.price * item.quantity, 0),
       order_items: cart.map(item => ({
         name: item.name,
@@ -208,12 +254,13 @@ export default function CartPage() {
 
       // 2. Create order details
       const orderDetails = createOrderDetails();
-
+      console.log({ orderDetails })
       // 3. Create payment intent
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/order/create-payment-intent`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({
           amount: getTotal(),
@@ -242,6 +289,7 @@ export default function CartPage() {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
               },
               body: JSON.stringify({
                 razorpay_order_id: response.razorpay_order_id,
@@ -288,7 +336,7 @@ export default function CartPage() {
   };
 
   //address handler
-  const handleAddressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleAddressChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setAddressDetails(prev => ({
       ...prev,
@@ -305,21 +353,24 @@ export default function CartPage() {
 
   if (cart.length === 0) {
     return (
-      <div className="container mx-auto px-4 py-16 flex flex-col items-center text-center">
-        <h1 className="text-3xl font-bold mb-4 text-primary-black">
-          Your Cart is Empty
-        </h1>
-        <p className="text-primary-black mb-8">
-          It looks like you haven&#39;t added anything to your cart yet. Start
-          shopping to fill it up!
-        </p>
-        <Link
-          href="/"
-          className="bg-primary-orange text-primary-white px-6 py-3 rounded-md hover:bg-primary-orange/90 transition-colors"
-        >
-          Continue Shopping
-        </Link>
-      </div>
+      <><Navbar />
+        <div className="container mx-auto px-4 py-16 flex flex-col items-center text-center">
+          <h1 className="text-3xl font-bold mb-4 text-primary-black">
+            Your Cart is Empty
+          </h1>
+          <p className="text-primary-black mb-8">
+            It looks like you haven&#39;t added anything to your cart yet. Start
+            shopping to fill it up!
+          </p>
+          <Link
+            href="/"
+            className="bg-primary-orange text-primary-white px-6 py-3 rounded-md hover:bg-primary-orange/90 transition-colors"
+          >
+            Continue Shopping
+          </Link>
+        </div>
+        <Footer />
+      </>
     );
   }
 
@@ -474,7 +525,7 @@ export default function CartPage() {
                     )}
                   </div>
 
-                  <div>
+                  {/* <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       State*
                     </label>
@@ -486,6 +537,27 @@ export default function CartPage() {
                       className="w-full px-3 py-2 border rounded-md"
                       placeholder="Enter your state"
                     />
+                    {addressErrors.billing_state && (
+                      <p className="text-red-500 text-sm mt-1">{addressErrors.billing_state}</p>
+                    )}
+                  </div> */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      State*
+                    </label>
+                    <select
+                      name="billing_state"
+                      value={addressDetails.billing_state}
+                      onChange={handleAddressChange}
+                      className="w-full px-3 py-2 border rounded-md"
+                    >
+                      <option value="">Select State</option>
+                      {INDIAN_STATES.map((state) => (
+                        <option key={state.value} value={state.value}>
+                          {state.label}
+                        </option>
+                      ))}
+                    </select>
                     {addressErrors.billing_state && (
                       <p className="text-red-500 text-sm mt-1">{addressErrors.billing_state}</p>
                     )}
@@ -574,7 +646,17 @@ export default function CartPage() {
 
               {!showAddressForm ? (
                 <button
-                  onClick={() => setShowAddressForm(true)}
+                  onClick={() => {
+                    console.log('clicked', token, user)
+                    if (!token || !user.phone) {
+                      window.alert('please login to place an order')
+                    } else {
+
+                      setShowAddressForm(true)
+                    }
+
+                  }
+                  }
                   className="w-full bg-primary-orange text-white py-2 px-4 rounded-md mt-4 hover:bg-primary-orange/80 transition-colors"
                 >
                   Proceed to Address

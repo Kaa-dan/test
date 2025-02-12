@@ -49,15 +49,16 @@ export default function Login() {
             });
 
             const data = await response.json();
-            console.log({ data }, data.token)
+
             if (!data.token) {
                 window.alert('try again')
                 setStep('phone')
             }
             if (data.token) {
-                console.log('entered')
+
                 localStorage.setItem('token', data.token);
-                // setUser(data.user);
+                console.log(data.user, 1)
+                localStorage.setItem('user', JSON.stringify(data.user))
                 router.push('/');
             } else {
                 setError(data.message);
