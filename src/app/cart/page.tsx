@@ -138,10 +138,10 @@ export default function CartPage() {
     billing_state: "",
     billing_country: "India",
     billing_email: "",
-    billing_phone: user.phone,
+    billing_phone: user?.phone || "",
   });
 
-  console.log({ user: user.id })
+
   //validator for address
   const validateAddress = (): boolean => {
     const errors: Partial<AddressDetails> = {};

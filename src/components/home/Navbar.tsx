@@ -1,5 +1,4 @@
 "use client";
-"use client";
 import { useState } from "react";
 import Link from "next/link";
 import { useCart } from "@/components/contexts/CardContext";
@@ -12,6 +11,7 @@ const Navbar = () => {
   const { cart } = useCart();
   const router = useRouter();
 
+  const token = localStorage.getItem('token')
   const navLinks = [
     { href: "/", label: "HOME" },
     { href: "/about", label: "ABOUT US" },
@@ -24,7 +24,7 @@ const Navbar = () => {
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
-    router.push('/login');
+    router.push('/');
   };
 
   const user = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('user') || '{"name": ""}') : { name: "" };
@@ -66,7 +66,11 @@ const Navbar = () => {
               >
                 Instagram
               </Link>
-              <div className="relative">
+              {!token && <Link href='/login' className="text-primary-white text-base hover:text-gray-200">
+                Login</Link>}
+
+              {/* {} */}
+              {token && <div className="relative">
                 <div
                   className="w-8 h-8 rounded-full bg-primary-white text-primary-black flex items-center justify-center cursor-pointer font-semibold"
                   onClick={() => setShowLogout(prev => !prev)}
@@ -93,7 +97,8 @@ const Navbar = () => {
                     </button>
                   </div>
                 )}
-              </div>
+              </div>}
+
             </div>
           </div>
         </div>
