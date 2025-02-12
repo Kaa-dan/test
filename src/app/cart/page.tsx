@@ -99,14 +99,43 @@ interface AddressDetails {
 
 interface OrderDetails extends AddressDetails {
   order_id: string;
-  sub_total: Number;
+  billing_address_2: string;
+  billing_alternate_phone: string;
+  billing_isd_code: string;
+  shipping_is_billing: boolean;
+  shipping_customer_name: string;
+  shipping_last_name: string;
+  shipping_address: string;
+  shipping_address_2: string;
+  shipping_city: string;
+  shipping_pincode: string;
+  shipping_state: string;
+  shipping_country: string;
+  shipping_email: string;
+  shipping_phone: string;
+  sub_total: number;
   user: any;
   order_items: Array<{
     name: string;
     sku: string;
     units: number;
     selling_price: string;
+    discount: string;
+    tax: string;
+    hsn: string;
+    brand: string;
+    product: string;
+    weight: number;
   }>;
+  payment_method: string;
+  length: number;
+  breadth: number;
+  height: number;
+  weight: number;
+  shipping_charges: number;
+  giftwrap_charges: number;
+  transaction_charges: number;
+  total_discount: number;
 }
 
 export default function CartPage() {
@@ -223,14 +252,43 @@ export default function CartPage() {
     return {
       order_id: generateOrderId(),
       ...addressDetails,
+      billing_address_2: "",  // Add this
+      billing_alternate_phone: "",  // Add this
+      billing_isd_code: "+91",  // Add this
+      shipping_is_billing: true,  // Add this
+      shipping_customer_name: addressDetails.billing_customer_name,  // Add shipping details
+      shipping_last_name: "",
+      shipping_address: addressDetails.billing_address,
+      shipping_address_2: "",
+      shipping_city: addressDetails.billing_city,
+      shipping_pincode: addressDetails.billing_pincode,
+      shipping_state: addressDetails.billing_state,
+      shipping_country: "India",
+      shipping_email: addressDetails.billing_email,
+      shipping_phone: addressDetails.billing_phone,
       user: user.id,
-      sub_total: cart.reduce((total, item) => total + item.price * item.quantity, 0),
+      sub_total: getTotal(),
       order_items: cart.map(item => ({
         name: item.name,
-        sku: item._id,
+        sku: item.name,
         units: item.quantity,
-        selling_price: item.price.toString()
-      }))
+        product: item._id,
+        selling_price: item.price.toString(),
+        discount: "0",
+        tax: "0",
+        hsn: "",
+        brand: "",
+        weight: 0.5
+      })),
+      payment_method: "Prepaid",
+      length: 10,
+      breadth: 10,
+      height: 10,
+      weight: 1,
+      shipping_charges: 0,
+      giftwrap_charges: 0,
+      transaction_charges: 0,
+      total_discount: 0
     };
   };
 
