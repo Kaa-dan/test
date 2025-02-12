@@ -323,19 +323,19 @@ const OrdersPage: React.FC = () => {
                             {order.status}
                           </span>
                           <p className="text-sm text-zinc-400">
-                            Order #{order.order_id.slice(-6)}
+                            Order #{order?.order_id?.slice(-6)}
                           </p>
                         </div>
                         <div className="flex flex-wrap gap-6">
                           <div className="flex items-center gap-2">
                             <Clock className="w-4 h-4 text-zinc-500" />
                             <p className="text-sm text-zinc-400">
-                              {new Date(order.order_date).toLocaleDateString()}
+                              {new Date(order?.order_date).toLocaleDateString()}
                             </p>
                           </div>
                           <div>
                             <p className="text-sm text-zinc-400">
-                              {order.order_items.length} {order.order_items.length === 1 ? "item" : "items"}
+                              {order?.order_items?.length} {order?.order_items.length === 1 ? "item" : "items"}
                             </p>
                           </div>
                         </div>
@@ -344,7 +344,7 @@ const OrdersPage: React.FC = () => {
                         <div className="text-right">
                           <p className="text-sm text-zinc-400">Total Amount</p>
                           <p className="text-lg font-semibold text-white">
-                            {formatCurrency(order.sub_total)}
+                            {formatCurrency(order?.sub_total)}
                           </p>
                         </div>
                         <ChevronRight className="w-5 h-5 text-zinc-500 group-hover:text-orange-500 transition-colors" />
