@@ -15,6 +15,8 @@ import { useRouter } from "next/navigation";
 import Navbar from "@/components/home/Navbar";
 import Footer from "@/components/home/Footer";
 import OrderStatusTabs from "@/components/TabButton";
+import ShipmentTracking from "@/components/shipmentDetails";
+import { toast } from "react-toastify";
 
 // Types
 interface User {
@@ -93,9 +95,10 @@ const OrdersPage: React.FC = () => {
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [cancelLoading, setCancelLoading] = useState<boolean>(false);
   const [selectedStatus, setSelectedStatus] = useState<Order["status"] | "ALL">("ALL");
+  const [trackingData, setTrackingData] = useState<any>("")
 
   const router = useRouter();
-  //filter 
+  //filter  
   const filteredOrders = useMemo(() => {
     if (selectedStatus === "ALL") return orders;
     return orders.filter(order => order.status === selectedStatus);
@@ -205,6 +208,21 @@ const OrdersPage: React.FC = () => {
       setCancelLoading(false);
     }
   };
+
+  const trackOrder = async (orderId: any) => {
+    try {
+      if (orderId) {
+
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/order/tracking?orderId=${orderId}`)
+        console.log({ response })
+      }
+    } catch (error) {
+      toast.error('error while tracking order')
+    }
+  }
+  useEffect(() => {
+    trackOrder(selectedOrder?.order_id)
+  }, [selectedOrder?.order_id])
 
   const formatCurrency = (amount: number): string => {
     return new Intl.NumberFormat("en-IN", {
@@ -465,6 +483,8 @@ const OrdersPage: React.FC = () => {
                         </div>
                       </div>
                     </div>
+                    {/*shipment details*/}
+                    {trackingData && <ShipmentTracking />}
 
                     {/* Cancel Button */}
                     {selectedOrder.status !== "CANCELLED" &&
