@@ -1,22 +1,21 @@
 "use client"
 import { useState } from 'react';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 // import { useAuth } from '../auth/authContext';
 
 export default function Login() {
     const [phone, setPhone] = useState('');
     const [otp, setOtp] = useState('');
     const [step, setStep] = useState('phone'); // 'phone' or 'otp'
+    const router = useRouter()
     const [error, setError] = useState('');
-    // const router = useRouter();
-    // const { setUser } = useAuth();
 
     const handleRequestOTP = async (e: any) => {
         e.preventDefault();
         setError('');
 
         try {
-            const response = await fetch('http://localhost:3000/api/request-otp', {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user-auth/sent-otp`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -25,7 +24,7 @@ export default function Login() {
             });
 
             const data = await response.json();
-
+            console.log({ response })
             if (response.ok) {
                 setStep('otp');
             } else {
@@ -41,7 +40,7 @@ export default function Login() {
         setError('');
 
         try {
-            const response = await fetch('http://localhost:3000/api/verify-otp', {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user-auth/sign-in`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -50,15 +49,21 @@ export default function Login() {
             });
 
             const data = await response.json();
-
-            if (response.ok) {
+            console.log({ data }, data.token)
+            if (!data.token) {
+                window.alert('try again')
+                setStep('phone')
+            }
+            if (data.token) {
+                console.log('entered')
                 localStorage.setItem('token', data.token);
                 // setUser(data.user);
-                // router.push('/');
+                router.push('/');
             } else {
                 setError(data.message);
             }
         } catch (error) {
+            console.log(error)
             setError('Failed to verify OTP. Please try again.');
         }
     };

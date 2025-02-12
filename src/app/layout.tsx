@@ -23,16 +23,16 @@ export default function RootLayout({
         />
       </head>
       <body>
-        {/* <AuthProvider> */}
+
 
         <Providers>
           <div className="min-h-screen">
-            <Navbar />
+
             <main className="">{children}</main>
-            <Footer />
+
           </div>
         </Providers>
-        {/* </AuthProvider> */}
+
       </body>
     </html >
   );

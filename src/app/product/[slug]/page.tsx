@@ -1,6 +1,8 @@
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import ProductDetails from "@/components/ProductDetails";
+import Footer from "@/components/home/Footer";
+import Navbar from "@/components/home/Navbar";
 
 interface Product {
   _id: string;
@@ -39,16 +41,21 @@ export default async function ProductPage({
   }
 
   return (
-    <div className="w-full overflow-hidden">
-      <Suspense
-        fallback={
-          <div className="flex items-center justify-center h-[500px]">
-            <div className="colorful-loader"></div>
-          </div>
-        }
-      >
-        <ProductDetails product={product} />
-      </Suspense>
-    </div>
+    <>
+      <Navbar />
+
+      <div className="w-full overflow-hidden">
+        <Suspense
+          fallback={
+            <div className="flex items-center justify-center h-[500px]">
+              <div className="colorful-loader"></div>
+            </div>
+          }
+        >
+          <ProductDetails product={product} />
+        </Suspense>
+      </div>
+      <Footer />
+    </>
   );
 }
