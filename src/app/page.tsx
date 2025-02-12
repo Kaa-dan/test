@@ -9,6 +9,8 @@ import Offers from "@/components/home/Offers";
 import Shop from "@/components/home/Shop";
 import Testimonial from "@/components/home/Testimonial";
 import Logo from "@/components/home/Logo";
+import Navbar from "@/components/home/Navbar";
+import Footer from "@/components/home/Footer";
 
 export default function Home() {
   useEffect(() => {
@@ -16,32 +18,37 @@ export default function Home() {
   }, []);
 
   return (
-    <div>
-      <Banner />
-      <div id="benefits">
-        <Benefits />
+    <>
+      <Navbar />
+      <div>
+
+        <Banner />
+        <div id="benefits">
+          <Benefits />
+        </div>
+        <div id="offers">
+          <Offers />
+        </div>
+        <div id="deals">
+          <Deals />
+        </div>
+        <div id="shop">
+          <Shop />
+        </div>
+        <div id="featured">
+          <Featured />
+        </div>
+        <div id="logo">
+          <Logo />
+        </div>
+        <div id="category">
+          <Category />
+        </div>
+        <div id="testimonial">
+          <Testimonial />
+        </div>
       </div>
-      <div id="offers">
-        <Offers />
-      </div>
-      <div id="deals">
-        <Deals />
-      </div>
-      <div id="shop">
-        <Shop />
-      </div>
-      <div id="featured">
-        <Featured />
-      </div>
-      <div id="logo">
-        <Logo />
-      </div>
-      <div id="category">
-        <Category />
-      </div>
-      <div id="testimonial">
-        <Testimonial />
-      </div>
-    </div>
+      <Footer />
+    </>
   );
 }

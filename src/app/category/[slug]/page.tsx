@@ -1,6 +1,8 @@
 import { notFound } from "next/navigation";
 import ProductList from "@/components/ProductList";
 import CategoryBanner from "@/components/home/CategoryBanner";
+import Footer from "@/components/home/Footer";
+import Navbar from "@/components/home/Navbar";
 
 interface Product {
   _id: string;
@@ -63,11 +65,17 @@ export default async function CategoryPage({
   }
 
   return (
-    <div className="w-full overflow-hidden">
-      {/* hhehehenieieiei */}
-      <CategoryBanner categoryName={category.name} />
-      <ProductList products={products} />
-    </div>
+    <>
+      <Navbar />
+
+
+      <div className="w-full overflow-hidden">
+        {/* hhehehenieieiei */}
+        <CategoryBanner categoryName={category.name} />
+        <ProductList products={products} />
+      </div>
+      <Footer />
+    </>
   );
 }
 
