@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useCart } from "@/components/contexts/CardContext";
 import Footer from "@/components/home/Footer";
 import Navbar from "@/components/home/Navbar";
+import { toast } from "react-toastify";
 
 const INDIAN_STATES = [
   { value: "Andaman and Nicobar Islands", label: "Andaman and Nicobar Islands" },
@@ -649,7 +650,7 @@ export default function CartPage() {
                   onClick={() => {
                     console.log('clicked', token, user)
                     if (!token || !user.phone) {
-                      window.alert('please login to place an order')
+                      toast.error('please login')
                     } else {
 
                       setShowAddressForm(true)

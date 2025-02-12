@@ -6,68 +6,62 @@ import Footer from '@/components/home/Footer';
 // import { useAuth } from '../auth/authContext';
 
 export default function Login() {
-    const [phone, setPhone] = useState('');
-    const [otp, setOtp] = useState('');
-    const [step, setStep] = useState('phone'); // 'phone' or 'otp'
-    const router = useRouter()
-    const [error, setError] = useState('');
+    const [phone, setPhone] = useState("");
+    const [otp, setOtp] = useState("");
+    const [step, setStep] = useState("phone");
+    const router = useRouter();
+    const [error, setError] = useState("");
+    const [showOTP, setShowOTP] = useState(false);
 
     const handleRequestOTP = async (e: any) => {
         e.preventDefault();
-        setError('');
-
+        setError("");
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user-auth/sent-otp`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ phone }),
-            });
-
+            const response = await fetch(
+                `${process.env.NEXT_PUBLIC_API_URL}/api/user-auth/sent-otp`,
+                {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ phone }),
+                }
+            );
             const data = await response.json();
-            console.log({ response })
             if (response.ok) {
-                setStep('otp');
+                setStep("otp");
             } else {
                 setError(data.message);
             }
         } catch (error) {
-            setError('Failed to send OTP. Please try again.');
+            setError("Failed to send OTP. Please try again.");
         }
     };
 
     const handleVerifyOTP = async (e: any) => {
         e.preventDefault();
-        setError('');
-
+        setError("");
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user-auth/sign-in`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ phone, otp }),
-            });
-
+            const response = await fetch(
+                `${process.env.NEXT_PUBLIC_API_URL}/api/user-auth/sign-in`,
+                {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ phone, otp }),
+                }
+            );
             const data = await response.json();
-
             if (!data.token) {
-                window.alert('try again')
-                setStep('phone')
+                window.alert("try again");
+                setStep("phone");
             }
             if (data.token) {
-
-                localStorage.setItem('token', data.token);
-                console.log(data.user, 1)
-                localStorage.setItem('user', JSON.stringify(data.user))
-                router.push('/');
+                localStorage.setItem("token", data.token);
+                localStorage.setItem("user", JSON.stringify(data.user));
+                router.push("/");
             } else {
                 setError(data.message);
             }
         } catch (error) {
-            console.log(error)
-            setError('Failed to verify OTP. Please try again.');
+            setError("Failed to verify OTP. Please try again.");
         }
     };
 
