@@ -358,10 +358,10 @@ export default function CartPage() {
             });
 
             const verificationData = await verificationResponse.json();
-
+            toast.success('order created succesfully')
             if (verificationData.success) {
               clearCart();
-              window.location.href = '/order-success';
+              window.location.href = '/orders';
             } else {
               throw new Error(verificationData.error || 'Payment verification failed');
             }

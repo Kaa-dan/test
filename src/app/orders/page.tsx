@@ -308,9 +308,9 @@ const OrdersPage: React.FC = () => {
                 orderCounts={orderCounts}
               />
               <div className="space-y-4">
-                {filteredOrders.map((order) => (
+                {filteredOrders.map((order, index) => (
                   <div
-                    key={order.order_id}
+                    key={order?.order_id || index}
                     onClick={() => setSelectedOrder(order)}
                     className="group border border-zinc-800 rounded-xl p-5 hover:border-orange-500/50 hover:bg-zinc-800/50 transition-all duration-200 cursor-pointer bg-zinc-900"
                   >
