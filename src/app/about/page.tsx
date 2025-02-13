@@ -1,3 +1,4 @@
+"use client"
 import Banner from "@/components/about/Banner";
 import Contact from "@/components/about/Contact";
 import Details from "@/components/about/Details";
