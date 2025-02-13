@@ -1,5 +1,5 @@
 "use client"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "@/components/contexts/CardContext";
@@ -158,8 +158,16 @@ export default function CartPage() {
   const [paymentError, setPaymentError] = useState("");
   const [showAddressForm, setShowAddressForm] = useState(false);
   const [addressErrors, setAddressErrors] = useState<Partial<AddressDetails>>({});
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')!))
-  const [token, setToken] = useState(localStorage.getItem('token'))
+  const [user, setUser] = useState<any>()
+  const [token, setToken] = useState<any>()
+
+  useEffect(() => {
+    setToken(localStorage.getItem('token'));
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
   const [addressDetails, setAddressDetails] = useState<AddressDetails>({
     billing_customer_name: "",
     billing_address: "",
