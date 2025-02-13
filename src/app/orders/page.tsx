@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Calendar,
   CreditCard,
@@ -14,6 +14,9 @@ import {
 import { useRouter } from "next/navigation";
 import Navbar from "@/components/home/Navbar";
 import Footer from "@/components/home/Footer";
+import OrderStatusTabs from "@/components/TabButton";
+import ShipmentTracking from "@/components/shipmentDetails";
+import { toast } from "react-toastify";
 
 // Types
 interface User {
@@ -91,8 +94,34 @@ const OrdersPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [cancelLoading, setCancelLoading] = useState<boolean>(false);
+  const [selectedStatus, setSelectedStatus] = useState<Order["status"] | "ALL">("ALL");
+  const [trackingData, setTrackingData] = useState<any>("")
 
   const router = useRouter();
+  //filter  
+  const filteredOrders = useMemo(() => {
+    if (selectedStatus === "ALL") return orders;
+    return orders.filter(order => order.status === selectedStatus);
+  }, [orders, selectedStatus]);
+
+  const orderCounts = useMemo(() => {
+    const counts = {
+      ALL: orders.length,
+      NEW: 0,
+      PROCESSING: 0,
+      SHIPPED: 0,
+      DELIVERED: 0,
+      CANCELLED: 0
+    };
+
+    orders.forEach(order => {
+      counts[order.status]++;
+    });
+
+    return counts;
+  }, [orders]);
+
+
 
   useEffect(() => {
     const fetchData = async (): Promise<void> => {
@@ -150,8 +179,8 @@ const OrdersPage: React.FC = () => {
         throw new Error("No token found");
       }
 
-      const response = await fetch("YOUR_API_ENDPOINT/orders/cancel", {
-        method: "POST",
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/order/cancel-order`, {
+        method: "PATCH",
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
@@ -180,6 +209,21 @@ const OrdersPage: React.FC = () => {
     }
   };
 
+  const trackOrder = async (orderId: any) => {
+    try {
+      if (orderId) {
+
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/order/tracking?orderId=${orderId}`)
+        console.log({ response })
+      }
+    } catch (error) {
+      toast.error('error while tracking order')
+    }
+  }
+  useEffect(() => {
+    trackOrder(selectedOrder?.order_id)
+  }, [selectedOrder?.order_id])
+
   const formatCurrency = (amount: number): string => {
     return new Intl.NumberFormat("en-IN", {
       style: "currency",
@@ -192,27 +236,27 @@ const OrdersPage: React.FC = () => {
   const getStatusStyle = (status: Order["status"]): string => {
     switch (status) {
       case "DELIVERED":
-        return "bg-green-50 text-green-700 ring-green-600/20 ring-1";
+        return "bg-green-900/10 text-green-500 ring-green-500/20 ring-1";
       case "CANCELLED":
-        return "bg-red-50 text-red-700 ring-red-600/20 ring-1";
+        return "bg-red-900/10 text-red-500 ring-red-500/20 ring-1";
       case "SHIPPED":
-        return "bg-blue-50 text-blue-700 ring-blue-600/20 ring-1";
+        return "bg-orange-900/10 text-orange-500 ring-orange-500/20 ring-1";
       default:
-        return "bg-yellow-50 text-yellow-700 ring-yellow-600/20 ring-1";
+        return "bg-orange-900/10 text-orange-500 ring-orange-500/20 ring-1";
     }
   };
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-orange-500" />
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-black flex items-center justify-center">
         <p className="text-red-500">Error: {error}</p>
       </div>
     );
@@ -221,50 +265,54 @@ const OrdersPage: React.FC = () => {
   return (
     <>
       <Navbar />
-      <div className="min-h-screen bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 py-8 space-y-8">
+      <div className="min-h-screen ">
+        <div className="max-w-[90%] mx-auto px-4 py-8  md:flex gap-5 ">
           {/* Profile Section */}
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100">
+          <div className="bg-zinc-800 w-[30%] max-h-[30vh]   rounded-2xl shadow-lg border h-auto border-zinc-800">
             <div className="p-6">
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center">
-                  <CreditCard className="w-5 h-5 text-blue-600" />
+                <div className="w-10 h-10 rounded-full bg-orange-500/10 flex items-center justify-center">
+                  <CreditCard className="w-5 h-5 text-orange-500" />
                 </div>
-                <h2 className="text-xl font-semibold text-gray-900">
+                <h2 className="text-xl font-semibold text-white">
                   My Profile
                 </h2>
               </div>
               <div className="grid md:grid-cols-2 gap-8">
                 <div>
-                  <p className="text-sm font-medium text-gray-500">Name</p>
-                  <p className="mt-1 text-lg text-gray-900">{profile?.name}</p>
+                  <p className="text-sm font-medium text-zinc-400">Name</p>
+                  <p className="mt-1 text-lg text-white">{profile?.name}</p>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-gray-500">Phone</p>
-                  <p className="mt-1 text-lg text-gray-900">{profile?.phone}</p>
+                  <p className="text-sm font-medium text-zinc-400">Phone</p>
+                  <p className="mt-1 text-lg text-white">{profile?.phone}</p>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Orders Section */}
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100">
+          <div className="bg-zinc-800 w-[65%] min-h-[60vh] rounded-2xl shadow-lg border border-zinc-800">
             <div className="p-6">
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 rounded-full bg-purple-50 flex items-center justify-center">
-                  <Package className="w-5 h-5 text-purple-600" />
+                <div className="w-10 h-10 rounded-full bg-orange-500/10 flex items-center justify-center">
+                  <Package className="w-5 h-5 text-orange-500" />
                 </div>
-                <h2 className="text-xl font-semibold text-gray-900">
+                <h2 className="text-xl font-semibold text-white">
                   My Orders
                 </h2>
               </div>
-
+              <OrderStatusTabs
+                selectedStatus={selectedStatus}
+                onStatusChange={setSelectedStatus}
+                orderCounts={orderCounts}
+              />
               <div className="space-y-4">
-                {orders.map((order) => (
+                {filteredOrders.map((order, index) => (
                   <div
-                    key={order.order_id}
+                    key={order?.order_id || index}
                     onClick={() => setSelectedOrder(order)}
-                    className="group border border-gray-100 rounded-xl p-5 hover:border-blue-100 hover:shadow-md transition-all duration-200 cursor-pointer bg-white"
+                    className="group border border-zinc-800 rounded-xl p-5 hover:border-orange-500/50 hover:bg-zinc-800/50 transition-all duration-200 cursor-pointer bg-zinc-900"
                   >
                     <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-6">
                       <div className="flex-1">
@@ -274,70 +322,69 @@ const OrdersPage: React.FC = () => {
                           >
                             {order.status}
                           </span>
-                          <p className="text-sm text-gray-500">
-                            Order #{order.order_id.slice(-6)}
+                          <p className="text-sm text-zinc-400">
+                            Order #{order?.order_id?.slice(-6)}
                           </p>
                         </div>
                         <div className="flex flex-wrap gap-6">
                           <div className="flex items-center gap-2">
-                            <Clock className="w-4 h-4 text-gray-400" />
-                            <p className="text-sm text-gray-600">
-                              {new Date(order.order_date).toLocaleDateString()}
+                            <Clock className="w-4 h-4 text-zinc-500" />
+                            <p className="text-sm text-zinc-400">
+                              {new Date(order?.order_date).toLocaleDateString()}
                             </p>
                           </div>
                           <div>
-                            <p className="text-sm text-gray-600">
-                              {order.order_items.length}{" "}
-                              {order.order_items.length === 1
-                                ? "item"
-                                : "items"}
+                            <p className="text-sm text-zinc-400">
+                              {order?.order_items?.length} {order?.order_items.length === 1 ? "item" : "items"}
                             </p>
                           </div>
                         </div>
                       </div>
                       <div className="flex items-center justify-between gap-4">
                         <div className="text-right">
-                          <p className="text-sm text-gray-500">Total Amount</p>
-                          <p className="text-lg font-semibold text-gray-900">
-                            {formatCurrency(order.sub_total)}
+                          <p className="text-sm text-zinc-400">Total Amount</p>
+                          <p className="text-lg font-semibold text-white">
+                            {formatCurrency(order?.sub_total)}
                           </p>
                         </div>
-                        <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-blue-500 transition-colors" />
+                        <ChevronRight className="w-5 h-5 text-zinc-500 group-hover:text-orange-500 transition-colors" />
                       </div>
                     </div>
                   </div>
                 ))}
+                {(!filteredOrders || filteredOrders.length === 0) && <div className="text-2xl font-bold text-white">No Orders</div>}
               </div>
             </div>
           </div>
 
+
           {/* Order Details Modal */}
           {selectedOrder && (
-            <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-              <div className="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+              <div className="bg-zinc-900 rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto border border-zinc-800">
                 <div className="p-6">
                   <div className="flex justify-between items-center mb-6">
                     <div>
-                      <h3 className="text-2xl font-bold text-gray-900">
+                      <h3 className="text-2xl font-bold text-white">
                         Order Details
                       </h3>
-                      <p className="text-sm text-gray-500 mt-1">
+                      <p className="text-sm text-zinc-400 mt-1">
                         #{selectedOrder.order_id}
                       </p>
                     </div>
                     <button
                       onClick={() => setSelectedOrder(null)}
-                      className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                      className="p-2 hover:bg-zinc-800 rounded-full transition-colors"
                     >
-                      <X className="w-6 h-6" />
+                      <X className="w-6 h-6 text-zinc-400" />
                     </button>
                   </div>
 
                   <div className="space-y-8">
                     {/* Order Status */}
-                    <div className="flex items-center justify-between bg-gray-50 p-4 rounded-xl">
+                    <div className="flex items-center justify-between bg-zinc-800/50 p-4 rounded-xl">
                       <div className="space-y-1">
-                        <p className="text-sm text-gray-500">Status</p>
+                        <p className="text-sm text-zinc-400">Status</p>
                         <span
                           className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusStyle(selectedOrder.status)}`}
                         >
@@ -345,36 +392,33 @@ const OrdersPage: React.FC = () => {
                         </span>
                       </div>
                       <div className="text-right space-y-1">
-                        <p className="text-sm text-gray-500">Order Date</p>
-                        <p className="font-medium">
-                          {new Date(
-                            selectedOrder.order_date
-                          ).toLocaleDateString()}
+                        <p className="text-sm text-zinc-400">Order Date</p>
+                        <p className="font-medium text-white">
+                          {new Date(selectedOrder.order_date).toLocaleDateString()}
                         </p>
                       </div>
                     </div>
 
-                    {/* Items */}
+                    {/* Order Items */}
                     <div>
-                      <h4 className="text-lg font-semibold mb-4">
+                      <h4 className="text-lg font-semibold mb-4 text-white">
                         Order Items
                       </h4>
                       <div className="space-y-3">
                         {selectedOrder.order_items.map((item, index) => (
                           <div
                             key={index}
-                            className="flex justify-between items-center p-4 bg-gray-50 rounded-xl"
+                            className="flex justify-between items-center p-4 bg-zinc-800/50 rounded-xl"
                           >
                             <div>
-                              <p className="font-medium text-gray-900">
+                              <p className="font-medium text-white">
                                 {item.name}
                               </p>
-                              <p className="text-sm text-gray-500 mt-1">
-                                {item.units} ×{" "}
-                                {formatCurrency(item.selling_price)}
+                              <p className="text-sm text-zinc-400 mt-1">
+                                {item.units} × {formatCurrency(item.selling_price)}
                               </p>
                             </div>
-                            <p className="font-semibold text-gray-900">
+                            <p className="font-semibold text-white">
                               {formatCurrency(item.units * item.selling_price)}
                             </p>
                           </div>
@@ -382,25 +426,22 @@ const OrdersPage: React.FC = () => {
                       </div>
                     </div>
 
-                    {/* Shipping Details */}
+                    {/* Delivery Address */}
                     <div>
-                      <h4 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                        <MapPin className="w-5 h-5 text-gray-400" />
-                        Delivery Address
-                      </h4>
-                      <div className="bg-gray-50 rounded-xl p-4 space-y-2">
-                        <p className="font-medium text-gray-900">
+                      <h4 className="text-lg font-semibold mb-4 flex items-center gap-2 text-white">
+                        <MapPin className="w-5 h-5 text-zinc-400" />
+                        Delivery Address</h4>
+                      <div className="bg-zinc-800/50 rounded-xl p-4 space-y-2">
+                        <p className="font-medium text-white">
                           {selectedOrder.billing_customer_name}
                         </p>
-                        <p className="text-gray-600">
+                        <p className="text-zinc-400">
                           {selectedOrder.billing_address}
                         </p>
-                        <p className="text-gray-600">
-                          {selectedOrder.billing_city},{" "}
-                          {selectedOrder.billing_state}{" "}
-                          {selectedOrder.billing_pincode}
+                        <p className="text-zinc-400">
+                          {selectedOrder.billing_city}, {selectedOrder.billing_state} {selectedOrder.billing_pincode}
                         </p>
-                        <p className="text-gray-600">
+                        <p className="text-zinc-400">
                           Phone: {selectedOrder.billing_phone}
                         </p>
                       </div>
@@ -408,54 +449,52 @@ const OrdersPage: React.FC = () => {
 
                     {/* Price Details */}
                     <div>
-                      <h4 className="text-lg font-semibold mb-4">
+                      <h4 className="text-lg font-semibold mb-4 text-white">
                         Price Details
                       </h4>
-                      <div className="bg-gray-50 rounded-xl p-4 space-y-3">
-                        <div className="flex justify-between text-gray-600">
+                      <div className="bg-zinc-800/50 rounded-xl p-4 space-y-3">
+                        <div className="flex justify-between text-zinc-400">
                           <p>Subtotal</p>
                           <p>{formatCurrency(selectedOrder.sub_total)}</p>
                         </div>
-                        <div className="flex justify-between text-gray-600">
+                        <div className="flex justify-between text-zinc-400">
                           <p>Shipping</p>
-                          <p>
-                            {formatCurrency(selectedOrder.shipping_charges)}
-                          </p>
+                          <p>{formatCurrency(selectedOrder.shipping_charges)}</p>
                         </div>
                         {selectedOrder.total_discount > 0 && (
                           <div className="flex justify-between">
-                            <p className="text-gray-600">Discount</p>
-                            <p className="text-green-600">
+                            <p className="text-zinc-400">Discount</p>
+                            <p className="text-orange-500">
                               -{formatCurrency(selectedOrder.total_discount)}
                             </p>
                           </div>
                         )}
-                        <div className="pt-3 border-t border-gray-200">
-                          <div className="flex justify-between text-gray-900 font-semibold">
-                            <p>Total</p>
-                            <p>
+                        <div className="pt-3 border-t border-zinc-700">
+                          <div className="flex justify-between font-semibold">
+                            <p className="text-white">Total</p>
+                            <p className="text-white">
                               {formatCurrency(
                                 selectedOrder.sub_total +
-                                  selectedOrder.shipping_charges -
-                                  selectedOrder.total_discount
+                                selectedOrder.shipping_charges -
+                                selectedOrder.total_discount
                               )}
                             </p>
                           </div>
                         </div>
                       </div>
                     </div>
+                    {/*shipment details*/}
+                    {trackingData && <ShipmentTracking />}
 
                     {/* Cancel Button */}
                     {selectedOrder.status !== "CANCELLED" &&
                       selectedOrder.status !== "DELIVERED" && (
                         <div className="pt-4">
                           <button
-                            onClick={() =>
-                              handleCancelOrder(selectedOrder.order_id)
-                            }
+                            onClick={() => handleCancelOrder(selectedOrder.order_id)}
                             disabled={cancelLoading}
-                            className="w-full bg-red-600 text-white py-3 rounded-xl hover:bg-red-700 
-                            disabled:bg-red-300 disabled:cursor-not-allowed flex items-center justify-center gap-2 transition-colors"
+                            className="w-full bg-orange-500 text-white py-3 rounded-xl hover:bg-orange-600 
+                            disabled:bg-orange-500/50 disabled:cursor-not-allowed flex items-center justify-center gap-2 transition-colors"
                           >
                             {cancelLoading ? (
                               <Loader2 className="w-5 h-5 animate-spin" />
