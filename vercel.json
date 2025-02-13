@@ -1,5 +1,4 @@
 {
-    "installCommand": "npm install -g pnpm@9 && pnpm install --force",
     "buildCommand": "next build",
     "framework": "nextjs"
 }
