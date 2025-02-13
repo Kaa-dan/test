@@ -1,5 +1,5 @@
 "use client"
-import { useState, useRef, useEffect, ChangeEvent, KeyboardEvent, ClipboardEvent, FormEvent } from 'react';
+import { useState, useRef, ChangeEvent, KeyboardEvent, ClipboardEvent, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import Navbar from '@/components/home/Navbar';
 import Footer from '@/components/home/Footer';

@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useTestimonials } from "@/components/hooks/homepage-hooks";
 import { ChevronLeft, ChevronRight, Star } from "lucide-react";
 
@@ -114,7 +114,7 @@ const TestimonialItem: React.FC<TestimonialItemProps> = ({ testimonial }) => {
   return (
     <div className="w-full h-[250px] md:h-[330px] px-2">
       <div className="relative rounded-2xl overflow-hidden w-full h-full">
-        <div className="bg-primary-black p-4 md:p-6 text-primary-white w-full h-full">
+        <div className="bg-primary-black p-4 md:p-6 text-primary-white w-full h-full flex flex-col items-center justify-center">
           <p className="cursor-default text-primary-white text-center text-xs md:text-sm mb-2 md:mb-4">
             {testimonial.message}
           </p>
