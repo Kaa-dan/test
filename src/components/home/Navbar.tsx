@@ -8,15 +8,25 @@ import { useRouter } from "next/navigation";
 const Navbar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [showLogout, setShowLogout] = useState(false);
+  const [token, setToken] = useState<string | null>(null);
+  const [user, setUser] = useState<{ name: string; phone?: string }>({ name: "" });
   const { cart } = useCart();
   const router = useRouter();
   const profileRef = useRef<HTMLDivElement>(null);
 
-  const token = localStorage.getItem('token');
   const navLinks = [
     { href: "/", label: "HOME" },
     { href: "/about", label: "ABOUT US" },
   ];
+
+  // Handle localStorage on mount
+  useEffect(() => {
+    setToken(localStorage.getItem('token'));
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -38,12 +48,12 @@ const Navbar = () => {
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+    setToken(null);
+    setUser({ name: "" });
     router.push('/');
   };
 
-  const user = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('user') || '{"name": ""}') : { name: "" };
   const firstLetter = user.name ? user.name.charAt(0).toUpperCase() : "?";
-
   const cartItemsCount = cart.reduce((total, item) => total + item.quantity, 0);
 
   return (

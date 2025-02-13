@@ -1,5 +1,5 @@
 import React from 'react';
-import { Package, Truck, MapPin, Calendar, User } from 'lucide-react';
+import { Package, MapPin, Calendar, User } from 'lucide-react';
 
 const ShipmentTracking = ({ trackingData }: any) => {
     const { shipment_track, shipment_track_activities } = trackingData?.tracking_data;
