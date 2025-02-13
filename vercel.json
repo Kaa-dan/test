@@ -1,3 +1,5 @@
 {
-    "installCommand": "corepack enable && pnpm install --force"
+    "installCommand": "corepack enable && pnpm install --force",
+    "buildCommand": "next build",
+    "framework": "nextjs"
 }
