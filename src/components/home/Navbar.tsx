@@ -1,6 +1,5 @@
 "use client";
-"use client";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { useCart } from "@/components/contexts/CardContext";
 import Image from "next/image";
@@ -11,11 +10,26 @@ const Navbar = () => {
   const [showLogout, setShowLogout] = useState(false);
   const { cart } = useCart();
   const router = useRouter();
+  const profileRef = useRef<HTMLDivElement>(null);
 
+  const token = localStorage.getItem('token');
   const navLinks = [
     { href: "/", label: "HOME" },
     { href: "/about", label: "ABOUT US" },
   ];
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (profileRef.current && !profileRef.current.contains(event.target as Node)) {
+        setShowLogout(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -24,7 +38,7 @@ const Navbar = () => {
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
-    router.push('/login');
+    router.push('/');
   };
 
   const user = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('user') || '{"name": ""}') : { name: "" };
@@ -46,54 +60,82 @@ const Navbar = () => {
                 height={100}
               />
             </Link>
-            {/* Social Media Links */}
             <div className="hidden lg:flex space-x-6">
-              <Link
-                href="#"
-                className="text-primary-white text-base hover:text-gray-200"
-              >
+              <Link href="#" className="text-primary-white text-base hover:text-gray-200">
                 Facebook
               </Link>
-              <Link
-                href="#"
-                className="text-primary-white text-base hover:text-gray-200"
-              >
+              <Link href="#" className="text-primary-white text-base hover:text-gray-200">
                 Twitter
               </Link>
-              <Link
-                href="#"
-                className="text-primary-white text-base hover:text-gray-200"
-              >
+              <Link href="#" className="text-primary-white text-base hover:text-gray-200">
                 Instagram
               </Link>
-              <div className="relative">
-                <div
-                  className="w-8 h-8 rounded-full bg-primary-white text-primary-black flex items-center justify-center cursor-pointer font-semibold"
-                  onClick={() => setShowLogout(prev => !prev)}
+              {!token &&
+                <Link href='/login' className="text-primary-white text-base hover:text-gray-200">
+                  Login
+                </Link>
+              }
 
-                >
-                  {firstLetter}
-                </div>
-                {showLogout && (
+              {token && (
+                <div className="relative" ref={profileRef}>
                   <div
-                    className="absolute right-0 mt-2 w-32 bg-white rounded-md shadow-lg py-1 z-50"
-                    onMouseEnter={() => setShowLogout(true)}
-                    onMouseLeave={() => setShowLogout(false)}
+                    className="w-9 h-9 rounded-full bg-gradient-to-r from-orange-500 to-orange-600 text-white flex items-center justify-center cursor-pointer font-semibold hover:from-orange-600 hover:to-orange-700 transition-all duration-200 shadow-lg hover:shadow-orange-500/20 active:scale-95"
+                    onClick={() => setShowLogout(prev => !prev)}
                   >
-                    <button
-                      onClick={handleLogout}
-                      className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                    >
-                      Logout
-                    </button>
-                    <button
-                      onClick={() => router.push('/orders')}
-                      className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                      profile
-                    </button>
+                    {firstLetter}
                   </div>
-                )}
-              </div>
+                  {showLogout && (
+                    <div
+                      className="absolute right-0 mt-3 w-56 bg-white rounded-xl shadow-xl py-2 z-50 border border-gray-100 transform origin-top-right transition-all duration-200"
+                    >
+                      <div className="px-4 py-2 border-b border-gray-100">
+                        <p className="text-sm font-medium text-gray-900">{user.name}</p>
+                        <p className="text-xs text-gray-500 truncate">{user.phone || 'User'}</p>
+                      </div>
+
+                      <div className="py-1">
+                        <button
+                          onClick={() => {
+                            router.push('/orders');
+                            setShowLogout(false);
+                          }}
+                          className="w-full flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 transition-colors group"
+                        >
+                          <svg className="w-4 h-4 mr-3 text-gray-400 group-hover:text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                          </svg>
+                          Profile
+                        </button>
+
+                        <button
+                          onClick={() => {
+                            router.push('/orders');
+                            setShowLogout(false);
+                          }}
+                          className="w-full flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 transition-colors group"
+                        >
+                          <svg className="w-4 h-4 mr-3 text-gray-400 group-hover:text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                          </svg>
+                          Orders
+                        </button>
+
+                        <div className="border-t border-gray-100 my-1"></div>
+
+                        <button
+                          onClick={handleLogout}
+                          className="w-full flex items-center px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors group"
+                        >
+                          <svg className="w-4 h-4 mr-3 text-red-400 group-hover:text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                          </svg>
+                          Logout
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -128,8 +170,7 @@ const Navbar = () => {
                   <Link
                     key={index}
                     href={link.href}
-                    className={`text-base font-semibold text-primary-black hover:text-primary-orange transition-colors ${link.href === "/" ? "" : ""
-                      }`}
+                    className="text-base font-semibold text-primary-black hover:text-primary-orange transition-colors"
                   >
                     {link.label}
                   </Link>
