@@ -8,7 +8,6 @@ import Featured from "@/components/home/Featured";
 import Offers from "@/components/home/Offers";
 import Shop from "@/components/home/Shop";
 import Testimonial from "@/components/home/Testimonial";
-import Logo from "@/components/home/Logo";
 import Navbar from "@/components/home/Navbar";
 import Footer from "@/components/home/Footer";
 
@@ -21,7 +20,6 @@ export default function Home() {
     <>
       <Navbar />
       <div>
-
         <Banner />
         <div id="benefits">
           <Benefits />
@@ -38,9 +36,9 @@ export default function Home() {
         <div id="featured">
           <Featured />
         </div>
-        <div id="logo">
+        {/* <div id="logo">
           <Logo />
-        </div>
+        </div> */}
         <div id="category">
           <Category />
         </div>
