@@ -1,7 +1,7 @@
 import { Providers } from "./providers";
 import "./globals.css";
-import Navbar from "@/components/home/Navbar";
-import Footer from "@/components/home/Footer";
+import { ToastContainer, } from 'react-toastify';
+// import { AuthProvider } from "./auth/authContext";
 
 export const metadata = {
   title: "ZAP STORE",
@@ -22,14 +22,40 @@ export default function RootLayout({
         />
       </head>
       <body>
+
+
         <Providers>
           <div className="min-h-screen">
-            <Navbar />
+
             <main className="">{children}</main>
-            <Footer />
+
           </div>
         </Providers>
+        <ToastContainer
+          position="top-center"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+          style={{
+            fontSize: '14px',
+            fontFamily: 'Mulish, sans-serif',
+            textAlign: 'center'
+          }}
+          toastStyle={{
+            backgroundColor: '#fff',
+            color: '#333',
+            borderRadius: '8px',
+            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+            padding: '12px 24px'
+          }}
+        />
       </body>
-    </html>
+    </html >
   );
 }
