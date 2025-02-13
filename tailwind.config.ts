@@ -1,11 +1,8 @@
 import type { Config } from "tailwindcss";
 
-export default {
+const config: Config = {
   content: [
-    "./pages/**/*.{js,ts,jsx,tsx}",
-    "./components/**/*.{js,ts,jsx,tsx}",
-    "./app/**/*.{js,ts,jsx,tsx}", // If using App Router
-    "./src/**/*.{js,ts,jsx,tsx}", // If your files are in src directory
+    "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
@@ -15,10 +12,12 @@ export default {
         "primary-orange": "#ff7542",
       },
       fontFamily: {
-        oswald: "Oswald",
-        mulish: "Mulish"
+        oswald: ["Oswald", "sans-serif"],
+        mulish: ["Mulish", "sans-serif"]
       }
     },
   },
   plugins: [],
-} satisfies Config;
+};
+
+export default config;
