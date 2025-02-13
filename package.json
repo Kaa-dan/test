@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "packageManager": "pnpm@9.8.0",
   "engines": {
     "node": "18",
     "pnpm": "^9.0.0"
